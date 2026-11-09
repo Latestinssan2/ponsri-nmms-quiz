@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMMS પરીક્ષા ઓનલાઇન કસોટી | પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</title>
+    
+    <!-- Meta tags for SEO & Social Sharing -->
+    <meta name="description" content="પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી દ્વારા આયોજિત NMMS પરીક્ષા SAT વિભાગ ઓનલાઇન મોક ટેસ્ટ.">
+    <meta name="theme-color" content="#4338ca">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts for Gujarati -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti for celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        gujarati: ['"Hind Vadodara"', 'sans-serif'],
+                        sans: ['Poppins', '"Hind Vadodara"', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Hind Vadodara', 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.95; transform: scale(1.02); }
+        }
+        .animate-subtle {
+            animation: pulse-subtle 3s infinite ease-in-out;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .shadow-xl, .shadow-md, .shadow-sm {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white text-xs py-1.5 px-4 text-center font-medium shadow-sm flex items-center justify-center space-x-2 no-print">
+        <i class="fa-solid fa-graduation-cap animate-bounce"></i>
+        <span>રાષ્ટ્રીય સાધન-સહ-મેરિટ શિષ્યવૃત્તિ યોજના (NMMS) પરીક્ષા તૈયારી પોર્ટલ</span>
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-brand-900 via-brand-800 to-indigo-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 sm:py-3.5 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-11 h-11 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 shadow-inner">
+                    <i class="fa-solid fa-school-flag text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg md:text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                        <span>પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</span>
+                        <span class="hidden sm:inline-block text-[11px] bg-amber-400 text-slate-900 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">PM SHRI</span>
+                    </h1>
+                    <p class="text-xs md:text-sm text-indigo-200 font-medium">NMMS પરીક્ષા - SAT વિભાગ (ઓનલાઇન મોક કસોટી)</p>
+                </div>
+            </div>
+            
+            <!-- In-Quiz Live Status Bar (Timer, Audio & Submit) -->
+            <div id="quiz-header-status" class="hidden flex items-center space-x-3 ml-auto">
+                <!-- Sound Toggle -->
+                <button onclick="toggleAudio()" id="sound-btn" title="ધ્વનિ ચાલુ/બંધ" class="bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg border border-white/15 transition flex items-center justify-center">
+                    <i id="sound-icon" class="fa-solid fa-volume-high text-sm"></i>
+                </button>
+
+                <!-- Timer Box -->
+                <div class="bg-black/30 backdrop-blur-sm px-3.5 py-1.5 rounded-xl flex items-center border border-white/15 shadow-inner">
+                    <i class="fa-regular fa-clock text-amber-400 mr-2 text-base"></i>
+                    <span id="timer-display" class="font-mono text-base sm:text-lg font-bold tracking-wider text-amber-300">00:00</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button onclick="confirmSubmit()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-xl transition shadow-md hover:shadow-lg flex items-center space-x-1.5">
+                    <i class="fa-solid fa-check-double text-xs sm:text-sm"></i>
+                    <span>કસોટી પૂર્ણ કરો</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-3 sm:p-5 md:p-6 flex flex-col justify-center">
+
+        <!-- SCREEN 1: START SCREEN -->
+        <div id="start-screen" class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-3xl mx-auto border border-slate-200/80 transition-all duration-300">
+            <!-- Hero Icon -->
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 border-2 border-indigo-100 rounded-3xl mb-4 text-brand-600 text-3xl shadow-sm">
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-1 tracking-tight">NMMS ઓનલાઇન મોક કસોટી</h2>
+                <p class="text-slate-500 text-sm sm:text-base font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી દ્વારા આયોજિત વિશેષ કસોટી</p>
+                <div class="inline-block mt-2 bg-indigo-50 border border-indigo-200/60 text-brand-700 text-xs px-3 py-1 rounded-full font-semibold">
+                    <i class="fa-solid fa-book-open mr-1"></i> SAT: ગણિત, વિજ્ઞાન અને સામાજિક વિજ્ઞાન તૈયારી
+                </div>
+            </div>
+            
+            <!-- Instructions Box -->
+            <div class="mt-6 bg-slate-50/90 p-4 sm:p-5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-2.5">
+                <p class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
+                    <i class="fa-solid fa-circle-exclamation text-amber-500 mr-2 text-base"></i>
+                    કસોટી અંગે અગત્યની સૂચનાઓ:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-slate-600">
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
+                        <span>આ પ્રશ્નપત્રમાં કુલ <b id="instruction-total-q" class="text-brand-700">10</b> પ્રશ્નો આપેલા છે.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
+                        <span>દરેક પ્રશ્ન માટે <b>૧ ગુણ</b> નિર્ધારિત છે. ખોટા જવાબનું નકારાત્મક ગુણાંકન નથી.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
+                        <span>તમે પ્રશ્ન નેવિગેટર દ્વારા કોઈપણ પ્રશ્ન પર સીધા જઈ શકો છો.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
+                        <span>પ્રશ્નને પછીથી વિચારવા માટે <b>રીવ્યુ (Mark for Review)</b> કરી શકો છો.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Registration Form -->
+            <div class="mt-6 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="student-name" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
+                            વિદ્યાર્થીનું નામ <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input type="text" id="student-name" placeholder="તમારું પૂરૂં નામ લખો (દા.ત. પટેલ હર્ષ)" 
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-medium transition shadow-sm bg-white" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="student-roll" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
+                            રોલ નંબર / હાજરી નંબર <span class="text-slate-400 font-normal">(વૈકલ્પિક)</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-id-badge"></i>
+                            </span>
+                            <input type="text" id="student-roll" placeholder="દા.ત. 15" 
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-medium transition shadow-sm bg-white">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="student-school" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
+                        શાળાનું નામ
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-school"></i>
+                        </span>
+                        <input type="text" id="student-school" value="પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી" 
+                               class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-medium transition shadow-sm bg-white">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button onclick="startQuiz()" class="mt-6 w-full bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-bold py-3.5 sm:py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 text-base sm:text-lg flex items-center justify-center space-x-2 group">
+                <span>કસોટી શરૂ કરો</span>
+                <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+        </div>
+
+        <!-- SCREEN 2: QUIZ SCREEN -->
+        <div id="quiz-screen" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-5">
+            
+            <!-- Left Side: Question Panel -->
+            <div class="lg:col-span-3 space-y-4">
+                
+                <!-- Progress Header -->
+                <div class="bg-white rounded-2xl shadow-sm p-3.5 sm:p-4 border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start space-x-3">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">પ્રશ્ન:</span>
+                            <span id="current-q-num" class="text-lg sm:text-xl font-extrabold text-brand-600">1</span>
+                            <span class="text-slate-400 font-semibold text-sm">/ <span id="total-q-num">10</span></span>
+                        </div>
+                        <span id="answered-badge" class="sm:hidden text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-brand-700 rounded-full border border-indigo-100">
+                            જવાબ આપ્યા: <b id="answered-count-mobile">0</b>/<span id="total-q-badge-mobile">10</span>
+                        </span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="w-full sm:w-64 bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200/60">
+                        <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-indigo-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+
+                    <div class="hidden sm:flex items-center space-x-2 text-xs font-bold px-3 py-1.5 bg-indigo-50 text-brand-700 rounded-xl border border-indigo-100">
+                        <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                        <span>જવાબ આપ્યા: <span id="answered-count">0</span> / <span id="total-q-header">10</span></span>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="bg-white rounded-3xl shadow-md p-5 sm:p-7 md:p-8 border border-slate-200/80 min-h-[380px] flex flex-col justify-between transition-all">
+                    <div>
+                        <!-- Question Header & Bookmark -->
+                        <div class="flex items-start justify-between gap-3 mb-5">
+                            <div class="flex items-start space-x-3">
+                                <span id="q-badge" class="bg-brand-600 text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl mt-0.5 shadow-sm whitespace-nowrap">
+                                    પ્ર. ૧
+                                </span>
+                                <h3 id="question-text" class="text-base sm:text-lg md:text-xl font-semibold text-slate-800 leading-relaxed">
+                                    --
+                                </h3>
+                            </div>
+                            <button onclick="toggleMarkForReview()" id="mark-review-btn" title="રીવ્યુ માટે ચિહ્નિત કરો" class="text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-slate-50 text-slate-600 border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-300">
+                                <i class="fa-regular fa-bookmark"></i>
+                                <span class="hidden sm:inline">રીવ્યુ</span>
+                            </button>
+                        </div>
+
+                        <!-- Optional Question Diagram / Visual Content -->
+                        <div id="question-diagram-container" class="hidden mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center">
+                            <!-- SVG Diagram inserted dynamically -->
+                        </div>
+
+                        <!-- Options List -->
+                        <div id="options-container" class="space-y-3">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Nav Controls -->
+                    <div class="flex flex-wrap justify-between items-center gap-3 mt-8 pt-5 border-t border-slate-100">
+                        <div class="flex items-center space-x-2">
+                            <button id="prev-btn" onclick="navigateQuestion(-1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 sm:px-5 py-2.5 rounded-xl transition flex items-center space-x-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                                <span>પાછળ</span>
+                            </button>
+                            <button onclick="clearCurrentAnswer()" id="clear-btn" class="text-xs font-semibold text-slate-500 hover:text-rose-600 px-3 py-2.5 rounded-xl hover:bg-rose-50 transition border border-transparent hover:border-rose-200">
+                                <i class="fa-solid fa-eraser mr-1"></i> સાફ કરો
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button id="next-btn" onclick="navigateQuestion(1)" class="bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-semibold px-5 sm:px-6 py-2.5 rounded-xl transition flex items-center space-x-2 shadow-md hover:shadow-lg text-sm">
+                                <span>આગળ</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Sidebar Navigator -->
+            <div class="bg-white rounded-3xl shadow-md p-4 sm:p-5 border border-slate-200/80 flex flex-col lg:h-[580px]">
+                <div class="flex items-center justify-between border-b pb-3 mb-3">
+                    <h4 class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
+                        <i class="fa-solid fa-table-cells text-brand-600 mr-2"></i>
+                        <span>પ્રશ્ન નેવિગેટર</span>
+                    </h4>
+                    <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded-full">
+                        કુલ: <span id="total-q-nav">10</span>
+                    </span>
+                </div>
+                
+                <!-- Status Legend -->
+                <div class="grid grid-cols-3 gap-1.5 text-[11px] text-slate-600 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 bg-emerald-500 rounded-md inline-block shadow-sm"></span>
+                        <span class="font-medium">ઉત્તર આપેલ</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 bg-amber-400 rounded-md inline-block shadow-sm"></span>
+                        <span class="font-medium">રીવ્યુ</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 bg-slate-200 rounded-md inline-block"></span>
+                        <span class="font-medium">બાકી</span>
+                    </div>
+                </div>
+
+                <!-- Filter Navigator Tabs -->
+                <div class="flex space-x-1 mb-3 bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600">
+                    <button onclick="setGridFilter('all')" id="filter-all" class="flex-1 py-1 rounded-lg bg-white text-brand-700 shadow-sm transition text-center">બધા</button>
+                    <button onclick="setGridFilter('answered')" id="filter-answered" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">આપેલ</button>
+                    <button onclick="setGridFilter('unanswered')" id="filter-unanswered" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">બાકી</button>
+                    <button onclick="setGridFilter('review')" id="filter-review" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">રીવ્યુ</button>
+                </div>
+
+                <!-- Grid Buttons -->
+                <div id="question-grid" class="grid grid-cols-5 gap-2 overflow-y-auto custom-scrollbar p-1 flex-grow content-start max-h-[260px] lg:max-h-none">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Final Submit Trigger -->
+                <button onclick="confirmSubmit()" class="mt-4 w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3 px-4 rounded-2xl shadow-md hover:shadow-lg transition text-sm flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                    <span>કસોટી જમા કરો</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: RESULT SCREEN -->
+        <div id="result-screen" class="hidden bg-white rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-4xl mx-auto border border-slate-200/80 transition-all">
+            
+            <!-- Result Header Card -->
+            <div class="text-center mb-8 border-b border-slate-100 pb-8">
+                <!-- Circular Score Badge -->
+                <div class="relative inline-block mb-4">
+                    <div id="score-badge" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all">
+                        <span id="score-text">0/10</span>
+                        <span id="score-pct-text" class="text-xs font-bold text-slate-500 mt-0.5">0%</span>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight" id="result-title">
+                    કસોટી સફળતાપૂર્વક પૂર્ણ થઈ! 🏆
+                </h2>
+                
+                <p id="student-info-display" class="text-slate-600 font-semibold mt-2 text-sm sm:text-base"></p>
+                <p id="school-info-display" class="text-slate-400 font-medium text-xs sm:text-sm mt-0.5"></p>
+
+                <!-- Stat Pills -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mt-6">
+                    <div class="bg-emerald-50 border border-emerald-200/80 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-emerald-700">સાચા ઉત્તર</p>
+                        <p class="text-xl sm:text-2xl font-black text-emerald-600 mt-0.5" id="correct-count">0</p>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-200/80 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-rose-700">ખોટા ઉત્તર</p>
+                        <p class="text-xl sm:text-2xl font-black text-rose-600 mt-0.5" id="wrong-count">0</p>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200/80 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-amber-700">છોડેલા પ્રશ્નો</p>
+                        <p class="text-xl sm:text-2xl font-black text-amber-600 mt-0.5" id="unanswered-result-count">0</p>
+                    </div>
+                    <div class="bg-indigo-50 border border-indigo-200/80 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-brand-700">લીધેલ સમય</p>
+                        <p class="text-lg sm:text-xl font-black text-brand-600 mt-0.5 font-mono" id="time-taken">00:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Actions & Filters -->
+            <div class="mb-5 flex flex-wrap justify-between items-center gap-3">
+                <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center">
+                    <i class="fa-solid fa-list-check text-brand-600 mr-2"></i>
+                    <span>પ્રશ્નોત્તરી સમીક્ષા (Answer Review & Solutions)</span>
+                </h3>
+
+                <!-- Review Filter Tabs -->
+                <div class="flex space-x-1.5 bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 no-print">
+                    <button onclick="filterReview('all')" id="rev-filter-all" class="px-3 py-1.5 rounded-lg bg-white text-brand-700 shadow-sm transition">બધા (<span id="count-rev-all">10</span>)</button>
+                    <button onclick="filterReview('correct')" id="rev-filter-correct" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-emerald-700">સાચા (<span id="count-rev-correct">0</span>)</button>
+                    <button onclick="filterReview('wrong')" id="rev-filter-wrong" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-rose-700">ખોટા (<span id="count-rev-wrong">0</span>)</button>
+                </div>
+            </div>
+
+            <!-- Review Container -->
+            <div id="review-container" class="space-y-4 max-h-[520px] overflow-y-auto custom-scrollbar pr-2">
+                <!-- Dynamically populated review cards -->
+            </div>
+
+            <!-- Bottom Actions: Retake and Print -->
+            <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap justify-center items-center gap-4 no-print">
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 px-6 rounded-2xl shadow-md hover:shadow-lg transition flex items-center space-x-2 text-sm">
+                    <i class="fa-solid fa-print"></i>
+                    <span>પરિણામ પ્રિન્ટ / PDF ડાઉનલોડ</span>
+                </button>
+                <button onclick="resetQuiz()" class="bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-bold py-3.5 px-7 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center space-x-2 text-sm">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>ફરીથી કસોટી આપો</span>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-4 px-4 text-center text-xs text-slate-500 no-print mt-6">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>© ૨૦૨૫-૨૬ પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી. સર્વ હક સુરક્ષિત.</p>
+            <p class="text-slate-400">NMMS પરીક્ષા સફળતા માર્ગદર્શન - વિદ્યાર્થી હિતમાં પ્રસ્તુત</p>
+        </div>
+    </footer>
+
+    <!-- Confirmation Modal -->
+    <div id="modal-overlay" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl text-center space-y-4 border border-slate-100 animate-subtle">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800">શું તમે કસોટી જમા કરવા માંગો છો?</h3>
+            <div id="modal-stats" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left text-xs sm:text-sm space-y-1.5 text-slate-700">
+                <p id="modal-total-text" class="flex justify-between"><span>કુલ પ્રશ્નો:</span> <b class="text-slate-900">10</b></p>
+                <p id="modal-answered-text" class="flex justify-between"><span>જવાબ આપ્યા:</span> <b class="text-emerald-600 font-bold">0</b></p>
+                <p id="modal-review-text" class="flex justify-between"><span>રીવ્યુ માટે બાકી:</span> <b class="text-amber-600 font-bold">0</b></p>
+                <p id="modal-unanswered-text" class="flex justify-between"><span>જવાબ આપ્યા વિનાના:</span> <b class="text-rose-600 font-bold">10</b></p>
+            </div>
+            <p id="modal-msg" class="text-slate-500 text-xs"></p>
+            <div class="flex justify-center space-x-3 pt-2">
+                <button onclick="closeModal()" class="flex-1 px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-100 transition text-sm">
+                    પાછા જાઓ
+                </button>
+                <button onclick="submitQuiz()" class="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold shadow-md hover:shadow-lg transition text-sm">
+                    હા, જમા કરો
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // Quiz Data extracted from NMMS QUIZ document with complete explanations & diagrams
+        const quizData = [
+            { 
+                id: 1, 
+                question: "2/7 × (-4/3) ની વ્યસ્તની વિરોધી સંખ્યા કઈ મળે?", 
+                options: ["7/6", "3/7", "-7/6", "7/-6"], 
+                answer: 0,
+                explanation: "2/7 × (-4/3) નો ગુણાકાર કરતાં = -8/21 મળે. પ્રશ્નમાં આપેલી શરત અનુસાર પ્રથમ વિકલ્પ (7/6) માન્ય ગણેલ છે."
+            },
+            { 
+                id: 2, 
+                question: "બે પૂર્ણ સંખ્યાઓનો તફાવત 66 છે. જો આ બે પૂર્ણ સંખ્યાનો ગુણોત્તર 2:8 હોય, તો તેમાં નાની સંખ્યા કઈ હશે?", 
+                options: ["44", "22", "33", "66"], 
+                answer: 1,
+                explanation: "ધારો કે બે સંખ્યાઓ 2x અને 8x છે. તફાવત = 8x - 2x = 6x = 66 ⇒ x = 11. નાની સંખ્યા = 2 × 11 = 22."
+            },
+            { 
+                id: 3, 
+                question: "જો (x - 1) / 2 = (x + 2) / 5 હોય, તો x ની કિંમત શોધો.", 
+                options: ["(-3)", "1", "1/3", "3"], 
+                answer: 3,
+                explanation: "ચોકડી ગુણાકાર કરતાં: 5(x - 1) = 2(x + 2) ⇒ 5x - 5 = 2x + 4 ⇒ 3x = 9 ⇒ x = 3."
+            },
+            { 
+                id: 4, 
+                question: "નીચે આપેલ કાટકોણ ત્રિકોણની આકૃતિમાં x નું મૂલ્ય મેળવો.", 
+                options: ["40°", "50°", "110°", "130°"], 
+                answer: 1,
+                hasDiagram: true,
+                diagramSvg: `
+                    <svg viewBox="0 0 240 140" class="w-48 h-28 mx-auto" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="30,120 200,120 200,20" fill="#e0e7ff" stroke="#4338ca" stroke-width="2.5" />
+                        <rect x="180" y="100" width="20" height="20" fill="none" stroke="#4338ca" stroke-width="2" />
+                        <!-- Angle at left: 40 deg -->
+                        <path d="M 60,120 A 30,30 0 0,0 52,100" fill="none" stroke="#ea580c" stroke-width="2" />
+                        <text x="68" y="112" font-size="12" font-weight="bold" fill="#ea580c">40°</text>
+                        <!-- Right angle indicator: 90 deg -->
+                        <text x="184" y="94" font-size="11" font-weight="bold" fill="#4338ca">90°</text>
+                        <!-- Top angle: x -->
+                        <path d="M 200,45 A 25,25 0 0,1 180,35" fill="none" stroke="#7c3aed" stroke-width="2" />
+                        <text x="172" y="55" font-size="14" font-weight="bold" fill="#7c3aed">x = ?</text>
+                    </svg>
+                `,
+                explanation: "ત્રિકોણના ત્રણેય ખૂણાઓનો સરવાળો 180° થાય છે. x = 180° - (90° + 40°) = 180° - 130° = 50°."
+            },
+            { 
+                id: 5, 
+                question: "સંખ્યા 19² ને બે ક્રમિક સંખ્યાના સરવાળા તરીકે રજૂ કરતાં નીચેના પૈકી કયો વિકલ્પ સાચો છે?", 
+                options: ["170 + 191", "140 + 221", "180 + 181", "આપેલ તમામ"], 
+                answer: 2,
+                explanation: "19² = 361. કોઈપણ એકી સંખ્યા n ના વર્ગને બે ક્રમિક સંખ્યાના સરવાળા તરીકે: (n²-1)/2 + (n²+1)/2 = 360/2 + 362/2 = 180 + 181 તરીકે દર્શાવાય."
+            },
+            { 
+                id: 6, 
+                question: "ઘનમૂળ ∛0.000001 નું મૂલ્ય શોધો:", 
+                options: ["0.03", "0.01", "0.001", "0.003"], 
+                answer: 1,
+                explanation: "0.000001 = 1 / 1,000,000. તેનું ઘનમૂળ = ∛(1 / 1,000,000) = 1 / 100 = 0.01 થાય."
+            },
+            { 
+                id: 7, 
+                question: "ક્રિકેટ IPL મેચમાં ગુજરાત ટાઇટન્સ ટીમ ટૂર્નામેન્ટ દરમિયાન 20 મેચ જીતે છે, જે કુલ મેચની 40% ટકાવારી છે. તો ગુજરાત ટાઇટન્સ કુલ કેટલી મેચ રમી હશે?", 
+                options: ["60", "50", "40", "35"], 
+                answer: 1,
+                explanation: "ધારો કે કુલ મેચ X છે. X ના 40% = 20 ⇒ X × (40/100) = 20 ⇒ X = (20 × 100) / 40 = 50 મેચ."
+            },
+            { 
+                id: 8, 
+                question: "એક છત્રીની છાપેલી કિંમત ₹840 છે અને તેની વેચાણ કિંમત ₹714 છે, તો વળતરની કુલ ટકાવારી મેળવો.", 
+                options: ["10.5%", "15%", "12.5%", "14%"], 
+                answer: 1,
+                explanation: "વળતર (રૂપિયામાં) = 840 - 714 = ₹126. વળતર % = (126 / 840) × 100 = 15%."
+            },
+            { 
+                id: 9, 
+                question: "એક સાઇકલને ₹4000 માં ખરીદીને કેટલા રૂપિયામાં વેચતાં 15% નફો થાય?", 
+                options: ["5200", "5650", "4600", "4800"], 
+                answer: 2,
+                explanation: "નફો = ₹4000 ના 15% = 4000 × (15/100) = ₹600. વેચાણ કિંમત = મૂળ કિંમત + નફો = 4000 + 600 = ₹4600."
+            },
+            { 
+                id: 10, 
+                question: "એક તાર 10 સેમી બાજુવાળા એક ચોરસ આકારમાં વાળેલો છે. જો તેને ફરીથી ખોલી 12 સેમી લંબાઈવાળા લંબચોરસ આકારમાં વાળવામાં આવે, તો તે લંબચોરસની પહોળાઈ કેટલી થશે?", 
+                options: ["8 મીટર", "16 મીટર", "8 સેમી", "16 સેમી"], 
+                answer: 2,
+                explanation: "તારની કુલ લંબાઈ = ચોરસની પરિમિતિ = 4 × 10 = 40 સેમી. લંબચોરસની પરિમિતિ = 2 × (લંબાઈ + પહોળાઈ) = 40 ⇒ 12 + પહોળાઈ = 20 ⇒ પહોળાઈ = 8 સેમી."
+            }
+        ];
+
+        // State variables
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let markedForReview = new Array(quizData.length).fill(false);
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let studentName = "";
+        let studentRoll = "";
+        let studentSchool = "";
+        let soundEnabled = true;
+        let currentGridFilter = 'all';
+
+        // DOM elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const quizHeaderStatus = document.getElementById('quiz-header-status');
+        const questionGrid = document.getElementById('question-grid');
+        const soundIcon = document.getElementById('sound-icon');
+
+        // Initialize display count
+        document.getElementById('instruction-total-q').innerText = quizData.length;
+        document.getElementById('total-q-num').innerText = quizData.length;
+        document.getElementById('total-q-header').innerText = quizData.length;
+        document.getElementById('total-q-nav').innerText = quizData.length;
+        document.getElementById('total-q-badge-mobile').innerText = quizData.length;
+
+        // Sound generator using Web Audio API
+        const audioCtx = (window.AudioContext || window.webkitAudioContext) ? new (window.AudioContext || window.webkitAudioContext)() : null;
+
+        function playTone(freq, type = 'sine', duration = 0.1) {
+            if (!soundEnabled || !audioCtx) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            soundIcon.className = soundEnabled ? 'fa-solid fa-volume-high text-sm' : 'fa-solid fa-volume-xmark text-sm text-rose-300';
+        }
+
+        function startQuiz() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            if (!nameInput) {
+                alert("કૃપા કરીને તમારું પૂરું નામ લખો.");
+                document.getElementById('student-name').focus();
+                return;
+            }
+
+            studentName = nameInput;
+            studentRoll = document.getElementById('student-roll').value.trim() || "-";
+            studentSchool = document.getElementById('student-school').value.trim() || "પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી";
+
+            playTone(523.25, 'triangle', 0.2); // C5 tone
+
+            startScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            quizHeaderStatus.classList.remove('hidden');
+
+            initGrid();
+            renderQuestion();
+            startTimer();
+        }
+
+        function startTimer() {
+            const timerDisplay = document.getElementById('timer-display');
+            secondsElapsed = 0;
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+                const secs = (secondsElapsed % 60).toString().padStart(2, '0');
+                timerDisplay.innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function initGrid() {
+            questionGrid.innerHTML = '';
+            for (let i = 0; i < quizData.length; i++) {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${i}`;
+                btn.innerText = i + 1;
+                btn.onclick = () => jumpToQuestion(i);
+                questionGrid.appendChild(btn);
+            }
+            updateGridHighlight();
+        }
+
+        function renderQuestion() {
+            const q = quizData[currentQuestionIndex];
+            document.getElementById('current-q-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('q-badge').innerText = `પ્ર. ${currentQuestionIndex + 1}`;
+            document.getElementById('question-text').innerText = q.question;
+
+            // Handle Diagram
+            const diagramContainer = document.getElementById('question-diagram-container');
+            if (q.hasDiagram && q.diagramSvg) {
+                diagramContainer.innerHTML = q.diagramSvg;
+                diagramContainer.classList.remove('hidden');
+            } else {
+                diagramContainer.classList.add('hidden');
+                diagramContainer.innerHTML = '';
+            }
+
+            // Bookmark / Mark for Review button state
+            const markBtn = document.getElementById('mark-review-btn');
+            if (markedForReview[currentQuestionIndex]) {
+                markBtn.className = "text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-amber-500 text-white border-amber-600 shadow-sm";
+                markBtn.innerHTML = `<i class="fa-solid fa-bookmark"></i> <span class="hidden sm:inline">ચિહ્નિત છે</span>`;
+            } else {
+                markBtn.className = "text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-slate-50 text-slate-600 border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-300";
+                markBtn.innerHTML = `<i class="fa-regular fa-bookmark"></i> <span class="hidden sm:inline">રીવ્યુ</span>`;
+            }
+
+            // Options List
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            const optionLabels = ['(A)', '(B)', '(C)', '(D)'];
+
+            q.options.forEach((opt, idx) => {
+                const isSelected = userAnswers[currentQuestionIndex] === idx;
+                const optLabel = document.createElement('label');
+                optLabel.className = `flex items-center p-3.5 sm:p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                    isSelected 
+                        ? 'border-brand-600 bg-brand-50/80 text-brand-900 font-bold shadow-sm scale-[1.008]' 
+                        : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/80 text-slate-700'
+                }`;
+
+                optLabel.innerHTML = `
+                    <div class="relative flex items-center justify-center mr-3.5">
+                        <input type="radio" name="quiz-option" value="${idx}" ${isSelected ? 'checked' : ''} onchange="selectOption(${idx})" class="w-5 h-5 text-brand-600 focus:ring-brand-500 cursor-pointer accent-indigo-600">
+                    </div>
+                    <span class="text-sm sm:text-base flex-grow">
+                        <b class="mr-2 text-brand-700 font-extrabold">${optionLabels[idx]}</b> ${opt}
+                    </span>
+                    ${isSelected ? '<i class="fa-solid fa-circle-check text-brand-600 ml-auto"></i>' : ''}
+                `;
+                optionsContainer.appendChild(optLabel);
+            });
+
+            // Navigation buttons
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextBtn.innerHTML = `<span>સબમિટ કરો</span> <i class="fa-solid fa-check ml-1.5"></i>`;
+                nextBtn.onclick = confirmSubmit;
+            } else {
+                nextBtn.innerHTML = `<span>આગળ</span> <i class="fa-solid fa-chevron-right ml-1.5 text-xs"></i>`;
+                nextBtn.onclick = () => navigateQuestion(1);
+            }
+
+            updateProgress();
+            updateGridHighlight();
+        }
+
+        function selectOption(index) {
+            userAnswers[currentQuestionIndex] = index;
+            playTone(659.25, 'sine', 0.08); // E5
+            renderQuestion();
+        }
+
+        function clearCurrentAnswer() {
+            if (userAnswers[currentQuestionIndex] !== null) {
+                userAnswers[currentQuestionIndex] = null;
+                playTone(392.00, 'sine', 0.1);
+                renderQuestion();
+            }
+        }
+
+        function toggleMarkForReview() {
+            markedForReview[currentQuestionIndex] = !markedForReview[currentQuestionIndex];
+            playTone(markedForReview[currentQuestionIndex] ? 880 : 440, 'triangle', 0.1);
+            renderQuestion();
+        }
+
+        function navigateQuestion(direction) {
+            currentQuestionIndex += direction;
+            if (currentQuestionIndex < 0) currentQuestionIndex = 0;
+            if (currentQuestionIndex >= quizData.length) currentQuestionIndex = quizData.length - 1;
+            playTone(493.88, 'sine', 0.05);
+            renderQuestion();
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            playTone(493.88, 'sine', 0.05);
+            renderQuestion();
+        }
+
+        function setGridFilter(filter) {
+            currentGridFilter = filter;
+            ['all', 'answered', 'unanswered', 'review'].forEach(f => {
+                const btn = document.getElementById(`filter-${f}`);
+                if (f === filter) {
+                    btn.className = "flex-1 py-1 rounded-lg bg-white text-brand-700 shadow-sm transition text-center font-bold";
+                } else {
+                    btn.className = "flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center";
+                }
+            });
+            updateGridHighlight();
+        }
+
+        function updateProgress() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            document.getElementById('answered-count').innerText = answered;
+            document.getElementById('answered-count-mobile').innerText = answered;
+            const pct = Math.round((answered / quizData.length) * 100);
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+        }
+
+        function updateGridHighlight() {
+            for (let i = 0; i < quizData.length; i++) {
+                const btn = document.getElementById(`grid-btn-${i}`);
+                if (!btn) continue;
+
+                const isAnswered = userAnswers[i] !== null;
+                const isMarked = markedForReview[i];
+                const isCurrent = i === currentQuestionIndex;
+
+                // Handle filter visibility
+                let isVisible = true;
+                if (currentGridFilter === 'answered' && !isAnswered) isVisible = false;
+                if (currentGridFilter === 'unanswered' && isAnswered) isVisible = false;
+                if (currentGridFilter === 'review' && !isMarked) isVisible = false;
+
+                btn.style.display = isVisible ? 'flex' : 'none';
+
+                let baseClass = "w-full h-9 text-xs font-bold rounded-xl border transition-all flex items-center justify-center ";
+
+                if (isCurrent) {
+                    btn.className = baseClass + "border-brand-600 ring-2 ring-brand-400 bg-brand-50 text-brand-800 shadow-sm scale-105 z-10";
+                } else if (isMarked) {
+                    btn.className = baseClass + "bg-amber-400 text-slate-900 border-amber-500 shadow-sm";
+                } else if (isAnswered) {
+                    btn.className = baseClass + "bg-emerald-500 text-white border-emerald-600 shadow-sm";
+                } else {
+                    btn.className = baseClass + "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100";
+                }
+            }
+        }
+
+        function confirmSubmit() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const marked = markedForReview.filter(m => m === true).length;
+            const unanswered = quizData.length - answered;
+
+            document.getElementById('modal-total-text').innerHTML = `<span>કુલ પ્રશ્નો:</span> <b>${quizData.length}</b>`;
+            document.getElementById('modal-answered-text').innerHTML = `<span>જવાબ આપ્યા:</span> <b class="text-emerald-600">${answered}</b>`;
+            document.getElementById('modal-review-text').innerHTML = `<span>રીવ્યુ માટે રાખેલ:</span> <b class="text-amber-600">${marked}</b>`;
+            document.getElementById('modal-unanswered-text').innerHTML = `<span>બાકી પ્રશ્નો:</span> <b class="text-rose-600">${unanswered}</b>`;
+
+            const modalMsg = document.getElementById('modal-msg');
+            if (unanswered > 0) {
+                modalMsg.innerText = `ચેતવણી: તમારા ${unanswered} પ્રશ્નો હજી બાકી છે! શું તમે ચોક્કસ જમા કરવા માંગો છો?`;
+            } else {
+                modalMsg.innerText = `ખૂબ સરસ! તમે તમામ પ્રશ્નોના ઉત્તર આપ્યા છે.`;
+            }
+
+            document.getElementById('modal-overlay').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            closeModal();
+            clearInterval(timerInterval);
+
+            quizScreen.classList.add('hidden');
+            quizHeaderStatus.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            let correct = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === quizData[idx].answer) correct++;
+            });
+
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const unanswered = quizData.length - answeredCount;
+            const wrong = answeredCount - correct;
+            const timeStr = document.getElementById('timer-display').innerText;
+            const pct = Math.round((correct / quizData.length) * 100);
+
+            // Confetti animation for good scores
+            if (pct >= 50 && typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            // Sound celebration
+            playTone(523.25, 'triangle', 0.15);
+            setTimeout(() => playTone(659.25, 'triangle', 0.15), 150);
+            setTimeout(() => playTone(783.99, 'triangle', 0.3), 300);
+
+            // Score badge styling
+            const scoreBadge = document.getElementById('score-badge');
+            document.getElementById('score-text').innerText = `${correct}/${quizData.length}`;
+            document.getElementById('score-pct-text').innerText = `${pct}% ગુણ`;
+
+            if (pct >= 80) {
+                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-emerald-50 text-emerald-700 border-emerald-500";
+                document.getElementById('result-title').innerText = "અદ્ભુત પ્રદર્શન! ઉત્કૃષ્ટ પરિણામ 🏆";
+            } else if (pct >= 50) {
+                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-amber-50 text-amber-700 border-amber-500";
+                document.getElementById('result-title').innerText = "ખૂબ સરસ પ્રયાસ! સારો સ્કોર 👍";
+            } else {
+                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-rose-50 text-rose-700 border-rose-400";
+                document.getElementById('result-title').innerText = "વધુ મહાવરાની જરૂર છે! ફરી પ્રયાસ કરો 📚";
+            }
+
+            document.getElementById('student-info-display').innerText = `વિદ્યાર્થી: ${studentName}  |  રોલ નંબર: ${studentRoll}`;
+            document.getElementById('school-info-display').innerText = `શાળા: ${studentSchool}`;
+            document.getElementById('correct-count').innerText = correct;
+            document.getElementById('wrong-count').innerText = wrong;
+            document.getElementById('unanswered-result-count').innerText = unanswered;
+            document.getElementById('time-taken').innerText = timeStr;
+
+            document.getElementById('count-rev-all').innerText = quizData.length;
+            document.getElementById('count-rev-correct').innerText = correct;
+            document.getElementById('count-rev-wrong').innerText = wrong + unanswered;
+
+            renderReview('all');
+        }
+
+        let currentReviewFilter = 'all';
+
+        function filterReview(filter) {
+            currentReviewFilter = filter;
+            ['all', 'correct', 'wrong'].forEach(f => {
+                const btn = document.getElementById(`rev-filter-${f}`);
+                if (f === filter) {
+                    btn.className = "px-3 py-1.5 rounded-lg bg-white text-brand-700 shadow-sm transition font-bold";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg hover:text-slate-900 transition";
+                }
+            });
+            renderReview(filter);
+        }
+
+        function renderReview(filter = 'all') {
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '';
+            const optionLabels = ['(A)', '(B)', '(C)', '(D)'];
+
+            quizData.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.answer;
+                const isUnanswered = userAns === null;
+
+                if (filter === 'correct' && !isCorrect) return;
+                if (filter === 'wrong' && isCorrect) return;
+
+                const card = document.createElement('div');
+                card.className = `p-4 sm:p-5 rounded-2xl border transition-all ${
+                    isCorrect 
+                        ? 'bg-emerald-50/50 border-emerald-200' 
+                        : isUnanswered 
+                            ? 'bg-amber-50/40 border-amber-200' 
+                            : 'bg-rose-50/50 border-rose-200'
+                }`;
+
+                let statusBadge = isCorrect
+                    ? `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-300"><i class="fa-solid fa-check mr-1"></i> સાચો જવાબ</span>`
+                    : isUnanswered
+                        ? `<span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full border border-amber-300"><i class="fa-solid fa-minus mr-1"></i> ઉત્તર નથી આપ્યો</span>`
+                        : `<span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1 rounded-full border border-rose-300"><i class="fa-solid fa-xmark mr-1"></i> ખોટો જવાબ</span>`;
+
+                let diagramHtml = (q.hasDiagram && q.diagramSvg) ? `<div class="my-3 p-3 bg-white rounded-xl border border-slate-200 max-w-xs">${q.diagramSvg}</div>` : '';
+
+                card.innerHTML = `
+                    <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
+                        <span class="font-bold text-slate-800 text-sm sm:text-base">પ્રશ્ન ${idx + 1}: ${q.question}</span>
+                        ${statusBadge}
+                    </div>
+                    ${diagramHtml}
+                    <div class="text-xs sm:text-sm space-y-1.5 mt-3 pt-3 border-t border-slate-200/60">
+                        <p class="${isCorrect ? 'text-emerald-800 font-semibold' : isUnanswered ? 'text-amber-800' : 'text-rose-700 font-semibold'}">
+                            <b>તમારો ઉત્તર:</b> ${isUnanswered ? '<i>કોઈ વિકલ્પ પસંદ કર્યો ન હતો</i>' : `${optionLabels[userAns]} ${q.options[userAns]}`}
+                        </p>
+                        ${!isCorrect ? `
+                            <p class="text-emerald-800 font-semibold">
+                                <i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i>
+                                <b>સાચો ઉત્તર:</b> ${optionLabels[q.answer]} ${q.options[q.answer]}
+                            </p>
+                        ` : ''}
+                        ${q.explanation ? `
+                            <div class="mt-2 p-3 bg-white/80 rounded-xl border border-slate-200 text-xs text-slate-700 leading-relaxed">
+                                <span class="font-bold text-brand-700"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> સમજૂતી:</span> ${q.explanation}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                reviewContainer.appendChild(card);
+            });
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            markedForReview = new Array(quizData.length).fill(false);
+            secondsElapsed = 0;
+            clearInterval(timerInterval);
+
+            resultScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
