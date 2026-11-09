@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NMMS પરીક્ષા ઓનલાઇન કસોટી | પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</title>
+    <title>NMMS કસોટી | PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</title>
     
     <!-- Meta tags for SEO & Social Sharing -->
-    <meta name="description" content="પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી દ્વારા આયોજિત NMMS પરીક્ષા SAT વિભાગ ઓનલાઇન મોક ટેસ્ટ.">
-    <meta name="theme-color" content="#4338ca">
+    <meta name="description" content="PM SHRI PRATHMIK VIDHYAMANDIR PONSRI - NMMS પરીક્ષા SAT વિભાગ ઓનલાઇન મોક ટેસ્ટ.">
+    <meta name="theme-color" content="#312e81">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="logo.png">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts for Gujarati -->
+    <!-- Google Fonts for Gujarati & English -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Canvas Confetti for celebration -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
@@ -26,7 +29,7 @@
                 extend: {
                     fontFamily: {
                         gujarati: ['"Hind Vadodara"', 'sans-serif'],
-                        sans: ['Poppins', '"Hind Vadodara"', 'sans-serif']
+                        sans: ['"Outfit"', '"Hind Vadodara"', 'sans-serif']
                     },
                     colors: {
                         brand: {
@@ -37,7 +40,7 @@
                             600: '#4f46e5',
                             700: '#4338ca',
                             800: '#3730a3',
-                            900: '#312e81'
+                            900: '#1e1b4b'
                         }
                     }
                 }
@@ -47,7 +50,7 @@
 
     <style>
         body {
-            font-family: 'Hind Vadodara', 'Poppins', sans-serif;
+            font-family: 'Hind Vadodara', 'Outfit', sans-serif;
             background-color: #f8fafc;
             -webkit-tap-highlight-color: transparent;
         }
@@ -67,12 +70,12 @@
             background: #94a3b8;
         }
 
-        @keyframes pulse-subtle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.95; transform: scale(1.02); }
+        @keyframes timer-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
-        .animate-subtle {
-            animation: pulse-subtle 3s infinite ease-in-out;
+        .timer-warning {
+            animation: timer-pulse 1s infinite ease-in-out;
         }
 
         @media print {
@@ -93,47 +96,56 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-brand-600 selection:text-white">
 
     <!-- Top Announcement Bar -->
-    <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white text-xs py-1.5 px-4 text-center font-medium shadow-sm flex items-center justify-center space-x-2 no-print">
+    <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white text-xs py-1.5 px-4 text-center font-semibold shadow-sm flex items-center justify-center space-x-2 no-print">
         <i class="fa-solid fa-graduation-cap animate-bounce"></i>
-        <span>રાષ્ટ્રીય સાધન-સહ-મેરિટ શિષ્યવૃત્તિ યોજના (NMMS) પરીક્ષા તૈયારી પોર્ટલ</span>
+        <span>રાષ્ટ્રીય સાધન-સહ-મેરિટ શિષ્યવૃત્તિ યોજના (NMMS) કસોટી પોર્ટલ | સમય મર્યાદા: ૬૦ મિનિટ</span>
     </div>
 
     <!-- Header Section -->
-    <header class="bg-gradient-to-r from-brand-900 via-brand-800 to-indigo-900 text-white shadow-lg sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-3 sm:py-3.5 flex flex-wrap justify-between items-center gap-3">
+    <header class="bg-gradient-to-r from-slate-900 via-brand-900 to-indigo-950 text-white shadow-xl sticky top-0 z-40 border-b border-indigo-800/40">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 sm:py-3 flex flex-wrap justify-between items-center gap-3">
             <div class="flex items-center space-x-3.5">
-                <div class="w-11 h-11 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 shadow-inner">
-                    <i class="fa-solid fa-school-flag text-2xl text-amber-300"></i>
+                <!-- School Logo -->
+                <div class="relative bg-white p-1 rounded-2xl shadow-md border-2 border-amber-400 shrink-0">
+                    <img src="logo.png" 
+                         onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" 
+                         alt="PM SHRI School Logo" 
+                         class="w-11 h-11 sm:w-12 sm:h-12 object-contain rounded-xl">
                 </div>
                 <div>
-                    <h1 class="text-base sm:text-lg md:text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                        <span>પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</span>
-                        <span class="hidden sm:inline-block text-[11px] bg-amber-400 text-slate-900 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">PM SHRI</span>
-                    </h1>
-                    <p class="text-xs md:text-sm text-indigo-200 font-medium">NMMS પરીક્ષા - SAT વિભાગ (ઓનલાઇન મોક કસોટી)</p>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-amber-400 text-slate-900 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full uppercase tracking-wider">PM SHRI</span>
+                        <h1 class="text-sm sm:text-base md:text-lg font-bold tracking-tight text-white leading-tight">
+                            PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
+                        </h1>
+                    </div>
+                    <p class="text-xs text-indigo-200 font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી | NMMS ઓનલાઇન કસોટી</p>
                 </div>
             </div>
             
             <!-- In-Quiz Live Status Bar (Timer, Audio & Submit) -->
-            <div id="quiz-header-status" class="hidden flex items-center space-x-3 ml-auto">
+            <div id="quiz-header-status" class="hidden flex items-center space-x-2 sm:space-x-3 ml-auto">
                 <!-- Sound Toggle -->
-                <button onclick="toggleAudio()" id="sound-btn" title="ધ્વનિ ચાલુ/બંધ" class="bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg border border-white/15 transition flex items-center justify-center">
+                <button onclick="toggleAudio()" id="sound-btn" title="ધ્વનિ ચાલુ/બંધ" class="bg-white/10 hover:bg-white/20 text-white p-2 sm:px-3 sm:py-2 rounded-xl border border-white/15 transition flex items-center justify-center">
                     <i id="sound-icon" class="fa-solid fa-volume-high text-sm"></i>
                 </button>
 
-                <!-- Timer Box -->
-                <div class="bg-black/30 backdrop-blur-sm px-3.5 py-1.5 rounded-xl flex items-center border border-white/15 shadow-inner">
-                    <i class="fa-regular fa-clock text-amber-400 mr-2 text-base"></i>
-                    <span id="timer-display" class="font-mono text-base sm:text-lg font-bold tracking-wider text-amber-300">00:00</span>
+                <!-- 60-Minute Countdown Timer Box -->
+                <div id="timer-box" class="bg-black/40 backdrop-blur-md px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-white/20 shadow-inner transition-colors">
+                    <i id="timer-icon" class="fa-regular fa-clock text-amber-400 mr-2 text-base"></i>
+                    <div class="flex flex-col text-left">
+                        <span class="text-[9px] uppercase font-bold text-slate-300 tracking-wider">બાકી સમય (60 Min)</span>
+                        <span id="timer-display" class="font-mono text-base sm:text-lg font-black tracking-widest text-amber-300 leading-none">60:00</span>
+                    </div>
                 </div>
 
                 <!-- Submit Button -->
-                <button onclick="confirmSubmit()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-xl transition shadow-md hover:shadow-lg flex items-center space-x-1.5">
+                <button onclick="confirmSubmit()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xs sm:text-sm font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition shadow-md hover:shadow-lg flex items-center space-x-1.5">
                     <i class="fa-solid fa-check-double text-xs sm:text-sm"></i>
-                    <span>કસોટી પૂર્ણ કરો</span>
+                    <span>જમા કરો</span>
                 </button>
             </div>
         </div>
@@ -144,90 +156,111 @@
 
         <!-- SCREEN 1: START SCREEN -->
         <div id="start-screen" class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-3xl mx-auto border border-slate-200/80 transition-all duration-300">
-            <!-- Hero Icon -->
+            <!-- Hero School & Logo Header -->
             <div class="text-center">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 border-2 border-indigo-100 rounded-3xl mb-4 text-brand-600 text-3xl shadow-sm">
-                    <i class="fa-solid fa-file-signature"></i>
+                <div class="relative inline-block mb-3">
+                    <img src="logo.png" 
+                         onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" 
+                         alt="School Logo" 
+                         class="w-24 h-24 sm:w-28 sm:h-28 object-contain mx-auto drop-shadow-md rounded-2xl p-1 bg-white border-2 border-indigo-100">
+                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
+                        PM SHRI SCHOOL
+                    </span>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-1 tracking-tight">NMMS ઓનલાઇન મોક કસોટી</h2>
-                <p class="text-slate-500 text-sm sm:text-base font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી દ્વારા આયોજિત વિશેષ કસોટી</p>
-                <div class="inline-block mt-2 bg-indigo-50 border border-indigo-200/60 text-brand-700 text-xs px-3 py-1 rounded-full font-semibold">
-                    <i class="fa-solid fa-book-open mr-1"></i> SAT: ગણિત, વિજ્ઞાન અને સામાજિક વિજ્ઞાન તૈયારી
+                
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight mt-2">
+                    PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
+                </h2>
+                <p class="text-brand-700 font-bold text-base sm:text-lg">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
+                <div class="inline-flex items-center gap-2 mt-2 bg-indigo-50 border border-indigo-200 text-brand-800 text-xs sm:text-sm px-4 py-1 rounded-full font-bold">
+                    <i class="fa-solid fa-award text-amber-500"></i>
+                    <span>NMMS પરીક્ષા - SAT વિભાગ ઓનલાઇન મોક કસોટી</span>
                 </div>
             </div>
             
-            <!-- Instructions Box -->
-            <div class="mt-6 bg-slate-50/90 p-4 sm:p-5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-2.5">
-                <p class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
-                    <i class="fa-solid fa-circle-exclamation text-amber-500 mr-2 text-base"></i>
-                    કસોટી અંગે અગત્યની સૂચનાઓ:
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-slate-600">
+            <!-- Instructions Box with 60 Min Highlight -->
+            <div class="mt-6 bg-slate-50/90 p-4 sm:p-5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-3">
+                <div class="flex items-center justify-between border-b pb-2">
+                    <p class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
+                        <i class="fa-solid fa-circle-exclamation text-amber-500 mr-2 text-base"></i>
+                        કસોટી અંગે અગત્યની સૂચનાઓ:
+                    </p>
+                    <span class="bg-rose-100 text-rose-700 font-bold px-2.5 py-0.5 rounded-lg text-xs flex items-center">
+                        <i class="fa-regular fa-clock mr-1"></i> સમય: ૬૦ મિનિટ
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 text-slate-600">
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
+                        <span>કસોટી માટે કુલ <b>૬૦ મિનિટ (60 Minutes)</b> નો સમય મળશે.</span>
+                    </div>
                     <div class="flex items-start">
                         <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
                         <span>આ પ્રશ્નપત્રમાં કુલ <b id="instruction-total-q" class="text-brand-700">10</b> પ્રશ્નો આપેલા છે.</span>
                     </div>
                     <div class="flex items-start">
                         <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
-                        <span>દરેક પ્રશ્ન માટે <b>૧ ગુણ</b> નિર્ધારિત છે. ખોટા જવાબનું નકારાત્મક ગુણાંકન નથી.</span>
+                        <span>દરેક પ્રશ્ન માટે <b>૧ ગુણ</b> છે. ખોટા ઉત્તરનું કોઈ નકારાત્મક ગુણાંકન નથી.</span>
                     </div>
                     <div class="flex items-start">
                         <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
-                        <span>તમે પ્રશ્ન નેવિગેટર દ્વારા કોઈપણ પ્રશ્ન પર સીધા જઈ શકો છો.</span>
-                    </div>
-                    <div class="flex items-start">
-                        <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
-                        <span>પ્રશ્નને પછીથી વિચારવા માટે <b>રીવ્યુ (Mark for Review)</b> કરી શકો છો.</span>
+                        <span>વિદ્યાર્થીએ પોતાનું નામ દાખલ કરવું ફરજિયાત છે.</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Student Registration Form -->
+            <!-- Student Detail Form (Mandatory Name) -->
             <div class="mt-6 space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="student-name" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
-                            વિદ્યાર્થીનું નામ <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                                <i class="fa-solid fa-user"></i>
-                            </span>
-                            <input type="text" id="student-name" placeholder="તમારું પૂરૂં નામ લખો (દા.ત. પટેલ હર્ષ)" 
-                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-medium transition shadow-sm bg-white" required>
-                        </div>
+                <div>
+                    <label for="student-name" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                        <span>વિદ્યાર્થીનું પૂરું નામ <span class="text-rose-600 font-bold">* (ફરજિયાત)</span></span>
+                        <span class="text-[11px] text-slate-400 font-normal">Student Full Name</span>
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-user-graduate text-base"></i>
+                        </span>
+                        <input type="text" id="student-name" placeholder="તમારું પૂરું નામ લખો (દા.ત. પટેલ આરવ કે.)" 
+                               class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-600 text-sm sm:text-base font-semibold transition shadow-sm bg-white" required>
                     </div>
+                    <p id="name-error-msg" class="hidden text-xs text-rose-600 font-bold mt-1.5 flex items-center">
+                        <i class="fa-solid fa-circle-xmark mr-1"></i> કૃપા કરીને કસોટી શરૂ કરતાં પહેલાં તમારું પૂરું નામ લખો.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label for="student-roll" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
                             રોલ નંબર / હાજરી નંબર <span class="text-slate-400 font-normal">(વૈકલ્પિક)</span>
                         </label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                                <i class="fa-solid fa-id-badge"></i>
+                                <i class="fa-solid fa-id-card"></i>
                             </span>
-                            <input type="text" id="student-roll" placeholder="દા.ત. 15" 
+                            <input type="text" id="student-roll" placeholder="દા.ત. 12" 
                                    class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-medium transition shadow-sm bg-white">
                         </div>
                     </div>
-                </div>
-                <div>
-                    <label for="student-school" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
-                        શાળાનું નામ
-                    </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                            <i class="fa-solid fa-school"></i>
-                        </span>
-                        <input type="text" id="student-school" value="પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી" 
-                               class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-medium transition shadow-sm bg-white">
+                    <div>
+                        <label for="student-school" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
+                            શાળાનું નામ <span class="text-slate-400 font-normal">(School Name)</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-school"></i>
+                            </span>
+                            <input type="text" id="student-school" value="PM SHRI PRATHMIK VIDHYAMANDIR PONSRI" 
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500" readonly>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Start Button -->
-            <button onclick="startQuiz()" class="mt-6 w-full bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-bold py-3.5 sm:py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 text-base sm:text-lg flex items-center justify-center space-x-2 group">
-                <span>કસોટી શરૂ કરો</span>
-                <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            <button onclick="startQuiz()" class="mt-6 w-full bg-gradient-to-r from-brand-700 via-indigo-600 to-brand-800 hover:from-brand-800 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-200 text-base sm:text-lg flex items-center justify-center space-x-2 group">
+                <i class="fa-solid fa-play mr-2 text-amber-300 group-hover:scale-110 transition-transform"></i>
+                <span>કસોટી શરૂ કરો (Start 60-Min Test)</span>
+                <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1.5 transition-transform"></i>
             </button>
         </div>
 
@@ -241,8 +274,8 @@
                 <div class="bg-white rounded-2xl shadow-sm p-3.5 sm:p-4 border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start space-x-3">
                         <div class="flex items-center space-x-1.5">
-                            <span class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">પ્રશ્ન:</span>
-                            <span id="current-q-num" class="text-lg sm:text-xl font-extrabold text-brand-600">1</span>
+                            <span class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">પ્રશ્ન ક્રમ:</span>
+                            <span id="current-q-num" class="text-lg sm:text-xl font-extrabold text-brand-700">1</span>
                             <span class="text-slate-400 font-semibold text-sm">/ <span id="total-q-num">10</span></span>
                         </div>
                         <span id="answered-badge" class="sm:hidden text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-brand-700 rounded-full border border-indigo-100">
@@ -252,7 +285,7 @@
 
                     <!-- Progress Bar -->
                     <div class="w-full sm:w-64 bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200/60">
-                        <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-indigo-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        <div id="progress-bar" class="bg-gradient-to-r from-brand-600 to-indigo-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
                     </div>
 
                     <div class="hidden sm:flex items-center space-x-2 text-xs font-bold px-3 py-1.5 bg-indigo-50 text-brand-700 rounded-xl border border-indigo-100">
@@ -262,12 +295,12 @@
                 </div>
 
                 <!-- Question Card -->
-                <div class="bg-white rounded-3xl shadow-md p-5 sm:p-7 md:p-8 border border-slate-200/80 min-h-[380px] flex flex-col justify-between transition-all">
+                <div class="bg-white rounded-3xl shadow-md p-5 sm:p-7 md:p-8 border border-slate-200/80 min-h-[390px] flex flex-col justify-between transition-all">
                     <div>
                         <!-- Question Header & Bookmark -->
                         <div class="flex items-start justify-between gap-3 mb-5">
                             <div class="flex items-start space-x-3">
-                                <span id="q-badge" class="bg-brand-600 text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl mt-0.5 shadow-sm whitespace-nowrap">
+                                <span id="q-badge" class="bg-brand-700 text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl mt-0.5 shadow-sm whitespace-nowrap">
                                     પ્ર. ૧
                                 </span>
                                 <h3 id="question-text" class="text-base sm:text-lg md:text-xl font-semibold text-slate-800 leading-relaxed">
@@ -314,10 +347,10 @@
             </div>
 
             <!-- Right Side: Sidebar Navigator -->
-            <div class="bg-white rounded-3xl shadow-md p-4 sm:p-5 border border-slate-200/80 flex flex-col lg:h-[580px]">
+            <div class="bg-white rounded-3xl shadow-md p-4 sm:p-5 border border-slate-200/80 flex flex-col lg:h-[590px]">
                 <div class="flex items-center justify-between border-b pb-3 mb-3">
                     <h4 class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
-                        <i class="fa-solid fa-table-cells text-brand-600 mr-2"></i>
+                        <i class="fa-solid fa-table-cells text-brand-700 mr-2"></i>
                         <span>પ્રશ્ન નેવિગેટર</span>
                     </h4>
                     <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded-full">
@@ -343,7 +376,7 @@
 
                 <!-- Filter Navigator Tabs -->
                 <div class="flex space-x-1 mb-3 bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600">
-                    <button onclick="setGridFilter('all')" id="filter-all" class="flex-1 py-1 rounded-lg bg-white text-brand-700 shadow-sm transition text-center">બધા</button>
+                    <button onclick="setGridFilter('all')" id="filter-all" class="flex-1 py-1 rounded-lg bg-white text-brand-700 shadow-sm transition text-center font-bold">બધા</button>
                     <button onclick="setGridFilter('answered')" id="filter-answered" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">આપેલ</button>
                     <button onclick="setGridFilter('unanswered')" id="filter-unanswered" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">બાકી</button>
                     <button onclick="setGridFilter('review')" id="filter-review" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">રીવ્યુ</button>
@@ -362,13 +395,25 @@
             </div>
         </div>
 
-        <!-- SCREEN 3: RESULT SCREEN -->
+        <!-- SCREEN 3: RESULT SCREEN (Certificate / Report Card) -->
         <div id="result-screen" class="hidden bg-white rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-4xl mx-auto border border-slate-200/80 transition-all">
             
-            <!-- Result Header Card -->
+            <!-- Result Header Card with School Crest -->
             <div class="text-center mb-8 border-b border-slate-100 pb-8">
+                <div class="flex justify-center items-center gap-3 mb-3">
+                    <img src="logo.png" 
+                         onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" 
+                         alt="School Logo" 
+                         class="w-14 h-14 object-contain">
+                    <div class="text-left">
+                        <span class="bg-amber-400 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">PM SHRI</span>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</h3>
+                        <p class="text-xs text-slate-500 font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
+                    </div>
+                </div>
+
                 <!-- Circular Score Badge -->
-                <div class="relative inline-block mb-4">
+                <div class="relative inline-block mb-3 mt-2">
                     <div id="score-badge" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all">
                         <span id="score-text">0/10</span>
                         <span id="score-pct-text" class="text-xs font-bold text-slate-500 mt-0.5">0%</span>
@@ -379,8 +424,8 @@
                     કસોટી સફળતાપૂર્વક પૂર્ણ થઈ! 🏆
                 </h2>
                 
-                <p id="student-info-display" class="text-slate-600 font-semibold mt-2 text-sm sm:text-base"></p>
-                <p id="school-info-display" class="text-slate-400 font-medium text-xs sm:text-sm mt-0.5"></p>
+                <p id="student-info-display" class="text-slate-700 font-bold mt-2 text-base sm:text-lg"></p>
+                <p id="school-info-display" class="text-slate-500 font-medium text-xs sm:text-sm mt-0.5"></p>
 
                 <!-- Stat Pills -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mt-6">
@@ -406,15 +451,15 @@
             <!-- Review Actions & Filters -->
             <div class="mb-5 flex flex-wrap justify-between items-center gap-3">
                 <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center">
-                    <i class="fa-solid fa-list-check text-brand-600 mr-2"></i>
+                    <i class="fa-solid fa-list-check text-brand-700 mr-2"></i>
                     <span>પ્રશ્નોત્તરી સમીક્ષા (Answer Review & Solutions)</span>
                 </h3>
 
                 <!-- Review Filter Tabs -->
                 <div class="flex space-x-1.5 bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 no-print">
-                    <button onclick="filterReview('all')" id="rev-filter-all" class="px-3 py-1.5 rounded-lg bg-white text-brand-700 shadow-sm transition">બધા (<span id="count-rev-all">10</span>)</button>
-                    <button onclick="filterReview('correct')" id="rev-filter-correct" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-emerald-700">સાચા (<span id="count-rev-correct">0</span>)</button>
-                    <button onclick="filterReview('wrong')" id="rev-filter-wrong" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-rose-700">ખોટા (<span id="count-rev-wrong">0</span>)</button>
+                    <button onclick="filterReview('all')" id="rev-filter-all" class="px-3 py-1.5 rounded-lg bg-white text-brand-700 shadow-sm transition font-bold">બધા (<span id="count-rev-all">10</span>)</button>
+                    <button onclick="filterReview('correct')" id="rev-filter-correct" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-emerald-700 font-semibold">સાચા (<span id="count-rev-correct">0</span>)</button>
+                    <button onclick="filterReview('wrong')" id="rev-filter-wrong" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-rose-700 font-semibold">ખોટા (<span id="count-rev-wrong">0</span>)</button>
                 </div>
             </div>
 
@@ -427,9 +472,9 @@
             <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap justify-center items-center gap-4 no-print">
                 <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 px-6 rounded-2xl shadow-md hover:shadow-lg transition flex items-center space-x-2 text-sm">
                     <i class="fa-solid fa-print"></i>
-                    <span>પરિણામ પ્રિન્ટ / PDF ડાઉનલોડ</span>
+                    <span>ગુણપત્રક પ્રિન્ટ / PDF ડાઉનલોડ</span>
                 </button>
-                <button onclick="resetQuiz()" class="bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-bold py-3.5 px-7 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center space-x-2 text-sm">
+                <button onclick="resetQuiz()" class="bg-gradient-to-r from-brand-700 to-indigo-600 hover:from-brand-800 hover:to-indigo-700 text-white font-bold py-3.5 px-7 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center space-x-2 text-sm">
                     <i class="fa-solid fa-rotate-right"></i>
                     <span>ફરીથી કસોટી આપો</span>
                 </button>
@@ -441,14 +486,17 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200/80 py-4 px-4 text-center text-xs text-slate-500 no-print mt-6">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-2">
+                <img src="logo.png" onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" alt="Logo" class="w-5 h-5 object-contain inline">
+                <p class="font-bold text-slate-700">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</p>
+            </div>
             <p>© ૨૦૨૫-૨૬ પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી. સર્વ હક સુરક્ષિત.</p>
-            <p class="text-slate-400">NMMS પરીક્ષા સફળતા માર્ગદર્શન - વિદ્યાર્થી હિતમાં પ્રસ્તુત</p>
         </div>
     </footer>
 
     <!-- Confirmation Modal -->
     <div id="modal-overlay" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl text-center space-y-4 border border-slate-100 animate-subtle">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl text-center space-y-4 border border-slate-100">
             <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
@@ -456,10 +504,10 @@
             <div id="modal-stats" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left text-xs sm:text-sm space-y-1.5 text-slate-700">
                 <p id="modal-total-text" class="flex justify-between"><span>કુલ પ્રશ્નો:</span> <b class="text-slate-900">10</b></p>
                 <p id="modal-answered-text" class="flex justify-between"><span>જવાબ આપ્યા:</span> <b class="text-emerald-600 font-bold">0</b></p>
-                <p id="modal-review-text" class="flex justify-between"><span>રીવ્યુ માટે બાકી:</span> <b class="text-amber-600 font-bold">0</b></p>
-                <p id="modal-unanswered-text" class="flex justify-between"><span>જવાબ આપ્યા વિનાના:</span> <b class="text-rose-600 font-bold">10</b></p>
+                <p id="modal-review-text" class="flex justify-between"><span>રીવ્યુ માટે રાખેલ:</span> <b class="text-amber-600 font-bold">0</b></p>
+                <p id="modal-unanswered-text" class="flex justify-between"><span>બાકી પ્રશ્નો:</span> <b class="text-rose-600 font-bold">10</b></p>
             </div>
-            <p id="modal-msg" class="text-slate-500 text-xs"></p>
+            <p id="modal-msg" class="text-slate-500 text-xs font-medium"></p>
             <div class="flex justify-center space-x-3 pt-2">
                 <button onclick="closeModal()" class="flex-1 px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-100 transition text-sm">
                     પાછા જાઓ
@@ -506,12 +554,9 @@
                     <svg viewBox="0 0 240 140" class="w-48 h-28 mx-auto" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="30,120 200,120 200,20" fill="#e0e7ff" stroke="#4338ca" stroke-width="2.5" />
                         <rect x="180" y="100" width="20" height="20" fill="none" stroke="#4338ca" stroke-width="2" />
-                        <!-- Angle at left: 40 deg -->
                         <path d="M 60,120 A 30,30 0 0,0 52,100" fill="none" stroke="#ea580c" stroke-width="2" />
                         <text x="68" y="112" font-size="12" font-weight="bold" fill="#ea580c">40°</text>
-                        <!-- Right angle indicator: 90 deg -->
                         <text x="184" y="94" font-size="11" font-weight="bold" fill="#4338ca">90°</text>
-                        <!-- Top angle: x -->
                         <path d="M 200,45 A 25,25 0 0,1 180,35" fill="none" stroke="#7c3aed" stroke-width="2" />
                         <text x="172" y="55" font-size="14" font-weight="bold" fill="#7c3aed">x = ?</text>
                     </svg>
@@ -562,15 +607,18 @@
             }
         ];
 
+        // 60-Minute Countdown Configuration (60 minutes = 3600 seconds)
+        const TOTAL_QUIZ_SECONDS = 60 * 60;
+        let remainingSeconds = TOTAL_QUIZ_SECONDS;
+        let timerInterval = null;
+
         // State variables
         let currentQuestionIndex = 0;
         let userAnswers = new Array(quizData.length).fill(null);
         let markedForReview = new Array(quizData.length).fill(false);
-        let timerInterval = null;
-        let secondsElapsed = 0;
         let studentName = "";
         let studentRoll = "";
-        let studentSchool = "";
+        let studentSchool = "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI";
         let soundEnabled = true;
         let currentGridFilter = 'all';
 
@@ -581,6 +629,9 @@
         const quizHeaderStatus = document.getElementById('quiz-header-status');
         const questionGrid = document.getElementById('question-grid');
         const soundIcon = document.getElementById('sound-icon');
+        const timerDisplay = document.getElementById('timer-display');
+        const timerBox = document.getElementById('timer-box');
+        const timerIcon = document.getElementById('timer-icon');
 
         // Initialize display count
         document.getElementById('instruction-total-q').innerText = quizData.length;
@@ -614,17 +665,25 @@
             soundIcon.className = soundEnabled ? 'fa-solid fa-volume-high text-sm' : 'fa-solid fa-volume-xmark text-sm text-rose-300';
         }
 
+        // Student validation & Start Quiz
         function startQuiz() {
-            const nameInput = document.getElementById('student-name').value.trim();
-            if (!nameInput) {
-                alert("કૃપા કરીને તમારું પૂરું નામ લખો.");
-                document.getElementById('student-name').focus();
+            const nameInput = document.getElementById('student-name');
+            const errorMsg = document.getElementById('name-error-msg');
+            
+            if (!nameInput.value.trim()) {
+                errorMsg.classList.remove('hidden');
+                nameInput.classList.add('border-rose-500', 'bg-rose-50');
+                nameInput.focus();
+                playTone(220, 'sawtooth', 0.2);
                 return;
             }
 
-            studentName = nameInput;
+            errorMsg.classList.add('hidden');
+            nameInput.classList.remove('border-rose-500', 'bg-rose-50');
+
+            studentName = nameInput.value.trim();
             studentRoll = document.getElementById('student-roll').value.trim() || "-";
-            studentSchool = document.getElementById('student-school').value.trim() || "પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી";
+            studentSchool = "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI";
 
             playTone(523.25, 'triangle', 0.2); // C5 tone
 
@@ -634,18 +693,54 @@
 
             initGrid();
             renderQuestion();
-            startTimer();
+            startCountdownTimer();
         }
 
-        function startTimer() {
-            const timerDisplay = document.getElementById('timer-display');
-            secondsElapsed = 0;
+        // 60-Minute Countdown Timer Implementation
+        function startCountdownTimer() {
+            remainingSeconds = TOTAL_QUIZ_SECONDS;
+            updateTimerDisplay();
+
+            if (timerInterval) clearInterval(timerInterval);
+
             timerInterval = setInterval(() => {
-                secondsElapsed++;
-                const mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
-                const secs = (secondsElapsed % 60).toString().padStart(2, '0');
-                timerDisplay.innerText = `${mins}:${secs}`;
+                remainingSeconds--;
+
+                if (remainingSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    remainingSeconds = 0;
+                    updateTimerDisplay();
+                    alert("સમય સમાપ્ત થઈ ગયો છે! તમારી કસોટી આપમેળે જમા થઈ રહી છે.");
+                    submitQuiz();
+                    return;
+                }
+
+                updateTimerDisplay();
             }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(remainingSeconds / 60);
+            const secs = remainingSeconds % 60;
+            const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            timerDisplay.innerText = timeStr;
+
+            // Timer color alerts:
+            // Under 5 minutes: Red pulse
+            // Under 10 minutes: Orange warning
+            if (remainingSeconds <= 300) { // <= 5 minutes
+                timerBox.className = "bg-rose-950/80 backdrop-blur-md px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-rose-500 shadow-inner timer-warning";
+                timerDisplay.className = "font-mono text-base sm:text-lg font-black tracking-widest text-rose-300 leading-none";
+                timerIcon.className = "fa-solid fa-bell text-rose-400 mr-2 text-base animate-bounce";
+            } else if (remainingSeconds <= 600) { // <= 10 minutes
+                timerBox.className = "bg-amber-950/80 backdrop-blur-md px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-amber-500 shadow-inner";
+                timerDisplay.className = "font-mono text-base sm:text-lg font-black tracking-widest text-amber-300 leading-none";
+                timerIcon.className = "fa-solid fa-stopwatch text-amber-400 mr-2 text-base";
+            } else {
+                timerBox.className = "bg-black/40 backdrop-blur-md px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-white/20 shadow-inner";
+                timerDisplay.className = "font-mono text-base sm:text-lg font-black tracking-widest text-amber-300 leading-none";
+                timerIcon.className = "fa-regular fa-clock text-amber-400 mr-2 text-base";
+            }
         }
 
         function initGrid() {
@@ -791,7 +886,6 @@
                 const isMarked = markedForReview[i];
                 const isCurrent = i === currentQuestionIndex;
 
-                // Handle filter visibility
                 let isVisible = true;
                 if (currentGridFilter === 'answered' && !isAnswered) isVisible = false;
                 if (currentGridFilter === 'unanswered' && isAnswered) isVisible = false;
@@ -853,14 +947,20 @@
             const answeredCount = userAnswers.filter(a => a !== null).length;
             const unanswered = quizData.length - answeredCount;
             const wrong = answeredCount - correct;
-            const timeStr = document.getElementById('timer-display').innerText;
+            
+            // Calculate time taken from 60 minutes countdown
+            const timeTakenSecs = TOTAL_QUIZ_SECONDS - remainingSeconds;
+            const takenMins = Math.floor(timeTakenSecs / 60);
+            const takenSecs = timeTakenSecs % 60;
+            const timeStr = `${takenMins} મિનિટ ${takenSecs} સેકન્ડ`;
+
             const pct = Math.round((correct / quizData.length) * 100);
 
-            // Confetti animation for good scores
+            // Confetti animation for high scores
             if (pct >= 50 && typeof confetti === 'function') {
                 confetti({
-                    particleCount: 80,
-                    spread: 70,
+                    particleCount: 100,
+                    spread: 80,
                     origin: { y: 0.6 }
                 });
             }
@@ -909,7 +1009,7 @@
                 if (f === filter) {
                     btn.className = "px-3 py-1.5 rounded-lg bg-white text-brand-700 shadow-sm transition font-bold";
                 } else {
-                    btn.className = "px-3 py-1.5 rounded-lg hover:text-slate-900 transition";
+                    btn.className = "px-3 py-1.5 rounded-lg hover:text-slate-900 transition font-semibold";
                 }
             });
             renderReview(filter);
@@ -976,7 +1076,7 @@
             currentQuestionIndex = 0;
             userAnswers = new Array(quizData.length).fill(null);
             markedForReview = new Array(quizData.length).fill(false);
-            secondsElapsed = 0;
+            remainingSeconds = TOTAL_QUIZ_SECONDS;
             clearInterval(timerInterval);
 
             resultScreen.classList.add('hidden');
