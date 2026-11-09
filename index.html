@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="gu">
+<html lang="gu" class="transition-colors duration-200">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NMMS કસોટી પોર્ટલ | PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</title>
     
     <!-- Meta tags for SEO & Social Sharing -->
-    <meta name="description" content="PM SHRI PRATHMIK VIDHYAMANDIR PONSRI - NMMS પરીક્ષા SAT વિભાગ ઓનલાઇન મોક ટેસ્ટ, લીડરબોર્ડ અને વિદ્યાર્થી ડેશબોર્ડ.">
+    <meta name="description" content="PM SHRI PRATHMIK VIDHYAMANDIR PONSRI - NMMS પરીક્ષા SAT વિભાગ ઓનલાઇન કસોટી, લીડરબોર્ડ, એડમિન મેનેજર અને વિદ્યાર્થી ડેશબોર્ડ.">
     <meta name="theme-color" content="#1e1b4b">
 
     <!-- Favicons -->
@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="logo.png">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS with Dark Mode Class Strategy -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -27,6 +27,7 @@
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -54,7 +55,6 @@
     <style>
         body {
             font-family: 'Hind Vadodara', 'Outfit', sans-serif;
-            background-color: #f8fafc;
             -webkit-tap-highlight-color: transparent;
         }
         
@@ -63,14 +63,14 @@
             height: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: rgba(0, 0, 0, 0.05);
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 6px;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
         }
 
         @keyframes timer-pulse {
@@ -100,15 +100,15 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-brand-600 selection:text-white">
+<body class="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col justify-between selection:bg-brand-600 selection:text-white transition-colors duration-200">
 
     <!-- Toast Notification Banner -->
     <div id="toast-notification" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-100px] opacity-0 pointer-events-none">
-        <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700 max-w-sm">
+        <div class="bg-slate-900 dark:bg-slate-800 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700 max-w-sm">
             <div id="toast-icon" class="text-emerald-400 text-lg">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
-            <p id="toast-message" class="text-xs sm:text-sm font-medium">સફળતાપૂર્વક સાચવવામાં આવ્યું!</p>
+            <p id="toast-message" class="text-xs sm:text-sm font-semibold">સફળતાપૂર્વક સાચવવામાં આવ્યું!</p>
         </div>
     </div>
 
@@ -121,8 +121,9 @@
     <!-- Header Section -->
     <header class="bg-gradient-to-r from-slate-900 via-brand-900 to-indigo-950 text-white shadow-xl sticky top-0 z-40 border-b border-indigo-800/40 no-print">
         <div class="max-w-7xl mx-auto px-4 py-2.5 sm:py-3 flex flex-wrap justify-between items-center gap-3">
+            
             <!-- Left Branding -->
-            <div class="flex items-center space-x-3.5">
+            <div class="flex items-center space-x-3">
                 <div class="relative bg-white p-1 rounded-2xl shadow-md border-2 border-amber-400 shrink-0">
                     <img src="logo.png" 
                          onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" 
@@ -131,7 +132,7 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="bg-amber-400 text-slate-900 text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">PM SHRI</span>
+                        <span class="bg-amber-400 text-slate-950 text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">PM SHRI</span>
                         <h1 class="text-xs sm:text-base font-bold tracking-tight text-white leading-tight">
                             PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
                         </h1>
@@ -140,9 +141,15 @@
                 </div>
             </div>
             
-            <!-- Right Actions (Auth, Admin, Dashboard, Leaderboard, In-Quiz Controls) -->
-            <div class="flex items-center space-x-2 sm:space-x-3 ml-auto">
+            <!-- Right Actions (Theme Toggle, Auth, Admin, Dashboard, Leaderboard) -->
+            <div class="flex items-center space-x-2 sm:space-x-2.5 ml-auto">
                 
+                <!-- Theme Toggle Button (Light / Dark) -->
+                <button onclick="toggleTheme()" id="theme-toggle-btn" title="થીમ બદલો (Dark / Light Mode)" 
+                        class="bg-white/10 hover:bg-white/20 text-white p-2 rounded-xl border border-white/15 transition flex items-center justify-center">
+                    <i id="theme-icon" class="fa-solid fa-moon text-sm text-indigo-200"></i>
+                </button>
+
                 <!-- Normal Mode Navigation (Visible when not taking quiz) -->
                 <div id="nav-actions-normal" class="flex items-center space-x-2">
                     
@@ -153,13 +160,13 @@
                     </button>
 
                     <!-- Student Dashboard Button -->
-                    <button onclick="openStudentDashboard()" title="વિદ્યાર્થી ડેશબોર્ડ" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-3 py-1.5 sm:py-2 rounded-xl border border-white/15 transition flex items-center space-x-1.5 text-xs sm:text-sm">
+                    <button onclick="openStudentDashboard()" title="વિદ્યાર્થી ડેશબોર્ડ" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border border-white/15 transition flex items-center space-x-1.5 text-xs sm:text-sm">
                         <i class="fa-solid fa-user-graduate text-amber-300"></i>
                         <span class="hidden md:inline">ડેશબોર્ડ</span>
                     </button>
 
                     <!-- Leaderboard Button -->
-                    <button onclick="openLeaderboardModal()" title="લીડરબોર્ડ જુઓ" class="bg-amber-400/90 hover:bg-amber-400 text-slate-900 font-bold px-3 py-1.5 sm:py-2 rounded-xl transition shadow flex items-center space-x-1.5 text-xs sm:text-sm">
+                    <button onclick="openLeaderboardModal()" title="લીડરબોર્ડ જુઓ" class="bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl transition shadow flex items-center space-x-1.5 text-xs sm:text-sm">
                         <i class="fa-solid fa-trophy text-amber-950"></i>
                         <span class="hidden sm:inline">લીડરબોર્ડ</span>
                     </button>
@@ -167,19 +174,20 @@
                     <!-- Google Auth State Container -->
                     <div id="auth-container">
                         <!-- Login Button (Visible when logged out) -->
-                        <button id="google-login-btn" onclick="loginWithGoogle()" class="bg-white hover:bg-slate-100 text-slate-800 font-bold px-3.5 py-1.5 sm:py-2 rounded-xl shadow-md transition flex items-center space-x-2 text-xs sm:text-sm border border-slate-200">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24">
+                        <button id="google-login-btn" onclick="loginWithGoogle()" class="bg-white hover:bg-slate-100 text-slate-850 font-bold px-3 py-1.5 sm:py-2 rounded-xl shadow-md transition flex items-center space-x-1.5 text-xs sm:text-sm border border-slate-200">
+                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
                                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                             </svg>
-                            <span>Google સાઇન ઇન</span>
+                            <span class="hidden sm:inline">Google સાઇન ઇન</span>
+                            <span class="sm:hidden">સાઇન ઇન</span>
                         </button>
 
                         <!-- User Profile Pill (Visible when logged in) -->
-                        <div id="user-profile-pill" class="hidden flex items-center space-x-2 bg-white/10 border border-white/20 pl-1.5 pr-2.5 py-1 rounded-xl">
-                            <img id="user-avatar" src="" alt="User Avatar" class="w-7 h-7 rounded-lg object-cover border border-amber-400">
+                        <div id="user-profile-pill" class="hidden flex items-center space-x-2 bg-white/10 border border-white/20 pl-1.5 pr-2 py-1 rounded-xl">
+                            <img id="user-avatar" src="" alt="Avatar" class="w-7 h-7 rounded-lg object-cover border border-amber-400">
                             <div class="hidden lg:flex flex-col text-left">
                                 <span id="user-display-name" class="text-xs font-bold text-white truncate max-w-[110px]">User</span>
                                 <span id="user-role-badge" class="text-[9px] text-amber-300 font-semibold uppercase">Student</span>
@@ -221,48 +229,85 @@
     <main class="flex-grow max-w-7xl w-full mx-auto p-3 sm:p-5 md:p-6 flex flex-col justify-center">
 
         <!-- SCREEN 1: START SCREEN -->
-        <div id="start-screen" class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-3xl mx-auto border border-slate-200/80 transition-all duration-300">
+        <div id="start-screen" class="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-3xl mx-auto border border-slate-200/80 dark:border-slate-800 transition-all duration-300">
             <!-- Hero School & Logo Header -->
             <div class="text-center">
                 <div class="relative inline-block mb-3">
                     <img src="logo.png" 
                          onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" 
                          alt="School Logo" 
-                         class="w-24 h-24 sm:w-28 sm:h-28 object-contain mx-auto drop-shadow-md rounded-2xl p-1 bg-white border-2 border-indigo-100">
-                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-amber-400 text-slate-900 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
+                         class="w-24 h-24 sm:w-28 sm:h-28 object-contain mx-auto drop-shadow-md rounded-2xl p-1 bg-white border-2 border-indigo-100 dark:border-indigo-900">
+                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
                         PM SHRI SCHOOL
                     </span>
                 </div>
                 
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight mt-2">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight mt-2">
                     PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
                 </h2>
-                <p class="text-brand-700 font-bold text-base sm:text-lg">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
-                <div class="inline-flex items-center gap-2 mt-2 bg-indigo-50 border border-indigo-200 text-brand-800 text-xs sm:text-sm px-4 py-1 rounded-full font-bold">
+                <p class="text-brand-600 dark:text-brand-400 font-bold text-base sm:text-lg">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
+                <div class="inline-flex items-center gap-2 mt-2 bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-800 text-brand-800 dark:text-indigo-200 text-xs sm:text-sm px-4 py-1.5 rounded-full font-bold">
                     <i class="fa-solid fa-award text-amber-500"></i>
                     <span id="quiz-title-badge">NMMS પરીક્ષા - SAT વિભાગ ઓનલાઇન મોક કસોટી</span>
                 </div>
             </div>
             
+            <!-- Mandatory Google Sign In Warning Banner (Visible if NOT signed in) -->
+            <div id="google-required-banner" class="mt-6 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/50 dark:to-orange-950/40 p-4 sm:p-5 rounded-2xl border-2 border-amber-300 dark:border-amber-700/60 text-center space-y-3">
+                <div class="flex items-center justify-center space-x-2 text-amber-800 dark:text-amber-300 font-bold text-sm sm:text-base">
+                    <i class="fa-solid fa-lock text-lg"></i>
+                    <span>કસોટી આપવા માટે Google એકાઉન્ટ કનેક્ટ કરવું ફરજિયાત છે</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-lg mx-auto">
+                    વિદ્યાર્થીઓની ચોક્કસ ઓળખ, સ્કોર હિસ્ટ્રી અને લીડરબોર્ડ રેન્કિંગ માટે કૃપા કરીને તમારા Google એકાઉન્ટથી સાઇન ઇન કરો. સાઇન ઇન કર્યા પછી તમારું નામ આપમેળે આવી જશે અને તમે રોલ નંબર દાખલ કરી કસોટી આપી શકશો.
+                </p>
+                <button onclick="loginWithGoogle()" class="bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-900 dark:text-white font-extrabold px-6 py-3 rounded-2xl shadow-md border-2 border-slate-300 dark:border-slate-700 transition flex items-center justify-center space-x-2 mx-auto text-sm">
+                    <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span>Google એકાઉન્ટ કનેક્ટ કરો (Connect Google)</span>
+                </button>
+            </div>
+
+            <!-- Verified Student Welcome Card (Visible when signed in) -->
+            <div id="google-verified-card" class="hidden mt-6 bg-emerald-50 dark:bg-emerald-950/40 p-3.5 sm:p-4 rounded-2xl border border-emerald-300 dark:border-emerald-800 flex items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <img id="verified-student-avatar" src="" class="w-10 h-10 rounded-xl object-cover border-2 border-emerald-500">
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-emerald-700 dark:text-emerald-400 tracking-wider">
+                            <i class="fa-solid fa-circle-check"></i> GOOGLE VERIFIED STUDENT
+                        </span>
+                        <h4 id="verified-student-name-text" class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white leading-tight">Student Name</h4>
+                        <p id="verified-student-email-text" class="text-xs text-slate-500 dark:text-slate-400">email@gmail.com</p>
+                    </div>
+                </div>
+                <button onclick="logoutUser()" class="text-xs text-rose-600 hover:text-rose-700 dark:text-rose-400 font-semibold px-2.5 py-1 rounded-lg border border-rose-200 dark:border-rose-900 bg-white dark:bg-slate-800 transition">
+                    બદલો
+                </button>
+            </div>
+
             <!-- Instructions Box -->
-            <div class="mt-6 bg-slate-50/90 p-4 sm:p-5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-3">
-                <div class="flex items-center justify-between border-b pb-2">
-                    <p class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
+            <div class="mt-6 bg-slate-50/90 dark:bg-slate-800/60 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-3">
+                <div class="flex items-center justify-between border-b dark:border-slate-700 pb-2">
+                    <p class="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base flex items-center">
                         <i class="fa-solid fa-circle-exclamation text-amber-500 mr-2 text-base"></i>
                         કસોટી અંગે અગત્યની સૂચનાઓ:
                     </p>
-                    <span class="bg-rose-100 text-rose-700 font-bold px-2.5 py-0.5 rounded-lg text-xs flex items-center">
+                    <span class="bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-bold px-2.5 py-0.5 rounded-lg text-xs flex items-center">
                         <i class="fa-regular fa-clock mr-1"></i> સમય: <span id="instruction-duration">૬૦ મિનિટ</span>
                     </span>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 text-slate-600">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 text-slate-600 dark:text-slate-300">
                     <div class="flex items-start">
                         <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
-                        <span>કસોટી માટે કુલ <b id="instruction-timer-text">૬૦ મિનિટ</b> નો સમય મળશે.</span>
+                        <span>કસોટી માટે કુલ <b id="instruction-timer-text" class="text-brand-600 dark:text-brand-400">૬૦ મિનિટ</b> નો સમય મળશે.</span>
                     </div>
                     <div class="flex items-start">
                         <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
-                        <span>આ પ્રશ્નપત્રમાં કુલ <b id="instruction-total-q" class="text-brand-700">10</b> પ્રશ્નો આપેલા છે.</span>
+                        <span>આ પ્રશ્નપત્રમાં કુલ <b id="instruction-total-q" class="text-brand-600 dark:text-brand-400">10</b> પ્રશ્નો આપેલા છે.</span>
                     </div>
                     <div class="flex items-start">
                         <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
@@ -270,26 +315,24 @@
                     </div>
                     <div class="flex items-start">
                         <i class="fa-solid fa-circle-check text-emerald-500 mr-2 mt-0.5 text-xs"></i>
-                        <span>વિદ્યાર્થીએ પોતાનું નામ દાખલ કરવું ફરજિયાત છે.</span>
+                        <span>વિદ્યાર્થીએ પોતાનું નામ અને રોલ નંબર દાખલ કરવો ફરજિયાત છે.</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Student Detail Form (Mandatory Name) -->
+            <!-- Student Detail Form -->
             <div class="mt-6 space-y-4">
                 <div>
-                    <label for="student-name" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                    <label for="student-name" class="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 mb-1.5 flex items-center justify-between">
                         <span>વિદ્યાર્થીનું પૂરું નામ <span class="text-rose-600 font-bold">* (ફરજિયાત)</span></span>
-                        <span id="google-signed-indicator" class="hidden text-xs text-emerald-600 font-bold">
-                            <i class="fa-solid fa-circle-check"></i> Google Verified
-                        </span>
+                        <span class="text-[11px] text-slate-400 font-normal">Student Full Name</span>
                     </label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                             <i class="fa-solid fa-user-graduate text-base"></i>
                         </span>
-                        <input type="text" id="student-name" placeholder="તમારું પૂરું નામ લખો (દા.ત. પટેલ આરવ કે.)" 
-                               class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-600 text-sm sm:text-base font-semibold transition shadow-sm bg-white" required>
+                        <input type="text" id="student-name" placeholder="પહેલાં Google સાઇન ઇન કરો..." 
+                               class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-600 text-sm sm:text-base font-semibold transition shadow-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed" disabled required>
                     </div>
                     <p id="name-error-msg" class="hidden text-xs text-rose-600 font-bold mt-1.5 flex items-center">
                         <i class="fa-solid fa-circle-xmark mr-1"></i> કૃપા કરીને કસોટી શરૂ કરતાં પહેલાં તમારું પૂરું નામ લખો.
@@ -298,19 +341,20 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="student-roll" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
-                            રોલ નંબર / હાજરી નંબર <span class="text-slate-400 font-normal">(વૈકલ્પિક)</span>
+                        <label for="student-roll" class="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 mb-1.5 flex items-center justify-between">
+                            <span>રોલ નંબર / હાજરી નંબર <span class="text-rose-600 font-bold">*</span></span>
+                            <span class="text-[11px] text-slate-400 font-normal">Roll No.</span>
                         </label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-id-card"></i>
                             </span>
                             <input type="text" id="student-roll" placeholder="દા.ત. 12" 
-                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-medium transition shadow-sm bg-white">
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm font-semibold transition shadow-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed" disabled>
                         </div>
                     </div>
                     <div>
-                        <label for="student-school" class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5">
+                        <label for="student-school" class="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 mb-1.5">
                             શાળાનું નામ <span class="text-slate-400 font-normal">(School Name)</span>
                         </label>
                         <div class="relative">
@@ -318,32 +362,36 @@
                                 <i class="fa-solid fa-school"></i>
                             </span>
                             <input type="text" id="student-school" value="PM SHRI PRATHMIK VIDHYAMANDIR PONSRI" 
-                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500" readonly>
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-semibold focus:outline-none" readonly>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Start Button -->
-            <button onclick="startQuiz()" class="mt-6 w-full bg-gradient-to-r from-brand-700 via-indigo-600 to-brand-800 hover:from-brand-800 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-200 text-base sm:text-lg flex items-center justify-center space-x-2 group">
+            <!-- Start Button (Locked until Google Sign In) -->
+            <button id="start-quiz-btn" onclick="startQuiz()" class="mt-6 w-full bg-gradient-to-r from-brand-700 via-indigo-600 to-brand-800 hover:from-brand-800 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-200 text-base sm:text-lg flex items-center justify-center space-x-2 group disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                 <i class="fa-solid fa-play mr-2 text-amber-300 group-hover:scale-110 transition-transform"></i>
-                <span>કસોટી શરૂ કરો (Start Test)</span>
+                <span id="start-btn-text">કસોટી આપવા માટે પહેલાં Google સાઇન ઇન કરો</span>
                 <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1.5 transition-transform"></i>
             </button>
 
             <!-- Quick Action Options on Start -->
-            <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
-                <button onclick="openLeaderboardModal()" class="text-xs sm:text-sm font-bold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
+                <button onclick="openLeaderboardModal()" class="text-xs sm:text-sm font-bold text-brand-700 dark:text-brand-300 hover:text-brand-800 bg-brand-50 dark:bg-brand-950/60 hover:bg-brand-100 border border-brand-200 dark:border-brand-800 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-trophy text-amber-500"></i>
                     <span>લીડરબોર્ડ</span>
                 </button>
-                <button onclick="openStudentDashboard()" class="text-xs sm:text-sm font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+                <button onclick="openStudentDashboard()" class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 hover:text-slate-900 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 border border-slate-200 dark:border-slate-700 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
                     <i class="fa-solid fa-user-graduate text-brand-600"></i>
                     <span>વિદ્યાર્થી ડેશબોર્ડ</span>
                 </button>
-                <button onclick="printQuestionPaper()" class="text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+                <button onclick="printQuestionPaper()" class="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 border border-slate-200 dark:border-slate-700 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
                     <i class="fa-solid fa-file-pdf text-rose-500"></i>
                     <span>પ્રશ્નપત્ર PDF</span>
+                </button>
+                <button onclick="copyAiPrompt()" class="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-300 hover:text-amber-900 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 border border-amber-300 dark:border-amber-800 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i>
+                    <span>AI પ્રોમ્પ્ટ કોપી કરો</span>
                 </button>
             </div>
         </div>
@@ -355,31 +403,31 @@
             <div class="lg:col-span-3 space-y-4">
                 
                 <!-- Progress Header -->
-                <div class="bg-white rounded-2xl shadow-sm p-3.5 sm:p-4 border border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3.5 sm:p-4 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start space-x-3">
                         <div class="flex items-center space-x-1.5">
-                            <span class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">પ્રશ્ન ક્રમ:</span>
-                            <span id="current-q-num" class="text-lg sm:text-xl font-extrabold text-brand-700">1</span>
+                            <span class="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">પ્રશ્ન ક્રમ:</span>
+                            <span id="current-q-num" class="text-lg sm:text-xl font-extrabold text-brand-600 dark:text-brand-400">1</span>
                             <span class="text-slate-400 font-semibold text-sm">/ <span id="total-q-num">10</span></span>
                         </div>
-                        <span id="answered-badge" class="sm:hidden text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-brand-700 rounded-full border border-indigo-100">
+                        <span id="answered-badge" class="sm:hidden text-xs font-semibold px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950 text-brand-700 dark:text-brand-300 rounded-full border border-indigo-100 dark:border-indigo-900">
                             જવાબ આપ્યા: <b id="answered-count-mobile">0</b>/<span id="total-q-badge-mobile">10</span>
                         </span>
                     </div>
 
                     <!-- Progress Bar -->
-                    <div class="w-full sm:w-64 bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200/60">
+                    <div class="w-full sm:w-64 bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-200/60 dark:border-slate-700">
                         <div id="progress-bar" class="bg-gradient-to-r from-brand-600 to-indigo-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
                     </div>
 
-                    <div class="hidden sm:flex items-center space-x-2 text-xs font-bold px-3 py-1.5 bg-indigo-50 text-brand-700 rounded-xl border border-indigo-100">
+                    <div class="hidden sm:flex items-center space-x-2 text-xs font-bold px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950 text-brand-700 dark:text-brand-300 rounded-xl border border-indigo-100 dark:border-indigo-900">
                         <i class="fa-solid fa-circle-check text-emerald-500"></i>
                         <span>જવાબ આપ્યા: <span id="answered-count">0</span> / <span id="total-q-header">10</span></span>
                     </div>
                 </div>
 
                 <!-- Question Card -->
-                <div class="bg-white rounded-3xl shadow-md p-5 sm:p-7 md:p-8 border border-slate-200/80 min-h-[390px] flex flex-col justify-between transition-all">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md p-5 sm:p-7 md:p-8 border border-slate-200/80 dark:border-slate-800 min-h-[390px] flex flex-col justify-between transition-all">
                     <div>
                         <!-- Question Header & Bookmark -->
                         <div class="flex items-start justify-between gap-3 mb-5">
@@ -387,18 +435,18 @@
                                 <span id="q-badge" class="bg-brand-700 text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl mt-0.5 shadow-sm whitespace-nowrap">
                                     પ્ર. ૧
                                 </span>
-                                <h3 id="question-text" class="text-base sm:text-lg md:text-xl font-semibold text-slate-800 leading-relaxed">
+                                <h3 id="question-text" class="text-base sm:text-lg md:text-xl font-semibold text-slate-800 dark:text-slate-100 leading-relaxed">
                                     --
                                 </h3>
                             </div>
-                            <button onclick="toggleMarkForReview()" id="mark-review-btn" title="રીવ્યુ માટે ચિહ્નિત કરો" class="text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-slate-50 text-slate-600 border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-300">
+                            <button onclick="toggleMarkForReview()" id="mark-review-btn" title="રીવ્યુ માટે ચિહ્નિત કરો" class="text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-amber-50 hover:text-amber-700">
                                 <i class="fa-regular fa-bookmark"></i>
                                 <span class="hidden sm:inline">રીવ્યુ</span>
                             </button>
                         </div>
 
                         <!-- Optional Question Diagram / Visual Content -->
-                        <div id="question-diagram-container" class="hidden mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center flex flex-col items-center justify-center">
+                        <div id="question-diagram-container" class="hidden mb-6 p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-center flex flex-col items-center justify-center">
                             <!-- SVG Diagram inserted dynamically -->
                         </div>
 
@@ -409,13 +457,13 @@
                     </div>
 
                     <!-- Bottom Nav Controls -->
-                    <div class="flex flex-wrap justify-between items-center gap-3 mt-8 pt-5 border-t border-slate-100">
+                    <div class="flex flex-wrap justify-between items-center gap-3 mt-8 pt-5 border-t border-slate-100 dark:border-slate-800">
                         <div class="flex items-center space-x-2">
-                            <button id="prev-btn" onclick="navigateQuestion(-1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 sm:px-5 py-2.5 rounded-xl transition flex items-center space-x-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
+                            <button id="prev-btn" onclick="navigateQuestion(-1)" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold px-4 sm:px-5 py-2.5 rounded-xl transition flex items-center space-x-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
                                 <i class="fa-solid fa-chevron-left text-xs"></i>
                                 <span>પાછળ</span>
                             </button>
-                            <button onclick="clearCurrentAnswer()" id="clear-btn" class="text-xs font-semibold text-slate-500 hover:text-rose-600 px-3 py-2.5 rounded-xl hover:bg-rose-50 transition border border-transparent hover:border-rose-200">
+                            <button onclick="clearCurrentAnswer()" id="clear-btn" class="text-xs font-semibold text-slate-500 hover:text-rose-600 px-3 py-2.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950/40 transition border border-transparent hover:border-rose-200">
                                 <i class="fa-solid fa-eraser mr-1"></i> સાફ કરો
                             </button>
                         </div>
@@ -431,19 +479,19 @@
             </div>
 
             <!-- Right Side: Sidebar Navigator -->
-            <div class="bg-white rounded-3xl shadow-md p-4 sm:p-5 border border-slate-200/80 flex flex-col lg:h-[590px]">
-                <div class="flex items-center justify-between border-b pb-3 mb-3">
-                    <h4 class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
-                        <i class="fa-solid fa-table-cells text-brand-700 mr-2"></i>
+            <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md p-4 sm:p-5 border border-slate-200/80 dark:border-slate-800 flex flex-col lg:h-[590px]">
+                <div class="flex items-center justify-between border-b dark:border-slate-800 pb-3 mb-3">
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm sm:text-base flex items-center">
+                        <i class="fa-solid fa-table-cells text-brand-600 mr-2"></i>
                         <span>પ્રશ્ન નેવિગેટર</span>
                     </h4>
-                    <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded-full">
+                    <span class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold px-2 py-0.5 rounded-full">
                         કુલ: <span id="total-q-nav">10</span>
                     </span>
                 </div>
                 
                 <!-- Status Legend -->
-                <div class="grid grid-cols-3 gap-1.5 text-[11px] text-slate-600 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                <div class="grid grid-cols-3 gap-1.5 text-[11px] text-slate-600 dark:text-slate-400 mb-3 bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800">
                     <div class="flex items-center space-x-1.5">
                         <span class="w-3 h-3 bg-emerald-500 rounded-md inline-block shadow-sm"></span>
                         <span class="font-medium">ઉત્તર આપેલ</span>
@@ -453,17 +501,17 @@
                         <span class="font-medium">રીવ્યુ</span>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <span class="w-3 h-3 bg-slate-200 rounded-md inline-block"></span>
+                        <span class="w-3 h-3 bg-slate-200 dark:bg-slate-700 rounded-md inline-block"></span>
                         <span class="font-medium">બાકી</span>
                     </div>
                 </div>
 
                 <!-- Filter Navigator Tabs -->
-                <div class="flex space-x-1 mb-3 bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600">
-                    <button onclick="setGridFilter('all')" id="filter-all" class="flex-1 py-1 rounded-lg bg-white text-brand-700 shadow-sm transition text-center font-bold">બધા</button>
-                    <button onclick="setGridFilter('answered')" id="filter-answered" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">આપેલ</button>
-                    <button onclick="setGridFilter('unanswered')" id="filter-unanswered" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">બાકી</button>
-                    <button onclick="setGridFilter('review')" id="filter-review" class="flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center">રીવ્યુ</button>
+                <div class="flex space-x-1 mb-3 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-400">
+                    <button onclick="setGridFilter('all')" id="filter-all" class="flex-1 py-1 rounded-lg bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-sm transition text-center font-bold">બધા</button>
+                    <button onclick="setGridFilter('answered')" id="filter-answered" class="flex-1 py-1 rounded-lg hover:text-slate-800 dark:hover:text-white transition text-center">આપેલ</button>
+                    <button onclick="setGridFilter('unanswered')" id="filter-unanswered" class="flex-1 py-1 rounded-lg hover:text-slate-800 dark:hover:text-white transition text-center">બાકી</button>
+                    <button onclick="setGridFilter('review')" id="filter-review" class="flex-1 py-1 rounded-lg hover:text-slate-800 dark:hover:text-white transition text-center">રીવ્યુ</button>
                 </div>
 
                 <!-- Grid Buttons -->
@@ -480,19 +528,19 @@
         </div>
 
         <!-- SCREEN 3: RESULT SCREEN (Certificate / Report Card & Leaderboard) -->
-        <div id="result-screen" class="hidden bg-white rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-4xl mx-auto border border-slate-200/80 transition-all">
+        <div id="result-screen" class="hidden bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-4xl mx-auto border border-slate-200/80 dark:border-slate-800 transition-all">
             
             <!-- Result Header Card with School Crest -->
-            <div class="text-center mb-8 border-b border-slate-100 pb-8">
+            <div class="text-center mb-8 border-b dark:border-slate-800 pb-8">
                 <div class="flex justify-center items-center gap-3 mb-3">
                     <img src="logo.png" 
                          onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" 
                          alt="School Logo" 
                          class="w-14 h-14 object-contain">
                     <div class="text-left">
-                        <span class="bg-amber-400 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">PM SHRI</span>
-                        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</h3>
-                        <p class="text-xs text-slate-500 font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
+                        <span class="bg-amber-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">PM SHRI</span>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
                     </div>
                 </div>
 
@@ -500,50 +548,50 @@
                 <div class="relative inline-block mb-3 mt-2">
                     <div id="score-badge" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all">
                         <span id="score-text">0/10</span>
-                        <span id="score-pct-text" class="text-xs font-bold text-slate-500 mt-0.5">0%</span>
+                        <span id="score-pct-text" class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">0%</span>
                     </div>
                 </div>
 
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight" id="result-title">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight" id="result-title">
                     કસોટી સફળતાપૂર્વક પૂર્ણ થઈ! 🏆
                 </h2>
                 
-                <p id="student-info-display" class="text-slate-700 font-bold mt-2 text-base sm:text-lg"></p>
-                <p id="school-info-display" class="text-slate-500 font-medium text-xs sm:text-sm mt-0.5"></p>
+                <p id="student-info-display" class="text-slate-700 dark:text-slate-300 font-bold mt-2 text-base sm:text-lg"></p>
+                <p id="school-info-display" class="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm mt-0.5"></p>
 
                 <!-- Stat Pills -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mt-6">
-                    <div class="bg-emerald-50 border border-emerald-200/80 p-3 rounded-2xl text-center">
-                        <p class="text-xs font-semibold text-emerald-700">સાચા ઉત્તર</p>
-                        <p class="text-xl sm:text-2xl font-black text-emerald-600 mt-0.5" id="correct-count">0</p>
+                    <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-emerald-700 dark:text-emerald-400">સાચા ઉત્તર</p>
+                        <p class="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5" id="correct-count">0</p>
                     </div>
-                    <div class="bg-rose-50 border border-rose-200/80 p-3 rounded-2xl text-center">
-                        <p class="text-xs font-semibold text-rose-700">ખોટા ઉત્તર</p>
-                        <p class="text-xl sm:text-2xl font-black text-rose-600 mt-0.5" id="wrong-count">0</p>
+                    <div class="bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-rose-700 dark:text-rose-400">ખોટા ઉત્તર</p>
+                        <p class="text-xl sm:text-2xl font-black text-rose-600 dark:text-rose-400 mt-0.5" id="wrong-count">0</p>
                     </div>
-                    <div class="bg-amber-50 border border-amber-200/80 p-3 rounded-2xl text-center">
-                        <p class="text-xs font-semibold text-amber-700">છોડેલા પ્રશ્નો</p>
-                        <p class="text-xl sm:text-2xl font-black text-amber-600 mt-0.5" id="unanswered-result-count">0</p>
+                    <div class="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-amber-700 dark:text-amber-400">છોડેલા પ્રશ્નો</p>
+                        <p class="text-xl sm:text-2xl font-black text-amber-600 dark:text-amber-400 mt-0.5" id="unanswered-result-count">0</p>
                     </div>
-                    <div class="bg-indigo-50 border border-indigo-200/80 p-3 rounded-2xl text-center">
-                        <p class="text-xs font-semibold text-brand-700">લીધેલ સમય</p>
-                        <p class="text-lg sm:text-xl font-black text-brand-600 mt-0.5 font-mono" id="time-taken">00:00</p>
+                    <div class="bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 p-3 rounded-2xl text-center">
+                        <p class="text-xs font-semibold text-brand-700 dark:text-brand-300">લીધેલ સમય</p>
+                        <p class="text-lg sm:text-xl font-black text-brand-600 dark:text-brand-300 mt-0.5 font-mono" id="time-taken">00:00</p>
                     </div>
                 </div>
             </div>
 
             <!-- Review Actions & Filters -->
             <div class="mb-5 flex flex-wrap justify-between items-center gap-3">
-                <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center">
-                    <i class="fa-solid fa-list-check text-brand-700 mr-2"></i>
+                <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-white flex items-center">
+                    <i class="fa-solid fa-list-check text-brand-600 mr-2"></i>
                     <span>પ્રશ્નોત્તરી સમીક્ષા (Answer Review & Solutions)</span>
                 </h3>
 
                 <!-- Review Filter Tabs -->
-                <div class="flex space-x-1.5 bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 no-print">
-                    <button onclick="filterReview('all')" id="rev-filter-all" class="px-3 py-1.5 rounded-lg bg-white text-brand-700 shadow-sm transition font-bold">બધા (<span id="count-rev-all">10</span>)</button>
-                    <button onclick="filterReview('correct')" id="rev-filter-correct" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-emerald-700 font-semibold">સાચા (<span id="count-rev-correct">0</span>)</button>
-                    <button onclick="filterReview('wrong')" id="rev-filter-wrong" class="px-3 py-1.5 rounded-lg hover:text-slate-900 transition text-rose-700 font-semibold">ખોટા (<span id="count-rev-wrong">0</span>)</button>
+                <div class="flex space-x-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-400 no-print">
+                    <button onclick="filterReview('all')" id="rev-filter-all" class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-sm transition font-bold">બધા (<span id="count-rev-all">10</span>)</button>
+                    <button onclick="filterReview('correct')" id="rev-filter-correct" class="px-3 py-1.5 rounded-lg hover:text-slate-900 dark:hover:text-white transition text-emerald-700 dark:text-emerald-400 font-semibold">સાચા (<span id="count-rev-correct">0</span>)</button>
+                    <button onclick="filterReview('wrong')" id="rev-filter-wrong" class="px-3 py-1.5 rounded-lg hover:text-slate-900 dark:hover:text-white transition text-rose-700 dark:text-rose-400 font-semibold">ખોટા (<span id="count-rev-wrong">0</span>)</button>
                 </div>
             </div>
 
@@ -553,20 +601,24 @@
             </div>
 
             <!-- LEADERBOARD SECTION AT END OF RESULT -->
-            <div class="mt-10 pt-8 border-t-2 border-slate-100" id="result-leaderboard-section">
+            <div class="mt-10 pt-8 border-t-2 border-slate-100 dark:border-slate-800" id="result-leaderboard-section">
                 <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
                     <div>
-                        <span class="bg-amber-100 text-amber-800 text-[11px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                        <span class="bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[11px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                             <i class="fa-solid fa-ranking-star mr-1"></i> TOP PERFORMERS
                         </span>
-                        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-2 mt-1">
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 dark:text-white flex items-center gap-2 mt-1">
                             <i class="fa-solid fa-trophy text-amber-500"></i>
                             <span>શ્રેષ્ઠ વિદ્યાર્થી લીડરબોર્ડ (Leaderboard)</span>
                         </h3>
-                        <p class="text-xs text-slate-500">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી - NMMS કસોટી પરિણામ રેન્કિંગ</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી - NMMS કસોટી પરિણામ રેન્કિંગ</p>
                     </div>
 
                     <div class="flex items-center gap-2 no-print">
+                        <button onclick="printLeaderboardPDF()" class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf text-rose-400"></i>
+                            <span>લીડરબોર્ડ PDF</span>
+                        </button>
                         <button onclick="shareScoreCardWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shadow">
                             <i class="fa-brands fa-whatsapp text-sm"></i>
                             <span>સ્કોર શેર કરો</span>
@@ -580,11 +632,11 @@
                 </div>
 
                 <!-- Full Leaderboard Table -->
-                <div class="bg-slate-50/80 rounded-2xl border border-slate-200 overflow-hidden shadow-inner">
+                <div class="bg-slate-50/80 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-inner">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-xs sm:text-sm">
                             <thead>
-                                <tr class="bg-slate-200/80 text-slate-700 font-bold uppercase text-[11px] tracking-wider border-b border-slate-300">
+                                <tr class="bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold uppercase text-[11px] tracking-wider border-b border-slate-300 dark:border-slate-700">
                                     <th class="py-3 px-3 sm:px-4 text-center">રેન્ક</th>
                                     <th class="py-3 px-3 sm:px-4">વિદ્યાર્થીનું નામ</th>
                                     <th class="py-3 px-3 text-center">રોલ નં.</th>
@@ -593,7 +645,7 @@
                                     <th class="py-3 px-3 sm:px-4 text-center">તારીખ</th>
                                 </tr>
                             </thead>
-                            <tbody id="leaderboard-table-body" class="divide-y divide-slate-200 text-slate-700 font-medium">
+                            <tbody id="leaderboard-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-200 font-medium">
                                 <!-- Dynamically populated -->
                             </tbody>
                         </table>
@@ -602,8 +654,8 @@
             </div>
 
             <!-- Bottom Actions: Retake and Print -->
-            <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap justify-center items-center gap-4 no-print">
-                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 px-6 rounded-2xl shadow-md hover:shadow-lg transition flex items-center space-x-2 text-sm">
+            <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap justify-center items-center gap-4 no-print">
+                <button onclick="window.print()" class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white font-bold py-3.5 px-6 rounded-2xl shadow-md hover:shadow-lg transition flex items-center space-x-2 text-sm">
                     <i class="fa-solid fa-print"></i>
                     <span>ગુણપત્રક પ્રિન્ટ / PDF ડાઉનલોડ</span>
                 </button>
@@ -617,11 +669,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200/80 py-4 px-4 text-center text-xs text-slate-500 no-print mt-6">
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200/80 dark:border-slate-800 py-4 px-4 text-center text-xs text-slate-500 dark:text-slate-400 no-print mt-6 transition-colors">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center space-x-2">
                 <img src="logo.png" onerror="this.src='https://ponsrischool.in/wp-content/uploads/2025/03/cropped-download.png'" alt="Logo" class="w-5 h-5 object-contain inline">
-                <p class="font-bold text-slate-700">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</p>
+                <p class="font-bold text-slate-700 dark:text-slate-300">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</p>
             </div>
             <p>© ૨૦૨૫-૨૬ પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી. સર્વ હક સુરક્ષિત.</p>
         </div>
@@ -629,20 +681,20 @@
 
     <!-- MODAL 1: CONFIRMATION MODAL -->
     <div id="modal-overlay" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl text-center space-y-4 border border-slate-100">
-            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl text-center space-y-4 border border-slate-100 dark:border-slate-800">
+            <div class="w-16 h-16 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h3 class="text-xl font-bold text-slate-800">શું તમે કસોટી જમા કરવા માંગો છો?</h3>
-            <div id="modal-stats" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left text-xs sm:text-sm space-y-1.5 text-slate-700">
-                <p id="modal-total-text" class="flex justify-between"><span>કુલ પ્રશ્નો:</span> <b class="text-slate-900">10</b></p>
+            <h3 class="text-xl font-bold text-slate-800 dark:text-white">શું તમે કસોટી જમા કરવા માંગો છો?</h3>
+            <div id="modal-stats" class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 text-left text-xs sm:text-sm space-y-1.5 text-slate-700 dark:text-slate-300">
+                <p id="modal-total-text" class="flex justify-between"><span>કુલ પ્રશ્નો:</span> <b class="text-slate-900 dark:text-white">10</b></p>
                 <p id="modal-answered-text" class="flex justify-between"><span>જવાબ આપ્યા:</span> <b class="text-emerald-600 font-bold">0</b></p>
                 <p id="modal-review-text" class="flex justify-between"><span>રીવ્યુ માટે રાખેલ:</span> <b class="text-amber-600 font-bold">0</b></p>
                 <p id="modal-unanswered-text" class="flex justify-between"><span>બાકી પ્રશ્નો:</span> <b class="text-rose-600 font-bold">10</b></p>
             </div>
-            <p id="modal-msg" class="text-slate-500 text-xs font-medium"></p>
+            <p id="modal-msg" class="text-slate-500 dark:text-slate-400 text-xs font-medium"></p>
             <div class="flex justify-center space-x-3 pt-2">
-                <button onclick="closeModal()" class="flex-1 px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-100 transition text-sm">
+                <button onclick="closeModal()" class="flex-1 px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">
                     પાછા જાઓ
                 </button>
                 <button onclick="submitQuiz()" class="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold shadow-md hover:shadow-lg transition text-sm">
@@ -654,18 +706,18 @@
 
     <!-- MODAL 2: LEADERBOARD MODAL -->
     <div id="leaderboard-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
-            <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center border-b dark:border-slate-800 pb-3 mb-4">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl shadow-inner">
+                    <div class="w-10 h-10 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center text-xl shadow-inner">
                         <i class="fa-solid fa-trophy"></i>
                     </div>
                     <div>
-                        <h3 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">NMMS કસોટી લીડરબોર્ડ</h3>
-                        <p class="text-xs text-slate-500">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</p>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white leading-tight">NMMS કસોટી લીડરબોર્ડ</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</p>
                     </div>
                 </div>
-                <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-slate-700 p-2 text-xl transition">
+                <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-2 text-xl transition">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -674,9 +726,12 @@
                 <!-- Dynamically rendered -->
             </div>
 
-            <div class="pt-4 border-t mt-3 flex justify-between items-center">
-                <span class="text-[11px] text-slate-400">કુલ પરિણામો અપડેટ કરેલ છે</span>
-                <button onclick="closeLeaderboardModal()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-xs sm:text-sm transition">
+            <div class="pt-4 border-t dark:border-slate-800 mt-3 flex justify-between items-center">
+                <button onclick="printLeaderboardPDF()" class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center space-x-1.5 shadow">
+                    <i class="fa-solid fa-file-pdf text-rose-400"></i>
+                    <span>લીડરબોર્ડ PDF ડાઉનલોડ</span>
+                </button>
+                <button onclick="closeLeaderboardModal()" class="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold rounded-xl text-xs sm:text-sm transition">
                     બંધ કરો
                 </button>
             </div>
@@ -685,43 +740,43 @@
 
     <!-- MODAL 3: STUDENT DASHBOARD MODAL -->
     <div id="student-dashboard-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="bg-white rounded-3xl max-w-3xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
-            <div class="flex justify-between items-center border-b pb-4 mb-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center border-b dark:border-slate-800 pb-4 mb-4">
                 <div class="flex items-center space-x-3">
                     <img id="dash-avatar" src="logo.png" class="w-12 h-12 rounded-2xl object-cover border-2 border-brand-500">
                     <div>
-                        <h3 id="dash-student-name" class="text-lg font-extrabold text-slate-800 leading-tight">વિદ્યાર્થી ડેશબોર્ડ</h3>
-                        <p id="dash-student-email" class="text-xs text-slate-500">તમારા NMMS પરિણામો અને પ્રગતિ</p>
+                        <h3 id="dash-student-name" class="text-lg font-extrabold text-slate-800 dark:text-white leading-tight">વિદ્યાર્થી ડેશબોર્ડ</h3>
+                        <p id="dash-student-email" class="text-xs text-slate-500 dark:text-slate-400">તમારા NMMS પરિણામો અને પ્રગતિ</p>
                     </div>
                 </div>
-                <button onclick="closeStudentDashboard()" class="text-slate-400 hover:text-slate-700 p-2 text-xl transition">
+                <button onclick="closeStudentDashboard()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-2 text-xl transition">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <!-- Student Performance Stat Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-2xl text-center">
-                    <span class="text-[11px] font-bold text-indigo-700">આપેલી કસોટીઓ</span>
-                    <p id="dash-stat-tests" class="text-xl sm:text-2xl font-black text-brand-700 mt-0.5">0</p>
+                <div class="bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 p-3 rounded-2xl text-center">
+                    <span class="text-[11px] font-bold text-indigo-700 dark:text-indigo-400">આપેલી કસોટીઓ</span>
+                    <p id="dash-stat-tests" class="text-xl sm:text-2xl font-black text-brand-700 dark:text-brand-300 mt-0.5">0</p>
                 </div>
-                <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl text-center">
-                    <span class="text-[11px] font-bold text-emerald-700">સર્વોચ્ચ ગુણ</span>
-                    <p id="dash-stat-best" class="text-xl sm:text-2xl font-black text-emerald-600 mt-0.5">0/10</p>
+                <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-3 rounded-2xl text-center">
+                    <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400">સર્વોચ્ચ ગુણ</span>
+                    <p id="dash-stat-best" class="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5">0/10</p>
                 </div>
-                <div class="bg-amber-50 border border-amber-200 p-3 rounded-2xl text-center">
-                    <span class="text-[11px] font-bold text-amber-700">સરેરાશ ટકાવારી</span>
-                    <p id="dash-stat-avg" class="text-xl sm:text-2xl font-black text-amber-600 mt-0.5">0%</p>
+                <div class="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-3 rounded-2xl text-center">
+                    <span class="text-[11px] font-bold text-amber-700 dark:text-amber-400">સરેરાશ ટકાવારી</span>
+                    <p id="dash-stat-avg" class="text-xl sm:text-2xl font-black text-amber-600 dark:text-amber-400 mt-0.5">0%</p>
                 </div>
-                <div class="bg-purple-50 border border-purple-200 p-3 rounded-2xl text-center">
-                    <span class="text-[11px] font-bold text-purple-700">શ્રેષ્ઠ રેન્ક</span>
-                    <p id="dash-stat-rank" class="text-xl sm:text-2xl font-black text-purple-700 mt-0.5">-</p>
+                <div class="bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 p-3 rounded-2xl text-center">
+                    <span class="text-[11px] font-bold text-purple-700 dark:text-purple-400">શ્રેષ્ઠ રેન્ક</span>
+                    <p id="dash-stat-rank" class="text-xl sm:text-2xl font-black text-purple-700 dark:text-purple-300 mt-0.5">-</p>
                 </div>
             </div>
 
             <!-- Attempt History List -->
             <div class="flex-grow overflow-y-auto custom-scrollbar">
-                <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center">
+                <h4 class="font-bold text-slate-800 dark:text-white text-sm mb-3 flex items-center">
                     <i class="fa-solid fa-clock-rotate-left text-brand-600 mr-2"></i>
                     <span>છેલ્લા પ્રયાસો અને વિશ્લેષણ (Test History)</span>
                 </h4>
@@ -730,12 +785,12 @@
                 </div>
             </div>
 
-            <div class="pt-4 border-t mt-4 flex justify-between items-center">
+            <div class="pt-4 border-t dark:border-slate-800 mt-4 flex justify-between items-center">
                 <button onclick="startQuizFromDashboard()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center space-x-1.5 shadow">
                     <i class="fa-solid fa-play text-xs"></i>
                     <span>નવી કસોટી આપો</span>
                 </button>
-                <button onclick="closeStudentDashboard()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs sm:text-sm transition">
+                <button onclick="closeStudentDashboard()" class="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs sm:text-sm transition">
                     બંધ કરો
                 </button>
             </div>
@@ -744,131 +799,158 @@
 
     <!-- MODAL 4: ADMIN CONTROL PANEL (Exclusive to patelsandip288@gmail.com) -->
     <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5">
-        <div class="bg-white rounded-3xl max-w-4xl w-full p-5 sm:p-8 shadow-2xl border border-slate-100 flex flex-col max-h-[92vh]">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-5xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col max-h-[93vh]">
             
             <!-- Admin Header -->
-            <div class="flex flex-wrap justify-between items-center border-b pb-4 mb-4 gap-2">
+            <div class="flex flex-wrap justify-between items-center border-b dark:border-slate-800 pb-3.5 mb-3.5 gap-2">
                 <div class="flex items-center space-x-3">
-                    <div class="w-11 h-11 bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-900 rounded-2xl flex items-center justify-center text-2xl shadow">
+                    <div class="w-11 h-11 bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 rounded-2xl flex items-center justify-center text-2xl shadow">
                         <i class="fa-solid fa-crown"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900">એડમિન કંટ્રોલ પેનલ</h3>
-                            <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border border-amber-300">
+                            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">એડમિન કંટ્રોલ પેનલ</h3>
+                            <span class="bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border border-amber-300 dark:border-amber-700">
                                 patelsandip288@gmail.com
                             </span>
                         </div>
-                        <p class="text-xs text-slate-500">ક્વિઝ મેનેજમેન્ટ, સમય સેટિંગ્સ, JSON આયાત, AI પ્રોમ્પ્ટ અને PDF શેરિંગ</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">કસોટી મેનેજમેન્ટ, લાઈવ ટેસ્ટ સ્વિચિંગ, નોંધાયેલા વિદ્યાર્થીઓ અને AI પ્રોમ્પ્ટ</p>
                     </div>
                 </div>
-                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-700 p-2 text-2xl transition">
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-2 text-2xl transition">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <!-- Admin Tabs Navigation -->
-            <div class="flex space-x-1.5 overflow-x-auto pb-2 border-b text-xs sm:text-sm font-bold text-slate-600 custom-scrollbar mb-4">
-                <button onclick="setAdminTab('settings')" id="adm-tab-settings" class="px-4 py-2 rounded-xl bg-brand-50 text-brand-700 font-extrabold border border-brand-200 transition shrink-0">
-                    <i class="fa-solid fa-sliders mr-1.5"></i> કસોટી સેટિંગ્સ & સમય
+            <div class="flex space-x-1.5 overflow-x-auto pb-2 border-b dark:border-slate-800 text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 custom-scrollbar mb-4">
+                <button onclick="setAdminTab('quizzes')" id="adm-tab-quizzes" class="px-3.5 py-2 rounded-xl bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 font-extrabold border border-brand-200 dark:border-brand-800 transition shrink-0">
+                    <i class="fa-solid fa-layer-group mr-1.5 text-brand-600"></i> તમામ કસોટીઓ & લાઈવ ટેસ્ટ
                 </button>
-                <button onclick="setAdminTab('json')" id="adm-tab-json" class="px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-700 transition shrink-0">
-                    <i class="fa-solid fa-file-code mr-1.5"></i> JSON ક્વિઝ ઈમ્પોર્ટ
+                <button onclick="setAdminTab('students')" id="adm-tab-students" class="px-3.5 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition shrink-0">
+                    <i class="fa-solid fa-users mr-1.5 text-emerald-600"></i> નોંધાયેલા વિદ્યાર્થીઓ (<span id="adm-tab-student-count">0</span>)
                 </button>
-                <button onclick="setAdminTab('ai')" id="adm-tab-ai" class="px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-700 transition shrink-0">
+                <button onclick="setAdminTab('json')" id="adm-tab-json" class="px-3.5 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition shrink-0">
+                    <i class="fa-solid fa-file-code mr-1.5 text-blue-500"></i> JSON કસોટી આયાત
+                </button>
+                <button onclick="setAdminTab('ai')" id="adm-tab-ai" class="px-3.5 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition shrink-0">
                     <i class="fa-solid fa-wand-magic-sparkles mr-1.5 text-amber-500"></i> AI પ્રોમ્પ્ટ જનરેટર
                 </button>
-                <button onclick="setAdminTab('share')" id="adm-tab-share" class="px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-700 transition shrink-0">
-                    <i class="fa-solid fa-share-nodes mr-1.5 text-emerald-600"></i> PDF & લિંક શેર
+                <button onclick="setAdminTab('results')" id="adm-tab-results" class="px-3.5 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition shrink-0">
+                    <i class="fa-solid fa-chart-column mr-1.5 text-purple-600"></i> પરિણામો & લીડરબોર્ડ
                 </button>
-                <button onclick="setAdminTab('leaderboard')" id="adm-tab-leaderboard" class="px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-700 transition shrink-0">
-                    <i class="fa-solid fa-trophy mr-1.5 text-amber-500"></i> લીડરબોર્ડ મેનેજ
+                <button onclick="setAdminTab('settings')" id="adm-tab-settings" class="px-3.5 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition shrink-0">
+                    <i class="fa-solid fa-gear mr-1.5"></i> સેટિંગ્સ & સમય
                 </button>
             </div>
 
-            <!-- TAB 1: SETTINGS & TIME -->
-            <div id="adm-content-settings" class="admin-tab-content space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
-                <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4">
-                    <h4 class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
-                        <i class="fa-solid fa-gear text-brand-600 mr-2"></i> કસોટીની મૂળભૂત વિગતો
-                    </h4>
-                    
+            <!-- TAB 1: ALL QUIZZES & CHANGE LIVE TEST -->
+            <div id="adm-content-quizzes" class="admin-tab-content space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
+                <div class="flex justify-between items-center">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">કસોટીનું શીર્ષક (Quiz Title)</label>
-                        <input type="text" id="adm-input-title" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm font-semibold bg-white">
+                        <h4 class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-book-bookmark text-brand-600"></i> બધી કસોટીઓનું સંચાલન (Manage & Switch Live Test)
+                        </h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">અહીંથી તમે કોઈપણ કસોટીને ૧-ક્લિકમાં વિદ્યાર્થીઓ માટે લાઈવ કરી શકો છો.</p>
                     </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">સમય મર્યાદા (મિનિટમાં) - Timer Duration</label>
-                            <div class="relative">
-                                <input type="number" id="adm-input-duration" min="5" max="180" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm font-semibold bg-white font-mono">
-                                <span class="absolute right-3.5 top-2.5 text-xs text-slate-400 font-bold">મિનિટ</span>
-                            </div>
-                            <p class="text-[11px] text-slate-500 mt-1">દા.ત. 60 મિનિટ = 1 કલાક, 45 મિનિટ, 30 મિનિટ</p>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">હાલના પ્રશ્નોની સંખ્યા</label>
-                            <div class="px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-bold text-brand-700 flex items-center justify-between">
-                                <span id="adm-active-q-count">10 પ્રશ્નો</span>
-                                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">સક્રિય</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="saveAdminSettings()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl transition text-sm flex items-center space-x-2 shadow">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        <span>સેટિંગ્સ સાચવો (Save Settings)</span>
+                    <button onclick="setAdminTab('json')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-plus"></i> નવી કસોટી બનાવો
                     </button>
+                </div>
+
+                <div id="adm-quizzes-list-container" class="space-y-3">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
 
-            <!-- TAB 2: JSON IMPORT -->
-            <div id="adm-content-json" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
-                <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+            <!-- TAB 2: REGISTERED STUDENTS LIST -->
+            <div id="adm-content-students" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
                     <div class="flex flex-wrap justify-between items-center gap-2">
                         <div>
-                            <h4 class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
+                            <h4 class="font-bold text-slate-800 dark:text-white text-sm sm:text-base flex items-center">
+                                <i class="fa-solid fa-users text-emerald-600 mr-2"></i> Google દ્વારા જોડાયેલા વિદ્યાર્થીઓ
+                            </h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">કસોટી આપવા માટે Google સાઇન ઇન કરેલ તમામ વિદ્યાર્થીઓની યાદી.</p>
+                        </div>
+                        <button onclick="exportRegisteredStudentsCSV()" class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-download"></i> CSV એક્સપોર્ટ
+                        </button>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <div class="max-h-[320px] overflow-y-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold border-b dark:border-slate-700">
+                                        <th class="p-2.5 text-center">ક્રમ</th>
+                                        <th class="p-2.5">વિદ્યાર્થીનું નામ</th>
+                                        <th class="p-2.5">Google Email</th>
+                                        <th class="p-2.5 text-center">રોલ નં.</th>
+                                        <th class="p-2.5 text-center">કસોટીઓ આપી</th>
+                                        <th class="p-2.5 text-center">છેલ્લી સક્રિયતા</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adm-students-tbody" class="divide-y divide-slate-100 dark:divide-slate-800 font-medium text-slate-700 dark:text-slate-300">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: JSON IMPORT -->
+            <div id="adm-content-json" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <div>
+                            <h4 class="font-bold text-slate-800 dark:text-white text-sm sm:text-base flex items-center">
                                 <i class="fa-solid fa-code text-brand-600 mr-2"></i> પ્રશ્નો સાથેનો JSON ડેટા પેસ્ટ કરો
                             </h4>
-                            <p class="text-xs text-slate-500">AI દ્વારા જનરેટ કરેલ JSON અહીં પેસ્ટ કરી સીધી કસોટી અપલોડ કરો.</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">AI દ્વારા જનરેટ કરેલ JSON અહીં પેસ્ટ કરી સીધી કસોટી અપલોડ કરો.</p>
                         </div>
                         <div class="flex space-x-2">
-                            <button onclick="loadSampleQuizJson()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-lg transition">
-                                <i class="fa-solid fa-file-lines mr-1"></i> નમૂનારૂપ JSON લોડ કરો
+                            <button onclick="loadSampleQuizJson()" class="text-xs bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-bold px-3 py-1.5 rounded-lg transition">
+                                <i class="fa-solid fa-file-lines mr-1"></i> નમૂનારૂપ JSON
                             </button>
-                            <button onclick="validateAdminJson()" class="text-xs bg-indigo-100 hover:bg-indigo-200 text-brand-800 font-bold px-3 py-1.5 rounded-lg transition">
+                            <button onclick="validateAdminJson()" class="text-xs bg-indigo-100 dark:bg-indigo-950 hover:bg-indigo-200 text-brand-800 dark:text-indigo-300 font-bold px-3 py-1.5 rounded-lg transition">
                                 <i class="fa-solid fa-check mr-1"></i> વેલિડેટ
                             </button>
                         </div>
                     </div>
 
-                    <!-- JSON Editor Textarea -->
                     <textarea id="adm-json-textarea" rows="11" placeholder="અહીં JSON પેસ્ટ કરો..." 
-                              class="w-full p-4 rounded-xl border border-slate-300 font-mono text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"></textarea>
+                              class="w-full p-4 rounded-xl border border-slate-300 dark:border-slate-700 font-mono text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"></textarea>
 
                     <div id="adm-json-validation-msg" class="hidden text-xs p-3 rounded-xl"></div>
 
-                    <div class="flex justify-between items-center pt-2">
-                        <span id="adm-json-detected-count" class="text-xs font-bold text-slate-600"></span>
-                        <button onclick="importAdminQuizJson()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl transition text-sm flex items-center space-x-2 shadow-md">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
-                            <span>નવી ક્વિઝ પબ્લિશ કરો (Publish Quiz)</span>
-                        </button>
+                    <div class="flex flex-wrap justify-between items-center gap-2 pt-2">
+                        <span id="adm-json-detected-count" class="text-xs font-bold text-slate-600 dark:text-slate-400"></span>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="importAdminQuizJson(false)" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2.5 px-4 rounded-xl transition text-xs sm:text-sm flex items-center space-x-1.5">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>ડ્રાફ્ટ તરીકે સાચવો</span>
+                            </button>
+                            <button onclick="importAdminQuizJson(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-xl transition text-xs sm:text-sm flex items-center space-x-1.5 shadow-md">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>તરત લાઈવ કરો (Publish & Make Live)</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 3: AI PROMPT GENERATOR -->
+            <!-- TAB 4: AI PROMPT GENERATOR -->
             <div id="adm-content-ai" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
-                <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-4 sm:p-5 rounded-2xl border border-amber-200 space-y-3">
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 p-4 sm:p-5 rounded-2xl border border-amber-200 dark:border-amber-800 space-y-3">
                     <div class="flex flex-wrap justify-between items-center gap-2">
                         <div>
-                            <span class="bg-amber-200 text-amber-900 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">FOR CHATGPT / GEMINI / CLAUDE</span>
-                            <h4 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mt-1">
+                            <span class="bg-amber-200 dark:bg-amber-900 text-amber-900 dark:text-amber-200 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">FOR CHATGPT / GEMINI / CLAUDE</span>
+                            <h4 class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base flex items-center gap-2 mt-1">
                                 <i class="fa-solid fa-robot text-amber-600"></i> AI ક્વિઝ જનરેટર પ્રોમ્પ્ટ
                             </h4>
-                            <p class="text-xs text-slate-600">આ પ્રોમ્પ્ટ કોપી કરી AI ને આપો. AI આપમેળે આ પોર્ટલ માટે યોગ્ય JSON બનાવી આપશે!</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">આ પ્રોમ્પ્ટ કોપી કરી AI ને આપો. AI આપમેળે આ પોર્ટલ માટે યોગ્ય JSON બનાવી આપશે!</p>
                         </div>
                         <button onclick="copyAiPrompt()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-4 py-2 rounded-xl transition text-xs sm:text-sm flex items-center space-x-1.5 shadow">
                             <i class="fa-regular fa-copy"></i>
@@ -876,8 +958,7 @@
                         </button>
                     </div>
 
-                    <!-- Readonly Prompt Code Box -->
-                    <div class="relative bg-slate-900 text-amber-300 p-4 rounded-xl font-mono text-xs overflow-x-auto max-h-[280px] custom-scrollbar border border-slate-700">
+                    <div class="relative bg-slate-900 text-amber-300 p-4 rounded-xl font-mono text-xs overflow-x-auto max-h-[260px] custom-scrollbar border border-slate-700">
                         <pre id="ai-prompt-text" class="whitespace-pre-wrap leading-relaxed">તમે એક કુશળ શિક્ષક અને પરીક્ષા પ્રશ્નપત્ર નિર્માતા છો.
 નીચે આપેલા પ્રશ્નો અથવા પ્રશ્નપત્રના લખાણને NMMS / શિષ્યવૃત્તિ પરીક્ષા માટે યોગ્ય એવા ચોક્કસ JSON ફોર્મેટમાં રૂપાંતરિત કરો.
 
@@ -907,85 +988,35 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 અહીં પ્રશ્નો આપેલા છે:
 [અહીં તમારા પ્રશ્નો અથવા પ્રશ્નપત્રનો ફોટો/લખાણ પેસ્ટ કરો]</pre>
                     </div>
-
-                    <div class="bg-white/80 p-3.5 rounded-xl border border-amber-200 text-xs text-slate-700 space-y-1">
-                        <p class="font-bold text-slate-900"><i class="fa-solid fa-circle-info text-amber-600 mr-1"></i> સરળ પદ્ધતિ:</p>
-                        <p>1. ઉપરનું <b>"પ્રોમ્પ્ટ કોપી કરો"</b> બટન દબાવો.</p>
-                        <p>2. ChatGPT અથવા Google Gemini ખોલી પ્રોમ્પ્ટ પેસ્ટ કરો અને નીચે તમારા પ્રશ્નો કે ફોટો જોડો.</p>
-                        <p>3. AI જે JSON કોડ આપે તે કોપી કરી બાજુના <b>"JSON ક્વિઝ ઈમ્પોર્ટ"</b> ટેબમાં પેસ્ટ કરો અને પબ્લિશ કરો!</p>
-                    </div>
                 </div>
             </div>
 
-            <!-- TAB 4: PDF & SHARE -->
-            <div id="adm-content-share" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
-                <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4">
-                    <h4 class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
-                        <i class="fa-solid fa-share-nodes text-brand-600 mr-2"></i> PDF પ્રિન્ટ અને ડાયરેક્ટ લિંક શેર
-                    </h4>
-
-                    <!-- Direct Link Box -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">કસોટીની ડાયરેક્ટ શેરિંગ લિંક</label>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="adm-share-link-input" value="https://nmms.ponsrischool.in" readonly 
-                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-mono text-xs sm:text-sm bg-white text-slate-700">
-                            <button onclick="copyShareLink()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 transition">
-                                <i class="fa-regular fa-copy mr-1"></i> કોપી
-                            </button>
-                            <button onclick="shareDirectWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 transition flex items-center gap-1.5 shadow">
-                                <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- PDF Generation Actions -->
-                    <div class="pt-4 border-t space-y-3">
-                        <h5 class="text-xs sm:text-sm font-bold text-slate-800">પ્રશ્નપત્ર PDF ડાઉનલોડ વિકલ્પો:</h5>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <button onclick="printQuestionPaper(false)" class="p-4 rounded-xl border-2 border-indigo-200 bg-white hover:bg-indigo-50/60 transition text-left space-y-1">
-                                <div class="flex items-center text-brand-700 font-bold text-sm">
-                                    <i class="fa-solid fa-file-pdf mr-2 text-rose-500 text-lg"></i>
-                                    <span>વિદ્યાર્થીઓ માટે પ્રશ્નપત્ર (Question Paper)</span>
-                                </div>
-                                <p class="text-xs text-slate-500">જવાબો વગરનું પ્રશ્નપત્ર પ્રિન્ટ અથવા PDF તરીકે ડાઉનલોડ કરો.</p>
-                            </button>
-
-                            <button onclick="printQuestionPaper(true)" class="p-4 rounded-xl border-2 border-emerald-200 bg-white hover:bg-emerald-50/60 transition text-left space-y-1">
-                                <div class="flex items-center text-emerald-700 font-bold text-sm">
-                                    <i class="fa-solid fa-file-circle-check mr-2 text-emerald-600 text-lg"></i>
-                                    <span>જવાબો સાથે પ્રશ્નપત્ર (Answer Key Paper)</span>
-                                </div>
-                                <p class="text-xs text-slate-500">દરેક પ્રશ્ન સાથે સાચો જવાબ અને સમજૂતી સહિતનું સંપૂર્ણ સોલ્યુશન.</p>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 5: LEADERBOARD MANAGEMENT -->
-            <div id="adm-content-leaderboard" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
-                <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
-                    <div class="flex justify-between items-center">
-                        <h4 class="font-bold text-slate-800 text-sm sm:text-base flex items-center">
-                            <i class="fa-solid fa-list-ol text-brand-600 mr-2"></i> તમામ વિદ્યાર્થી પરિણામોનું નિયંત્રણ
+            <!-- TAB 5: RESULTS & LEADERBOARD -->
+            <div id="adm-content-results" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <h4 class="font-bold text-slate-800 dark:text-white text-sm sm:text-base flex items-center">
+                            <i class="fa-solid fa-list-ol text-brand-600 mr-2"></i> તમામ વિદ્યાર્થી પરિણામો
                         </h4>
                         <div class="flex space-x-2">
-                            <button onclick="exportLeaderboardCSV()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1">
-                                <i class="fa-solid fa-download"></i> CSV એક્સપોર્ટ
+                            <button onclick="printLeaderboardPDF()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1 shadow">
+                                <i class="fa-solid fa-file-pdf"></i> લીડરબોર્ડ PDF
+                            </button>
+                            <button onclick="exportLeaderboardCSV()" class="bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1">
+                                <i class="fa-solid fa-download"></i> CSV
                             </button>
                             <button onclick="adminResetLeaderboard()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1 shadow">
-                                <i class="fa-solid fa-trash-can"></i> તમામ ડેટા ક્લિયર કરો
+                                <i class="fa-solid fa-trash-can"></i> ક્લિયર
                             </button>
                         </div>
                     </div>
-                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                         <div class="max-h-[320px] overflow-y-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse text-xs">
                                 <thead>
-                                    <tr class="bg-slate-100 text-slate-700 font-bold border-b">
+                                    <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold border-b dark:border-slate-700">
                                         <th class="p-2.5 text-center">રેન્ક</th>
-                                        <th class="p-2.5">નામ</th>
+                                        <th class="p-2.5">વિદ્યાર્થી</th>
                                         <th class="p-2.5 text-center">રોલ</th>
                                         <th class="p-2.5 text-center">ગુણ</th>
                                         <th class="p-2.5 text-center">સમય</th>
@@ -993,7 +1024,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                                         <th class="p-2.5 text-center">ક્રિયા</th>
                                     </tr>
                                 </thead>
-                                <tbody id="adm-leaderboard-tbody" class="divide-y divide-slate-100 font-medium text-slate-700">
+                                <tbody id="adm-leaderboard-tbody" class="divide-y divide-slate-100 dark:divide-slate-800 font-medium text-slate-700 dark:text-slate-300">
                                     <!-- Populated dynamically -->
                                 </tbody>
                             </table>
@@ -1002,29 +1033,61 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 </div>
             </div>
 
+            <!-- TAB 6: SETTINGS & DURATION -->
+            <div id="adm-content-settings" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm sm:text-base flex items-center">
+                        <i class="fa-solid fa-gear text-brand-600 mr-2"></i> લાઈવ કસોટીની મૂળભૂત વિગતો
+                    </h4>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">કસોટીનું શીર્ષક (Quiz Title)</label>
+                        <input type="text" id="adm-input-title" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">સમય મર્યાદા (મિનિટમાં) - Timer Duration</label>
+                            <div class="relative">
+                                <input type="number" id="adm-input-duration" min="5" max="180" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono">
+                                <span class="absolute right-3.5 top-2.5 text-xs text-slate-400 font-bold">મિનિટ</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">હાલના પ્રશ્નોની સંખ્યા</label>
+                            <div class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-bold text-brand-600 dark:text-brand-400 flex items-center justify-between">
+                                <span id="adm-active-q-count">10 પ્રશ્નો</span>
+                                <span class="text-xs bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 px-2 py-0.5 rounded-full">સક્રિય</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="saveAdminSettings()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl transition text-sm flex items-center space-x-2 shadow">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>સેટિંગ્સ સાચવો (Save Settings)</span>
+                    </button>
+                </div>
+            </div>
+
             <!-- Admin Footer -->
-            <div class="pt-4 border-t mt-4 flex justify-between items-center">
-                <span class="text-xs text-slate-400">એડમિન પેનલ સુરક્ષિત છે</span>
-                <button onclick="closeAdminModal()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-xs sm:text-sm transition">
+            <div class="pt-3.5 border-t dark:border-slate-800 mt-3 flex justify-between items-center">
+                <span class="text-xs text-slate-400">એડમિન કંટ્રોલ સુરક્ષિત છે</span>
+                <button onclick="closeAdminModal()" class="px-6 py-2.5 bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white font-bold rounded-xl text-xs sm:text-sm transition">
                     બંધ કરો
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- PRINTABLE QUESTION PAPER CONTAINER (Used when printing PDF) -->
-    <div id="printable-paper" class="hidden print-only p-8 bg-white max-w-4xl mx-auto">
-        <!-- Generated dynamically during print -->
-    </div>
+    <!-- PRINTABLE PAPER CONTAINER (Used when printing PDF) -->
+    <div id="printable-paper" class="hidden print-only p-8 bg-white text-black max-w-4xl mx-auto"></div>
 
     <!-- MAIN FIREBASE & APPLICATION MODULE SCRIPT -->
     <script type="module">
-        // Firebase Modular SDK imports via Google CDN
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-        // Firebase Configuration provided by user
         const firebaseConfig = {
             apiKey: "AIzaSyC-e516egy6mQlxyV9jPjl2w82kiNoILcU",
             authDomain: "nmms-ponsrischool.firebaseapp.com",
@@ -1035,21 +1098,19 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             measurementId: "G-SQBKP8M929"
         };
 
-        // Initialize Firebase services
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // Designated Admin Email
         const ADMIN_EMAIL = "patelsandip288@gmail.com";
 
-        // Current user session state
+        // Current session state
         let currentUser = null;
         let isUserAdmin = false;
 
         // Default initial quiz data
-        const initialQuizData = [
+        const initialQuestions = [
             { 
                 id: 1, 
                 question: "2/7 × (-4/3) ની વ્યસ્તની વિરોધી સંખ્યા કઈ મળે?", 
@@ -1134,30 +1195,123 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
         ];
 
-        // Active Quiz Configuration
-        const QUIZ_STORAGE_KEY = 'nmms_active_quiz_config';
-        let activeQuizConfig = {
-            title: "NMMS પરીક્ષા - SAT વિભાગ ઓનલાઇન મોક કસોટી",
-            durationMinutes: 60,
-            school: "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
-            questions: initialQuizData
-        };
+        // Multi-Quiz Repository
+        const ALL_QUIZZES_KEY = 'nmms_all_quizzes_repo';
+        const LIVE_QUIZ_ID_KEY = 'nmms_live_quiz_id';
 
-        // Load Quiz from localStorage if present
-        function loadActiveQuiz() {
+        function getAllQuizzes() {
             try {
-                const stored = localStorage.getItem(QUIZ_STORAGE_KEY);
+                const stored = localStorage.getItem(ALL_QUIZZES_KEY);
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    if (parsed && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
-                        activeQuizConfig = parsed;
-                    }
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
                 }
-            } catch (e) {}
-            refreshQuizUI();
+            } catch(e) {}
+
+            const defaultQuiz = {
+                id: 'quiz_nmms_sat_default',
+                title: 'NMMS પરીક્ષા - SAT વિભાગ ઓનલાઇન મોક કસોટી ૧',
+                durationMinutes: 60,
+                school: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+                createdAt: '૦૯ નવે ૨૦૨૬',
+                questions: initialQuestions
+            };
+            const list = [defaultQuiz];
+            localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(list));
+            localStorage.setItem(LIVE_QUIZ_ID_KEY, defaultQuiz.id);
+            return list;
         }
 
+        function getLiveQuiz() {
+            const list = getAllQuizzes();
+            const liveId = localStorage.getItem(LIVE_QUIZ_ID_KEY) || list[0].id;
+            const found = list.find(q => q.id === liveId);
+            return found || list[0];
+        }
+
+        let activeQuizConfig = getLiveQuiz();
+
+        // Registered Students Repository
+        const REG_STUDENTS_KEY = 'nmms_registered_students_list';
+
+        function getRegisteredStudents() {
+            try {
+                const stored = localStorage.getItem(REG_STUDENTS_KEY);
+                if (stored) return JSON.parse(stored);
+            } catch(e) {}
+            return [];
+        }
+
+        function registerOrUpdateStudent(userData, roll = null) {
+            let list = getRegisteredStudents();
+            const idx = list.findIndex(s => s.email.toLowerCase() === userData.email.toLowerCase());
+            const nowStr = new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            if (idx !== -1) {
+                list[idx].lastActive = nowStr;
+                if (roll) list[idx].roll = roll;
+                if (userData.displayName) list[idx].name = userData.displayName;
+                if (userData.photoURL) list[idx].photoURL = userData.photoURL;
+            } else {
+                list.push({
+                    uid: userData.uid,
+                    name: userData.displayName || 'વિદ્યાર્થી',
+                    email: userData.email,
+                    photoURL: userData.photoURL || 'logo.png',
+                    roll: roll || '-',
+                    firstSeen: nowStr,
+                    lastActive: nowStr,
+                    testsAttempted: 0
+                });
+            }
+            localStorage.setItem(REG_STUDENTS_KEY, JSON.stringify(list));
+            return list;
+        }
+
+        function incrementStudentTestCount(email) {
+            if (!email) return;
+            let list = getRegisteredStudents();
+            const idx = list.findIndex(s => s.email.toLowerCase() === email.toLowerCase());
+            if (idx !== -1) {
+                list[idx].testsAttempted = (list[idx].testsAttempted || 0) + 1;
+                localStorage.setItem(REG_STUDENTS_KEY, JSON.stringify(list));
+            }
+        }
+
+        // System Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('ponsri_theme');
+            applyTheme(savedTheme);
+        }
+
+        function applyTheme(theme) {
+            const themeIcon = document.getElementById('theme-icon');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                if (themeIcon) themeIcon.className = 'fa-solid fa-sun text-sm text-amber-300';
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (themeIcon) themeIcon.className = 'fa-solid fa-moon text-sm text-indigo-200';
+            }
+        }
+
+        window.toggleTheme = function() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('ponsri_theme', newTheme);
+            applyTheme(newTheme);
+            showToast(newTheme === 'dark' ? 'ડાર્ક મોડ ચાલુ કર્યો 🌙' : 'લાઈટ મોડ ચાલુ કર્યો ☀️');
+        };
+
+        // Listen for OS theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('ponsri_theme')) {
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+
         function refreshQuizUI() {
+            activeQuizConfig = getLiveQuiz();
             const count = activeQuizConfig.questions.length;
             const dur = activeQuizConfig.durationMinutes || 60;
             
@@ -1179,7 +1333,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (admDur) admDur.value = dur;
         }
 
-        // Timer and Quiz Execution State
+        // Quiz State
         let currentQuestionIndex = 0;
         let userAnswers = [];
         let markedForReview = [];
@@ -1191,7 +1345,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         let soundEnabled = true;
         let currentGridFilter = 'all';
 
-        // DOM Element references
+        // Elements
         const startScreen = document.getElementById('start-screen');
         const quizScreen = document.getElementById('quiz-screen');
         const resultScreen = document.getElementById('result-screen');
@@ -1203,7 +1357,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         const timerBox = document.getElementById('timer-box');
         const timerIcon = document.getElementById('timer-icon');
 
-        // Web Audio Sound Generator
         const audioCtx = (window.AudioContext || window.webkitAudioContext) ? new (window.AudioContext || window.webkitAudioContext)() : null;
 
         function playTone(freq, type = 'sine', duration = 0.1) {
@@ -1237,7 +1390,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }, 3000);
         }
 
-        // AUTHENTICATION: Monitor Auth State
+        // AUTHENTICATION & MANDATORY STUDENT LOCK
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             const loginBtn = document.getElementById('google-login-btn');
@@ -1246,7 +1399,17 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             const userDisplayName = document.getElementById('user-display-name');
             const userRoleBadge = document.getElementById('user-role-badge');
             const adminBadgeBtn = document.getElementById('admin-badge-btn');
-            const googleSignedIndicator = document.getElementById('google-signed-indicator');
+
+            const googleRequiredBanner = document.getElementById('google-required-banner');
+            const googleVerifiedCard = document.getElementById('google-verified-card');
+            const verifiedAvatar = document.getElementById('verified-student-avatar');
+            const verifiedName = document.getElementById('verified-student-name-text');
+            const verifiedEmail = document.getElementById('verified-student-email-text');
+
+            const nameInput = document.getElementById('student-name');
+            const rollInput = document.getElementById('student-roll');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const startBtnText = document.getElementById('start-btn-text');
 
             if (user) {
                 loginBtn.classList.add('hidden');
@@ -1254,7 +1417,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 userAvatar.src = user.photoURL || 'logo.png';
                 userDisplayName.innerText = user.displayName || user.email;
 
-                // Check Admin authorization
                 isUserAdmin = (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
 
                 if (isUserAdmin) {
@@ -1268,44 +1430,61 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                     adminBadgeBtn.classList.add('hidden');
                 }
 
-                // Pre-fill student name
-                const nameInput = document.getElementById('student-name');
-                if (nameInput && !nameInput.value) {
-                    nameInput.value = user.displayName || "";
-                }
-                googleSignedIndicator.classList.remove('hidden');
+                // Unlock Student Fields
+                googleRequiredBanner.classList.add('hidden');
+                googleVerifiedCard.classList.remove('hidden');
+                verifiedAvatar.src = user.photoURL || 'logo.png';
+                verifiedName.innerText = user.displayName || 'વિદ્યાર્થી';
+                verifiedEmail.innerText = user.email || '';
+
+                nameInput.disabled = false;
+                rollInput.disabled = false;
+                nameInput.value = user.displayName || '';
+                startQuizBtn.disabled = false;
+                startBtnText.innerText = "કસોટી શરૂ કરો (Start Test)";
+
+                // Record student in registered list
+                registerOrUpdateStudent(user);
 
             } else {
                 loginBtn.classList.remove('hidden');
                 profilePill.classList.add('hidden');
                 adminBadgeBtn.classList.add('hidden');
-                googleSignedIndicator.classList.add('hidden');
+
+                // Lock Student Fields
+                googleRequiredBanner.classList.remove('hidden');
+                googleVerifiedCard.classList.add('hidden');
+
+                nameInput.disabled = true;
+                rollInput.disabled = true;
+                nameInput.value = '';
+                rollInput.value = '';
+                startQuizBtn.disabled = true;
+                startBtnText.innerText = "કસોટી આપવા માટે પહેલાં Google સાઇન ઇન કરો";
+
                 isUserAdmin = false;
             }
         });
 
-        // Sign In with Google
         window.loginWithGoogle = async function() {
             try {
                 await signInWithPopup(auth, provider);
-                showToast("સફળતાપૂર્વક Google સાઇન ઇન થયું!");
+                showToast("Google સાઇન ઇન સફળ થયું!");
             } catch (err) {
                 console.error("Auth error:", err);
-                showToast("સાઇન ઇન કરવામાં સમસ્યા આવી: " + err.message, true);
+                showToast("સાઇન ઇન નિષ્ફળ: " + err.message, true);
             }
         };
 
-        // Sign Out
         window.logoutUser = async function() {
             try {
                 await signOut(auth);
-                showToast("સફળતાપૂર્વક સાઇન આઉટ થયું.");
+                showToast("સાઇન આઉટ સફળ થયું.");
             } catch (err) {
                 console.error("Sign out error:", err);
             }
         };
 
-        // AUDIO TOGGLE
         window.toggleAudio = function() {
             soundEnabled = !soundEnabled;
             soundIcon.className = soundEnabled ? 'fa-solid fa-volume-high text-sm' : 'fa-solid fa-volume-xmark text-sm text-rose-300';
@@ -1313,7 +1492,14 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
         // START QUIZ
         window.startQuiz = function() {
+            if (!currentUser) {
+                alert("કસોટી શરૂ કરતાં પહેલાં Google સાઇન ઇન કરવું ફરજિયાત છે.");
+                loginWithGoogle();
+                return;
+            }
+
             const nameInput = document.getElementById('student-name');
+            const rollInput = document.getElementById('student-roll');
             const errorMsg = document.getElementById('name-error-msg');
             
             if (!nameInput.value.trim()) {
@@ -1328,8 +1514,11 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             nameInput.classList.remove('border-rose-500', 'bg-rose-50');
 
             studentName = nameInput.value.trim();
-            studentRoll = document.getElementById('student-roll').value.trim() || "-";
+            studentRoll = rollInput.value.trim() || "-";
             studentSchool = "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI";
+
+            // Update student record with roll number
+            registerOrUpdateStudent(currentUser, studentRoll);
 
             userAnswers = new Array(activeQuizConfig.questions.length).fill(null);
             markedForReview = new Array(activeQuizConfig.questions.length).fill(false);
@@ -1347,7 +1536,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             startCountdownTimer();
         };
 
-        // COUNTDOWN TIMER
         function startCountdownTimer() {
             const durationMins = activeQuizConfig.durationMinutes || 60;
             remainingSeconds = durationMins * 60;
@@ -1376,11 +1564,11 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             const secs = remainingSeconds % 60;
             timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 
-            if (remainingSeconds <= 300) { // <= 5 minutes
+            if (remainingSeconds <= 300) {
                 timerBox.className = "bg-rose-950/80 backdrop-blur-md px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-rose-500 shadow-inner timer-warning";
                 timerDisplay.className = "font-mono text-base sm:text-lg font-black tracking-widest text-rose-300 leading-none";
                 timerIcon.className = "fa-solid fa-bell text-rose-400 mr-2 text-base animate-bounce";
-            } else if (remainingSeconds <= 600) { // <= 10 minutes
+            } else if (remainingSeconds <= 600) {
                 timerBox.className = "bg-amber-950/80 backdrop-blur-md px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-amber-500 shadow-inner";
                 timerDisplay.className = "font-mono text-base sm:text-lg font-black tracking-widest text-amber-300 leading-none";
                 timerIcon.className = "fa-solid fa-stopwatch text-amber-400 mr-2 text-base";
@@ -1409,7 +1597,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             document.getElementById('q-badge').innerText = `પ્ર. ${currentQuestionIndex + 1}`;
             document.getElementById('question-text').innerText = q.question;
 
-            // Diagram container
             const diagramContainer = document.getElementById('question-diagram-container');
             if (q.hasDiagram && q.diagramSvg) {
                 diagramContainer.innerHTML = q.diagramSvg;
@@ -1419,17 +1606,15 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 diagramContainer.innerHTML = '';
             }
 
-            // Bookmark button state
             const markBtn = document.getElementById('mark-review-btn');
             if (markedForReview[currentQuestionIndex]) {
                 markBtn.className = "text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-amber-500 text-white border-amber-600 shadow-sm";
                 markBtn.innerHTML = `<i class="fa-solid fa-bookmark"></i> <span class="hidden sm:inline">ચિહ્નિત છે</span>`;
             } else {
-                markBtn.className = "text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-slate-50 text-slate-600 border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-300";
+                markBtn.className = "text-xs font-semibold px-3 py-1.5 rounded-xl border transition flex items-center space-x-1.5 shrink-0 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-amber-50 hover:text-amber-700";
                 markBtn.innerHTML = `<i class="fa-regular fa-bookmark"></i> <span class="hidden sm:inline">રીવ્યુ</span>`;
             }
 
-            // Options list
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
             const optionLabels = ['(A)', '(B)', '(C)', '(D)'];
@@ -1439,8 +1624,8 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 const optLabel = document.createElement('label');
                 optLabel.className = `flex items-center p-3.5 sm:p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                     isSelected 
-                        ? 'border-brand-600 bg-brand-50/80 text-brand-900 font-bold shadow-sm scale-[1.008]' 
-                        : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/80 text-slate-700'
+                        ? 'border-brand-600 bg-brand-50/80 dark:bg-brand-950/60 text-brand-900 dark:text-brand-200 font-bold shadow-sm scale-[1.008]' 
+                        : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 hover:bg-slate-50/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200'
                 }`;
 
                 optLabel.innerHTML = `
@@ -1448,14 +1633,13 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                         <input type="radio" name="quiz-option" value="${idx}" ${isSelected ? 'checked' : ''} onchange="selectOption(${idx})" class="w-5 h-5 text-brand-600 focus:ring-brand-500 cursor-pointer accent-indigo-600">
                     </div>
                     <span class="text-sm sm:text-base flex-grow">
-                        <b class="mr-2 text-brand-700 font-extrabold">${optionLabels[idx]}</b> ${opt}
+                        <b class="mr-2 text-brand-700 dark:text-brand-400 font-extrabold">${optionLabels[idx]}</b> ${opt}
                     </span>
-                    ${isSelected ? '<i class="fa-solid fa-circle-check text-brand-600 ml-auto"></i>' : ''}
+                    ${isSelected ? '<i class="fa-solid fa-circle-check text-brand-600 dark:text-brand-400 ml-auto"></i>' : ''}
                 `;
                 optionsContainer.appendChild(optLabel);
             });
 
-            // Navigation controls
             document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
             const nextBtn = document.getElementById('next-btn');
             if (currentQuestionIndex === activeQuizConfig.questions.length - 1) {
@@ -1509,9 +1693,9 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             ['all', 'answered', 'unanswered', 'review'].forEach(f => {
                 const btn = document.getElementById(`filter-${f}`);
                 if (f === filter) {
-                    btn.className = "flex-1 py-1 rounded-lg bg-white text-brand-700 shadow-sm transition text-center font-bold";
+                    btn.className = "flex-1 py-1 rounded-lg bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-sm transition text-center font-bold";
                 } else {
-                    btn.className = "flex-1 py-1 rounded-lg hover:text-slate-800 transition text-center";
+                    btn.className = "flex-1 py-1 rounded-lg hover:text-slate-800 dark:hover:text-white transition text-center";
                 }
             });
             updateGridHighlight();
@@ -1544,13 +1728,13 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 let baseClass = "w-full h-9 text-xs font-bold rounded-xl border transition-all flex items-center justify-center ";
 
                 if (isCurrent) {
-                    btn.className = baseClass + "border-brand-600 ring-2 ring-brand-400 bg-brand-50 text-brand-800 shadow-sm scale-105 z-10";
+                    btn.className = baseClass + "border-brand-600 ring-2 ring-brand-400 bg-brand-50 dark:bg-brand-950 text-brand-800 dark:text-white shadow-sm scale-105 z-10";
                 } else if (isMarked) {
-                    btn.className = baseClass + "bg-amber-400 text-slate-900 border-amber-500 shadow-sm";
+                    btn.className = baseClass + "bg-amber-400 text-slate-950 border-amber-500 shadow-sm";
                 } else if (isAnswered) {
                     btn.className = baseClass + "bg-emerald-500 text-white border-emerald-600 shadow-sm";
                 } else {
-                    btn.className = baseClass + "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100";
+                    btn.className = baseClass + "bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700";
                 }
             }
         }
@@ -1607,7 +1791,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
             const pct = Math.round((correct / totalQ) * 100);
 
-            // Confetti animation for high scores
             if (pct >= 50 && typeof confetti === 'function') {
                 confetti({
                     particleCount: 100,
@@ -1620,19 +1803,18 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             setTimeout(() => playTone(659.25, 'triangle', 0.15), 150);
             setTimeout(() => playTone(783.99, 'triangle', 0.3), 300);
 
-            // Score badge styling
             const scoreBadge = document.getElementById('score-badge');
             document.getElementById('score-text').innerText = `${correct}/${totalQ}`;
             document.getElementById('score-pct-text').innerText = `${pct}% ગુણ`;
 
             if (pct >= 80) {
-                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-emerald-50 text-emerald-700 border-emerald-500";
+                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border-emerald-500";
                 document.getElementById('result-title').innerText = "અદ્ભુત પ્રદર્શન! ઉત્કૃષ્ટ પરિણામ 🏆";
             } else if (pct >= 50) {
-                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-amber-50 text-amber-700 border-amber-500";
+                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border-amber-500";
                 document.getElementById('result-title').innerText = "ખૂબ સરસ પ્રયાસ! સારો સ્કોર 👍";
             } else {
-                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-rose-50 text-rose-700 border-rose-400";
+                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border-rose-400";
                 document.getElementById('result-title').innerText = "વધુ મહાવરાની જરૂર છે! ફરી પ્રયાસ કરો 📚";
             }
 
@@ -1649,9 +1831,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
             renderReview('all');
 
-            // Save Attempt to Leaderboard & History
             const newEntry = {
                 id: 'sub_' + Date.now(),
+                quizId: activeQuizConfig.id,
+                quizTitle: activeQuizConfig.title,
                 userId: currentUser ? currentUser.uid : null,
                 userEmail: currentUser ? currentUser.email : null,
                 name: studentName,
@@ -1669,7 +1852,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             renderLeaderboard(newEntry.id);
             saveToStudentHistory(newEntry);
 
-            // Sync with Firestore in background if online
+            if (currentUser && currentUser.email) {
+                incrementStudentTestCount(currentUser.email);
+            }
+
             if (db) {
                 try {
                     addDoc(collection(db, "quiz_submissions"), newEntry).catch(() => {});
@@ -1677,14 +1863,13 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
         };
 
-        // REVIEW SECTION
         window.filterReview = function(filter) {
             ['all', 'correct', 'wrong'].forEach(f => {
                 const btn = document.getElementById(`rev-filter-${f}`);
                 if (f === filter) {
-                    btn.className = "px-3 py-1.5 rounded-lg bg-white text-brand-700 shadow-sm transition font-bold";
+                    btn.className = "px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-sm transition font-bold";
                 } else {
-                    btn.className = "px-3 py-1.5 rounded-lg hover:text-slate-900 transition font-semibold";
+                    btn.className = "px-3 py-1.5 rounded-lg hover:text-slate-900 dark:hover:text-white transition font-semibold";
                 }
             });
             renderReview(filter);
@@ -1706,39 +1891,39 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 const card = document.createElement('div');
                 card.className = `p-4 sm:p-5 rounded-2xl border transition-all ${
                     isCorrect 
-                        ? 'bg-emerald-50/50 border-emerald-200' 
+                        ? 'bg-emerald-50/50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800' 
                         : isUnanswered 
-                            ? 'bg-amber-50/40 border-amber-200' 
-                            : 'bg-rose-50/50 border-rose-200'
+                            ? 'bg-amber-50/40 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800' 
+                            : 'bg-rose-50/50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-800'
                 }`;
 
                 let statusBadge = isCorrect
-                    ? `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-300"><i class="fa-solid fa-check mr-1"></i> સાચો જવાબ</span>`
+                    ? `<span class="bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 text-xs font-bold px-3 py-1 rounded-full border border-emerald-300 dark:border-emerald-700"><i class="fa-solid fa-check mr-1"></i> સાચો જવાબ</span>`
                     : isUnanswered
-                        ? `<span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full border border-amber-300"><i class="fa-solid fa-minus mr-1"></i> ઉત્તર નથી આપ્યો</span>`
-                        : `<span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1 rounded-full border border-rose-300"><i class="fa-solid fa-xmark mr-1"></i> ખોટો જવાબ</span>`;
+                        ? `<span class="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-xs font-bold px-3 py-1 rounded-full border border-amber-300 dark:border-amber-700"><i class="fa-solid fa-minus mr-1"></i> ઉત્તર નથી આપ્યો</span>`
+                        : `<span class="bg-rose-100 dark:bg-rose-900 text-rose-800 dark:text-rose-200 text-xs font-bold px-3 py-1 rounded-full border border-rose-300 dark:border-rose-700"><i class="fa-solid fa-xmark mr-1"></i> ખોટો જવાબ</span>`;
 
-                let diagramHtml = (q.hasDiagram && q.diagramSvg) ? `<div class="my-3 p-3 bg-white rounded-xl border border-slate-200 max-w-xs">${q.diagramSvg}</div>` : '';
+                let diagramHtml = (q.hasDiagram && q.diagramSvg) ? `<div class="my-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 max-w-xs">${q.diagramSvg}</div>` : '';
 
                 card.innerHTML = `
                     <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
-                        <span class="font-bold text-slate-800 text-sm sm:text-base">પ્રશ્ન ${idx + 1}: ${q.question}</span>
+                        <span class="font-bold text-slate-800 dark:text-white text-sm sm:text-base">પ્રશ્ન ${idx + 1}: ${q.question}</span>
                         ${statusBadge}
                     </div>
                     ${diagramHtml}
-                    <div class="text-xs sm:text-sm space-y-1.5 mt-3 pt-3 border-t border-slate-200/60">
-                        <p class="${isCorrect ? 'text-emerald-800 font-semibold' : isUnanswered ? 'text-amber-800' : 'text-rose-700 font-semibold'}">
+                    <div class="text-xs sm:text-sm space-y-1.5 mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-800">
+                        <p class="${isCorrect ? 'text-emerald-800 dark:text-emerald-400 font-semibold' : isUnanswered ? 'text-amber-800 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400 font-semibold'}">
                             <b>તમારો ઉત્તર:</b> ${isUnanswered ? '<i>કોઈ વિકલ્પ પસંદ કર્યો ન હતો</i>' : `${optionLabels[userAns]} ${q.options[userAns]}`}
                         </p>
                         ${!isCorrect ? `
-                            <p class="text-emerald-800 font-semibold">
+                            <p class="text-emerald-800 dark:text-emerald-400 font-semibold">
                                 <i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i>
                                 <b>સાચો ઉત્તર:</b> ${optionLabels[q.answer]} ${q.options[q.answer]}
                             </p>
                         ` : ''}
                         ${q.explanation ? `
-                            <div class="mt-2 p-3 bg-white/80 rounded-xl border border-slate-200 text-xs text-slate-700 leading-relaxed">
-                                <span class="font-bold text-brand-700"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> સમજૂતી:</span> ${q.explanation}
+                            <div class="mt-2 p-3 bg-white/80 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                                <span class="font-bold text-brand-700 dark:text-brand-400"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> સમજૂતી:</span> ${q.explanation}
                             </div>
                         ` : ''}
                     </div>
@@ -1759,9 +1944,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             startScreen.classList.remove('hidden');
         };
 
-        // ==========================================
-        // LEADERBOARD LOGIC
-        // ==========================================
+        // LEADERBOARD
         const LEADERBOARD_KEY = 'nmms_quiz_ponsri_leaderboard';
 
         function getDefaultLeaderboard() {
@@ -1794,7 +1977,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 if (b.score !== a.score) return b.score - a.score;
                 return a.timeSeconds - b.timeSeconds;
             });
-            if (list.length > 50) list = list.slice(0, 50);
+            if (list.length > 60) list = list.slice(0, 60);
             try {
                 localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(list));
             } catch (e) {}
@@ -1831,7 +2014,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                     </div>
                     <div class="my-2">
                         <h4 class="text-base font-extrabold ${medal.text} truncate">${item.name}</h4>
-                        <p class="text-xs text-slate-600">રોલ નં: <b>${item.roll}</b></p>
+                        <p class="text-xs text-slate-700">રોલ નં: <b>${item.roll}</b></p>
                     </div>
                     <div class="flex justify-between items-center text-xs pt-2 border-t border-black/10 font-bold ${medal.text}">
                         <span>ગુણ: ${item.score}/${item.total} (${item.pct}%)</span>
@@ -1845,27 +2028,27 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 const rank = idx + 1;
                 const isCurrent = highlightId && (item.id === highlightId);
                 const tr = document.createElement('tr');
-                tr.className = `transition-colors hover:bg-slate-100/70 ${isCurrent ? 'bg-emerald-50 border-2 border-emerald-400 font-bold' : ''}`;
+                tr.className = `transition-colors hover:bg-slate-100/70 dark:hover:bg-slate-800/60 ${isCurrent ? 'bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-400 font-bold' : ''}`;
                 
                 let rankBadge = '';
                 if (rank === 1) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-400 text-amber-950 font-black text-xs shadow-sm">🥇 1</span>';
                 else if (rank === 2) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-300 text-slate-800 font-black text-xs shadow-sm">🥈 2</span>';
                 else if (rank === 3) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-200 text-amber-900 font-black text-xs shadow-sm">🥉 3</span>';
-                else rankBadge = `<span class="text-slate-600 font-bold text-xs">#${rank}</span>`;
+                else rankBadge = `<span class="text-slate-600 dark:text-slate-400 font-bold text-xs">#${rank}</span>`;
 
                 tr.innerHTML = `
                     <td class="py-3 px-3 sm:px-4 text-center whitespace-nowrap">${rankBadge}</td>
-                    <td class="py-3 px-3 sm:px-4 font-bold text-slate-800 flex items-center gap-2">
+                    <td class="py-3 px-3 sm:px-4 font-bold text-slate-800 dark:text-white flex items-center gap-2">
                         <span>${item.name}</span>
                         ${isCurrent ? '<span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">તમે (You)</span>' : ''}
                     </td>
-                    <td class="py-3 px-3 text-center text-slate-500 font-mono">${item.roll}</td>
+                    <td class="py-3 px-3 text-center text-slate-500 dark:text-slate-400 font-mono">${item.roll}</td>
                     <td class="py-3 px-3 text-center whitespace-nowrap">
-                        <span class="bg-brand-50 text-brand-700 font-extrabold px-2.5 py-1 rounded-xl text-xs border border-brand-200">
+                        <span class="bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 font-extrabold px-2.5 py-1 rounded-xl text-xs border border-brand-200 dark:border-brand-800">
                             ${item.score}/${item.total} (${item.pct}%)
                         </span>
                     </td>
-                    <td class="py-3 px-3 text-center font-mono text-slate-600 text-xs whitespace-nowrap">${item.timeFormatted}</td>
+                    <td class="py-3 px-3 text-center font-mono text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap">${item.timeFormatted}</td>
                     <td class="py-3 px-3 sm:px-4 text-center text-slate-400 text-xs whitespace-nowrap">${item.date}</td>
                 `;
                 tableBody.appendChild(tr);
@@ -1890,24 +2073,24 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             list.forEach((item, idx) => {
                 const rank = idx + 1;
                 let rankBadge = rank === 1 ? '🥇 1st' : rank === 2 ? '🥈 2nd' : rank === 3 ? '🥉 3rd' : `#${rank}`;
-                let cardBg = rank === 1 ? 'bg-amber-50 border-amber-300' : rank === 2 ? 'bg-slate-50 border-slate-300' : rank === 3 ? 'bg-orange-50 border-orange-200' : 'bg-white border-slate-200';
+                let cardBg = rank === 1 ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800' : rank === 2 ? 'bg-slate-50 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700' : rank === 3 ? 'bg-orange-50 dark:bg-orange-950/40 border-orange-200 dark:border-orange-800' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800';
 
                 html += `
                     <div class="p-3 sm:p-3.5 rounded-2xl border ${cardBg} flex items-center justify-between gap-3 shadow-sm">
                         <div class="flex items-center space-x-3">
-                            <span class="font-black text-xs sm:text-sm px-2.5 py-1 rounded-xl bg-white/80 shadow-sm text-slate-700 border border-slate-200 min-w-[50px] text-center">
+                            <span class="font-black text-xs sm:text-sm px-2.5 py-1 rounded-xl bg-white/80 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 min-w-[50px] text-center">
                                 ${rankBadge}
                             </span>
                             <div>
-                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm leading-snug">${item.name}</h4>
-                                <p class="text-[11px] text-slate-500">રોલ: <b>${item.roll}</b> | તારીખ: ${item.date}</p>
+                                <h4 class="font-bold text-slate-800 dark:text-white text-xs sm:text-sm leading-snug">${item.name}</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">રોલ: <b>${item.roll}</b> | તારીખ: ${item.date}</p>
                             </div>
                         </div>
                         <div class="text-right">
                             <span class="inline-block bg-brand-600 text-white font-black text-xs px-2.5 py-1 rounded-xl shadow-sm">
                                 ${item.score}/${item.total} (${item.pct}%)
                             </span>
-                            <p class="text-[11px] font-mono text-slate-500 mt-0.5"><i class="fa-regular fa-clock mr-1"></i>${item.timeFormatted}</p>
+                            <p class="text-[11px] font-mono text-slate-500 dark:text-slate-400 mt-0.5"><i class="fa-regular fa-clock mr-1"></i>${item.timeFormatted}</p>
                         </div>
                     </div>
                 `;
@@ -1916,9 +2099,66 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             container.innerHTML = html;
         }
 
-        // ==========================================
+        // PRINT LEADERBOARD PDF
+        window.printLeaderboardPDF = function() {
+            const list = getLeaderboard();
+            const printableContainer = document.getElementById('printable-paper');
+
+            let html = `
+                <div class="border-b-2 border-slate-900 pb-4 mb-6 text-center">
+                    <div class="flex items-center justify-center gap-3 mb-2">
+                        <img src="logo.png" class="w-16 h-16 object-contain">
+                        <div>
+                            <h2 class="text-xl font-bold uppercase text-slate-900">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</h2>
+                            <p class="text-sm font-semibold text-slate-700">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 border-t border-slate-300 pt-2">NMMS કસોટી - શ્રેષ્ઠ વિદ્યાર્થી લીડરબોર્ડ</h3>
+                    <p class="text-xs text-slate-500 mt-1">તારીખ: ${new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                </div>
+
+                <table class="w-full text-left border-collapse text-xs border border-slate-300">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-300">
+                            <th class="p-2.5 text-center border-r">રેન્ક</th>
+                            <th class="p-2.5 border-r">વિદ્યાર્થીનું નામ</th>
+                            <th class="p-2.5 text-center border-r">રોલ નં.</th>
+                            <th class="p-2.5 text-center border-r">મેળવેલ ગુણ</th>
+                            <th class="p-2.5 text-center border-r">ટકાવારી</th>
+                            <th class="p-2.5 text-center border-r">સમય</th>
+                            <th class="p-2.5 text-center">તારીખ</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+            `;
+
+            list.forEach((item, idx) => {
+                html += `
+                    <tr>
+                        <td class="p-2 text-center font-bold border-r">#${idx + 1}</td>
+                        <td class="p-2 font-bold border-r">${item.name}</td>
+                        <td class="p-2 text-center border-r font-mono">${item.roll}</td>
+                        <td class="p-2 text-center font-bold border-r">${item.score}/${item.total}</td>
+                        <td class="p-2 text-center border-r">${item.pct}%</td>
+                        <td class="p-2 text-center border-r font-mono">${item.timeFormatted}</td>
+                        <td class="p-2 text-center">${item.date}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+                <div class="text-center text-xs text-slate-500 mt-8 pt-4 border-t">
+                    પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી | સત્તાવાર કસોટી પોર્ટલ
+                </div>
+            `;
+
+            printableContainer.innerHTML = html;
+            window.print();
+        };
+
         // STUDENT DASHBOARD LOGIC
-        // ==========================================
         const STUDENT_HISTORY_KEY = 'nmms_student_history_local';
 
         function getStudentHistory() {
@@ -1953,7 +2193,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 studentEmailElem.innerText = 'તમારી કસોટીઓની વિગત અને પરિણામો';
             }
 
-            // Stats
             document.getElementById('dash-stat-tests').innerText = hist.length;
 
             if (hist.length > 0) {
@@ -1964,7 +2203,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 const avgPct = Math.round(hist.reduce((sum, h) => sum + (h.pct || 0), 0) / hist.length);
                 document.getElementById('dash-stat-avg').innerText = `${avgPct}%`;
 
-                // Calculate rank from leaderboard
                 const board = getLeaderboard();
                 const matchedIdx = board.findIndex(b => b.name === (studentName || (currentUser && currentUser.displayName)));
                 document.getElementById('dash-stat-rank').innerText = matchedIdx !== -1 ? `#${matchedIdx + 1}` : '#1';
@@ -1974,12 +2212,11 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 document.getElementById('dash-stat-rank').innerText = '-';
             }
 
-            // Render table
             const container = document.getElementById('dash-history-container');
             if (hist.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-8 text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                        <i class="fa-solid fa-file-circle-question text-3xl mb-2 text-slate-300"></i>
+                    <div class="text-center py-8 text-slate-400 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-file-circle-question text-3xl mb-2 text-slate-300 dark:text-slate-600"></i>
                         <p class="text-xs sm:text-sm font-semibold">તમે હજી સુધી કોઈ કસોટી આપી નથી.</p>
                         <p class="text-[11px] mt-0.5">નવી કસોટી શરૂ કરવા નીચેનું બટન દબાવો.</p>
                     </div>
@@ -1988,18 +2225,18 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 let html = '';
                 hist.forEach((h, i) => {
                     html += `
-                        <div class="p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 transition flex items-center justify-between gap-3 shadow-sm">
+                        <div class="p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-between gap-3 shadow-sm">
                             <div class="flex items-center space-x-3">
-                                <span class="w-8 h-8 rounded-xl bg-brand-50 text-brand-700 font-bold flex items-center justify-center text-xs">
+                                <span class="w-8 h-8 rounded-xl bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 font-bold flex items-center justify-center text-xs">
                                     #${i + 1}
                                 </span>
                                 <div>
-                                    <h5 class="text-xs sm:text-sm font-bold text-slate-800">NMMS મોક કસોટી</h5>
-                                    <p class="text-[11px] text-slate-500 font-mono"><i class="fa-regular fa-calendar mr-1"></i>${h.date} | <i class="fa-regular fa-clock mr-1"></i>${h.timeFormatted}</p>
+                                    <h5 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">${h.quizTitle || 'NMMS મોક કસોટી'}</h5>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono"><i class="fa-regular fa-calendar mr-1"></i>${h.date} | <i class="fa-regular fa-clock mr-1"></i>${h.timeFormatted}</p>
                                 </div>
                             </div>
                             <div class="text-right flex items-center space-x-2">
-                                <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2.5 py-1 rounded-xl">
+                                <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-black text-xs px-2.5 py-1 rounded-xl">
                                     ${h.score}/${h.total} (${h.pct}%)
                                 </span>
                             </div>
@@ -2025,15 +2262,15 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
         };
 
-        // ==========================================
-        // ADMIN CONTROL PANEL (patelsandip288@gmail.com)
-        // ==========================================
+        // ADMIN CONTROL PANEL
         window.openAdminModal = function() {
             if (!isUserAdmin) {
                 alert("માત્ર એડમિન (patelsandip288@gmail.com) જ એડમિન પેનલ ઍક્સેસ કરી શકે છે.");
                 return;
             }
             refreshQuizUI();
+            renderAdminQuizzesList();
+            renderAdminStudentsTable();
             renderAdminLeaderboardTable();
             document.getElementById('admin-modal').classList.remove('hidden');
         };
@@ -2043,17 +2280,184 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         };
 
         window.setAdminTab = function(tabName) {
-            ['settings', 'json', 'ai', 'share', 'leaderboard'].forEach(t => {
+            ['quizzes', 'students', 'json', 'ai', 'results', 'settings'].forEach(t => {
                 const btn = document.getElementById(`adm-tab-${t}`);
                 const content = document.getElementById(`adm-content-${t}`);
-                if (t === tabName) {
-                    btn.className = "px-4 py-2 rounded-xl bg-brand-50 text-brand-700 font-extrabold border border-brand-200 transition shrink-0";
-                    content.classList.remove('hidden');
-                } else {
-                    btn.className = "px-4 py-2 rounded-xl hover:bg-slate-100 text-slate-700 transition shrink-0";
-                    content.classList.add('hidden');
+                if (btn && content) {
+                    if (t === tabName) {
+                        btn.className = "px-3.5 py-2 rounded-xl bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 font-extrabold border border-brand-200 dark:border-brand-800 transition shrink-0";
+                        content.classList.remove('hidden');
+                    } else {
+                        btn.className = "px-3.5 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition shrink-0";
+                        content.classList.add('hidden');
+                    }
                 }
             });
+
+            if (tabName === 'quizzes') renderAdminQuizzesList();
+            if (tabName === 'students') renderAdminStudentsTable();
+            if (tabName === 'results') renderAdminLeaderboardTable();
+        };
+
+        // Render All Quizzes & Live Switcher in Admin
+        function renderAdminQuizzesList() {
+            const list = getAllQuizzes();
+            const liveId = localStorage.getItem(LIVE_QUIZ_ID_KEY);
+            const container = document.getElementById('adm-quizzes-list-container');
+            if (!container) return;
+
+            container.innerHTML = '';
+            list.forEach((q, idx) => {
+                const isLive = (q.id === liveId);
+                const card = document.createElement('div');
+                card.className = `p-4 sm:p-5 rounded-2xl border transition-all ${
+                    isLive 
+                        ? 'bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-400 dark:border-emerald-700 shadow-md ring-2 ring-emerald-300' 
+                        : 'bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                }`;
+
+                card.innerHTML = `
+                    <div class="flex flex-wrap justify-between items-start gap-3">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center text-xs">
+                                    ${idx + 1}
+                                </span>
+                                <h4 class="text-base font-extrabold text-slate-900 dark:text-white">${q.title}</h4>
+                                ${isLive ? '<span class="bg-emerald-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase shadow-sm animate-pulse">🟢 લાઈવ ટેસ્ટ (LIVE)</span>' : '<span class="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-full">સાચવેલ</span>'}
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                                <b>${q.questions.length}</b> પ્રશ્નો | સમય: <b>${q.durationMinutes || 60} મિનિટ</b> | નિર્માણ તારીખ: ${q.createdAt || '-'}
+                            </p>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            ${!isLive ? `
+                                <button onclick="makeQuizLive('${q.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition shadow flex items-center gap-1.5">
+                                    <i class="fa-solid fa-tower-broadcast"></i>
+                                    <span>આ કસોટી લાઈવ કરો</span>
+                                </button>
+                            ` : `
+                                <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-3 py-1.5 rounded-xl border border-emerald-300">
+                                    <i class="fa-solid fa-check-double mr-1"></i> વિદ્યાર્થીઓ માટે સક્રિય
+                                </span>
+                            `}
+
+                            <button onclick="toggleQuizQuestionsView('${q.id}')" class="bg-indigo-50 dark:bg-indigo-950/80 hover:bg-indigo-100 text-brand-700 dark:text-indigo-300 font-bold text-xs px-3 py-2 rounded-xl border border-indigo-200 dark:border-indigo-800 transition flex items-center gap-1">
+                                <i class="fa-solid fa-eye"></i> પ્રશ્નો જુઓ
+                            </button>
+
+                            <button onclick="printSpecificQuizPaper('${q.id}', false)" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold text-xs px-3 py-2 rounded-xl transition flex items-center gap-1">
+                                <i class="fa-solid fa-file-pdf text-rose-500"></i> PDF
+                            </button>
+
+                            ${!isLive && list.length > 1 ? `
+                                <button onclick="deleteQuiz('${q.id}')" title="કસોટી ડિલીટ કરો" class="text-rose-600 hover:text-rose-800 p-2 text-sm rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Collapsible Questions Drawer -->
+                    <div id="quiz-preview-${q.id}" class="hidden mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 space-y-2">
+                        <h5 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">પ્રશ્નો અને જવાબો:</h5>
+                        <div class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar text-xs">
+                            ${q.questions.map((item, qIdx) => `
+                                <div class="p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                                    <p class="font-bold text-slate-800 dark:text-white">પ્ર. ${qIdx + 1}: ${item.question}</p>
+                                    <div class="grid grid-cols-2 gap-1 my-1 text-slate-600 dark:text-slate-400">
+                                        ${item.options.map((opt, oIdx) => `<span class="${oIdx === item.answer ? 'text-emerald-600 dark:text-emerald-400 font-bold' : ''}">${['(A)','(B)','(C)','(D)'][oIdx]} ${opt}</span>`).join('')}
+                                    </div>
+                                    ${item.explanation ? `<p class="text-[11px] text-brand-600 dark:text-brand-400">સમજૂતી: ${item.explanation}</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.toggleQuizQuestionsView = function(quizId) {
+            const el = document.getElementById(`quiz-preview-${quizId}`);
+            if (el) el.classList.toggle('hidden');
+        };
+
+        window.makeQuizLive = function(quizId) {
+            localStorage.setItem(LIVE_QUIZ_ID_KEY, quizId);
+            refreshQuizUI();
+            renderAdminQuizzesList();
+            showToast("કસોટી સફળતાપૂર્વક લાઈવ થઈ ગઈ! 🎉");
+        };
+
+        window.deleteQuiz = function(quizId) {
+            if (confirm("શું તમે આ કસોટી ડિલીટ કરવા માંગો છો?")) {
+                let list = getAllQuizzes().filter(q => q.id !== quizId);
+                localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(list));
+                renderAdminQuizzesList();
+                showToast("કસોટી ડિલીટ થઈ ગઈ.");
+            }
+        };
+
+        window.printSpecificQuizPaper = function(quizId, includeAnswers = false) {
+            const list = getAllQuizzes();
+            const targetQuiz = list.find(q => q.id === quizId) || activeQuizConfig;
+            
+            // Backup active temporarily for print
+            const oldActive = activeQuizConfig;
+            activeQuizConfig = targetQuiz;
+            window.printQuestionPaper(includeAnswers);
+            activeQuizConfig = oldActive;
+        };
+
+        // Render Registered Students
+        function renderAdminStudentsTable() {
+            const list = getRegisteredStudents();
+            const tbody = document.getElementById('adm-students-tbody');
+            const countElem = document.getElementById('adm-tab-student-count');
+            if (countElem) countElem.innerText = list.length;
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">હજી સુધી કોઈ વિદ્યાર્થી નોંધાયા નથી.</td></tr>`;
+                return;
+            }
+
+            list.forEach((s, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2.5 text-center font-bold">#${idx + 1}</td>
+                    <td class="p-2.5 font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <img src="${s.photoURL || 'logo.png'}" class="w-6 h-6 rounded-full object-cover">
+                        <span>${s.name}</span>
+                    </td>
+                    <td class="p-2.5 text-slate-600 dark:text-slate-400 font-mono text-[11px]">${s.email}</td>
+                    <td class="p-2.5 text-center font-mono font-bold">${s.roll || '-'}</td>
+                    <td class="p-2.5 text-center">
+                        <span class="bg-indigo-100 dark:bg-indigo-950 text-brand-700 dark:text-indigo-300 font-bold px-2 py-0.5 rounded-full text-xs">
+                            ${s.testsAttempted || 0} કસોટી
+                        </span>
+                    </td>
+                    <td class="p-2.5 text-center text-slate-500 text-xs">${s.lastActive || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.exportRegisteredStudentsCSV = function() {
+            const list = getRegisteredStudents();
+            let csv = "Index,Student Name,Google Email,Roll Number,Tests Attempted,Last Active Date\n";
+            list.forEach((s, idx) => {
+                csv += `${idx + 1},"${s.name}","${s.email}",${s.roll || '-'},${s.testsAttempted || 0},${s.lastActive || '-'}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `NMMS_Registered_Students_Ponsri_${Date.now()}.csv`;
+            link.click();
         };
 
         window.saveAdminSettings = function() {
@@ -2072,7 +2476,14 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             activeQuizConfig.title = newTitle;
             activeQuizConfig.durationMinutes = newDur;
 
-            localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(activeQuizConfig));
+            let all = getAllQuizzes();
+            const idx = all.findIndex(q => q.id === activeQuizConfig.id);
+            if (idx !== -1) {
+                all[idx].title = newTitle;
+                all[idx].durationMinutes = newDur;
+                localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(all));
+            }
+
             refreshQuizUI();
             showToast("કસોટી સેટિંગ્સ સફળતાપૂર્વક સાચવવામાં આવી!");
             closeAdminModal();
@@ -2081,7 +2492,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         // Load Sample JSON for Admin
         window.loadSampleQuizJson = function() {
             const sample = {
-                title: "NMMS પરીક્ષા SAT મોક કસોટી",
+                title: "NMMS પરીક્ષા SAT મોક કસોટી નવી",
                 durationMinutes: 60,
                 school: "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
                 questions: activeQuizConfig.questions
@@ -2110,26 +2521,25 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
                 if (qList.length === 0) throw new Error("કોઈ પ્રશ્નો મળ્યા નથી.");
 
-                // Validate each question
                 qList.forEach((q, idx) => {
                     if (!q.question) throw new Error(`પ્રશ્ન ${idx + 1} માં પ્રશ્ન ટેક્સ્ટ નથી.`);
                     if (!Array.isArray(q.options) || q.options.length < 2) throw new Error(`પ્રશ્ન ${idx + 1} માં ઓછામાં ઓછા ૨ વિકલ્પો જરૂરી છે.`);
                     if (typeof q.answer !== 'number') throw new Error(`પ્રશ્ન ${idx + 1} માં answer ઇન્ડેક્સ નંબર હોવો જોઈએ.`);
                 });
 
-                msgBox.className = "text-xs p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 block";
+                msgBox.className = "text-xs p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 block";
                 msgBox.innerHTML = `<i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> JSON સંપૂર્ણપણે વેલિડ છે! કુલ <b>${qList.length}</b> પ્રશ્નો તૈયાર છે.`;
                 countElem.innerText = `શોધાયેલ: ${qList.length} પ્રશ્નો`;
                 return true;
             } catch (err) {
-                msgBox.className = "text-xs p-3 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 block";
+                msgBox.className = "text-xs p-3 rounded-xl bg-rose-50 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800 block";
                 msgBox.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1 text-rose-600"></i> ભૂલ: ${err.message}`;
                 countElem.innerText = '';
                 return false;
             }
         };
 
-        window.importAdminQuizJson = function() {
+        window.importAdminQuizJson = function(setLiveImmediately = true) {
             if (!validateAdminJson()) {
                 alert("કૃપા કરીને માન્ય JSON ફોર્મેટ દાખલ કરો.");
                 return;
@@ -2142,14 +2552,28 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (Array.isArray(parsed)) newQuestions = parsed;
             else if (parsed.questions) newQuestions = parsed.questions;
 
-            activeQuizConfig.questions = newQuestions;
-            if (parsed.title) activeQuizConfig.title = parsed.title;
-            if (parsed.durationMinutes) activeQuizConfig.durationMinutes = parsed.durationMinutes;
+            const newQuizObj = {
+                id: 'quiz_' + Date.now(),
+                title: parsed.title || `NMMS મોક કસોટી ${getAllQuizzes().length + 1}`,
+                durationMinutes: parsed.durationMinutes || 60,
+                school: parsed.school || "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
+                createdAt: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                questions: newQuestions
+            };
 
-            localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(activeQuizConfig));
-            refreshQuizUI();
-            showToast(`સફળતા! ${newQuestions.length} પ્રશ્નો સાથે નવી કસોટી પબ્લિશ થઈ ગઈ!`);
-            closeAdminModal();
+            let all = getAllQuizzes();
+            all.unshift(newQuizObj);
+            localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(all));
+
+            if (setLiveImmediately) {
+                localStorage.setItem(LIVE_QUIZ_ID_KEY, newQuizObj.id);
+                refreshQuizUI();
+                showToast(`નવી કસોટી સફળતાપૂર્વક સાચવીને લાઈવ કરી દેવાઈ! 🎉`);
+            } else {
+                showToast(`કસોટી ડ્રાફ્ટ તરીકે સેવ થઈ ગઈ.`);
+            }
+
+            setAdminTab('quizzes');
         };
 
         window.copyAiPrompt = function() {
@@ -2159,19 +2583,6 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }).catch(() => {
                 showToast("પ્રોમ્પ્ટ સિલેક્ટ કરીને કોપી કરો.");
             });
-        };
-
-        window.copyShareLink = function() {
-            const input = document.getElementById('adm-share-link-input');
-            navigator.clipboard.writeText(input.value).then(() => {
-                showToast("કસોટીની લિંક કોપી થઈ ગઈ!");
-            });
-        };
-
-        window.shareDirectWhatsApp = function() {
-            const url = "https://nmms.ponsrischool.in";
-            const text = `*પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી*\n🏆 *NMMS પરીક્ષા SAT વિભાગ ઓનલાઇન મોક કસોટી*\nકસોટી આપવા માટે નીચેની લિંક પર ક્લિક કરો:\n👉 ${url}`;
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         };
 
         window.shareScoreCardWhatsApp = function() {
@@ -2191,9 +2602,9 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="p-2.5 text-center font-bold">#${idx + 1}</td>
-                    <td class="p-2.5 font-bold text-slate-800">${item.name}</td>
+                    <td class="p-2.5 font-bold text-slate-800 dark:text-white">${item.name}</td>
                     <td class="p-2.5 text-center font-mono">${item.roll}</td>
-                    <td class="p-2.5 text-center font-bold text-brand-700">${item.score}/${item.total}</td>
+                    <td class="p-2.5 text-center font-bold text-brand-600 dark:text-brand-400">${item.score}/${item.total}</td>
                     <td class="p-2.5 text-center font-mono">${item.timeFormatted}</td>
                     <td class="p-2.5 text-center text-slate-500">${item.date}</td>
                     <td class="p-2.5 text-center">
@@ -2238,9 +2649,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             link.click();
         };
 
-        // ==========================================
         // PRINTABLE QUESTION PAPER & PDF GENERATION
-        // ==========================================
         window.printQuestionPaper = function(includeAnswerKey = false) {
             const container = document.getElementById('printable-paper');
             const qList = activeQuizConfig.questions;
@@ -2303,8 +2712,9 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             window.print();
         };
 
-        // Initialize application on page load
-        loadActiveQuiz();
+        // Initialize application
+        initTheme();
+        refreshQuizUI();
         renderLeaderboard();
     </script>
 </body>
