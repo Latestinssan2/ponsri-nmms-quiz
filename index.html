@@ -46,6 +46,180 @@
                 }
             }
         }
+
+        // ==========================================
+        // LEADERBOARD SYSTEM (Local Persistence)
+        // ==========================================
+        const LEADERBOARD_KEY = 'nmms_quiz_ponsri_leaderboard';
+
+        function getDefaultLeaderboard() {
+            return [
+                { id: 'def_1', name: 'પટેલ મનન કે.', roll: '04', score: 10, total: 10, pct: 100, timeSeconds: 1120, timeFormatted: '18:40', date: '૦૭ નવે' },
+                { id: 'def_2', name: 'પ્રજાપતિ દિયા એસ.', roll: '09', score: 10, total: 10, pct: 100, timeSeconds: 1350, timeFormatted: '22:30', date: '૦૮ નવે' },
+                { id: 'def_3', name: 'ઠાકોર અર્જુન વી.', roll: '15', score: 9, total: 10, pct: 90, timeSeconds: 1210, timeFormatted: '20:10', date: '૦૭ નવે' },
+                { id: 'def_4', name: 'દેસાઈ રિયા એમ.', roll: '22', score: 9, total: 10, pct: 90, timeSeconds: 1480, timeFormatted: '24:40', date: '૦૬ નવે' },
+                { id: 'def_5', name: 'ચૌધરી ક્રિશ પી.', roll: '18', score: 8, total: 10, pct: 80, timeSeconds: 1560, timeFormatted: '26:00', date: '૦૮ નવે' }
+            ];
+        }
+
+        function getLeaderboard() {
+            try {
+                const stored = localStorage.getItem(LEADERBOARD_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch (e) {}
+            const def = getDefaultLeaderboard();
+            localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(def));
+            return def;
+        }
+
+        function saveLeaderboardEntry(entry) {
+            let list = getLeaderboard();
+            list.push(entry);
+            // Sort: highest score first; if equal, fastest time (lowest timeSeconds)
+            list.sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return a.timeSeconds - b.timeSeconds;
+            });
+            // Keep top 25 records
+            if (list.length > 25) list = list.slice(0, 25);
+            try {
+                localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(list));
+            } catch (e) {}
+            return list;
+        }
+
+        function renderLeaderboard(highlightId = null) {
+            const list = getLeaderboard();
+            const podiumContainer = document.getElementById('podium-cards');
+            const tableBody = document.getElementById('leaderboard-table-body');
+            if (!podiumContainer || !tableBody) return;
+
+            podiumContainer.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Podium for Top 3
+            const medals = [
+                { rank: 1, label: '૧મો રેન્ક (ગોલ્ડ)', bg: 'from-amber-400 via-amber-300 to-yellow-500', text: 'text-amber-950', border: 'border-amber-400', icon: 'fa-trophy', iconColor: 'text-amber-700' },
+                { rank: 2, label: '૨જો રેન્ક (સિલ્વર)', bg: 'from-slate-200 via-slate-100 to-slate-300', text: 'text-slate-900', border: 'border-slate-300', icon: 'fa-medal', iconColor: 'text-slate-600' },
+                { rank: 3, label: '૩જો રેન્ક (બ્રોન્ઝ)', bg: 'from-amber-700/20 via-orange-100 to-amber-200', text: 'text-amber-900', border: 'border-amber-600/40', icon: 'fa-award', iconColor: 'text-amber-700' }
+            ];
+
+            list.slice(0, 3).forEach((item, idx) => {
+                const medal = medals[idx];
+                const isCurrent = highlightId && (item.id === highlightId);
+                const podiumCard = document.createElement('div');
+                podiumCard.className = `p-4 rounded-2xl border-2 ${medal.border} bg-gradient-to-b ${medal.bg} shadow-md relative flex flex-col justify-between transition-all ${isCurrent ? 'ring-4 ring-emerald-400 scale-[1.02]' : ''}`;
+                
+                podiumCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[11px] font-black uppercase tracking-wider ${medal.text} flex items-center gap-1">
+                            <i class="fa-solid ${medal.icon} ${medal.iconColor}"></i> ${medal.label}
+                        </span>
+                        ${isCurrent ? '<span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow animate-pulse">તમે 🎯</span>' : ''}
+                    </div>
+                    <div class="my-2">
+                        <h4 class="text-base font-extrabold ${medal.text} truncate">${item.name}</h4>
+                        <p class="text-xs text-slate-600">રોલ નં: <b>${item.roll}</b></p>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pt-2 border-t border-black/10 font-bold ${medal.text}">
+                        <span>ગુણ: ${item.score}/${item.total} (${item.pct}%)</span>
+                        <span class="font-mono"><i class="fa-regular fa-clock mr-1"></i>${item.timeFormatted}</span>
+                    </div>
+                `;
+                podiumContainer.appendChild(podiumCard);
+            });
+
+            // Table rows for all students
+            list.forEach((item, idx) => {
+                const rank = idx + 1;
+                const isCurrent = highlightId && (item.id === highlightId);
+                const tr = document.createElement('tr');
+                tr.className = `transition-colors hover:bg-slate-100/70 ${isCurrent ? 'bg-emerald-50 border-2 border-emerald-400 font-bold' : ''}`;
+                
+                let rankBadge = '';
+                if (rank === 1) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-400 text-amber-950 font-black text-xs shadow-sm">🥇 1</span>';
+                else if (rank === 2) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-300 text-slate-800 font-black text-xs shadow-sm">🥈 2</span>';
+                else if (rank === 3) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-200 text-amber-900 font-black text-xs shadow-sm">🥉 3</span>';
+                else rankBadge = `<span class="text-slate-600 font-bold text-xs">#${rank}</span>`;
+
+                tr.innerHTML = `
+                    <td class="py-3 px-3 sm:px-4 text-center whitespace-nowrap">${rankBadge}</td>
+                    <td class="py-3 px-3 sm:px-4 font-bold text-slate-800 flex items-center gap-2">
+                        <span>${item.name}</span>
+                        ${isCurrent ? '<span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">તમે (You)</span>' : ''}
+                    </td>
+                    <td class="py-3 px-3 text-center text-slate-500 font-mono">${item.roll}</td>
+                    <td class="py-3 px-3 text-center whitespace-nowrap">
+                        <span class="bg-brand-50 text-brand-700 font-extrabold px-2.5 py-1 rounded-xl text-xs border border-brand-200">
+                            ${item.score}/${item.total} (${item.pct}%)
+                        </span>
+                    </td>
+                    <td class="py-3 px-3 text-center font-mono text-slate-600 text-xs whitespace-nowrap">${item.timeFormatted}</td>
+                    <td class="py-3 px-3 sm:px-4 text-center text-slate-400 text-xs whitespace-nowrap">${item.date}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Leaderboard Modal Logic
+        function openLeaderboardModal() {
+            renderModalLeaderboard();
+            document.getElementById('leaderboard-modal').classList.remove('hidden');
+        }
+
+        function closeLeaderboardModal() {
+            document.getElementById('leaderboard-modal').classList.add('hidden');
+        }
+
+        function renderModalLeaderboard() {
+            const list = getLeaderboard();
+            const container = document.getElementById('modal-leaderboard-content');
+            if (!container) return;
+
+            let html = '<div class="space-y-2.5">';
+
+            list.forEach((item, idx) => {
+                const rank = idx + 1;
+                let rankBadge = rank === 1 ? '🥇 1st' : rank === 2 ? '🥈 2nd' : rank === 3 ? '🥉 3rd' : `#${rank}`;
+                let cardBg = rank === 1 ? 'bg-amber-50 border-amber-300' : rank === 2 ? 'bg-slate-50 border-slate-300' : rank === 3 ? 'bg-orange-50 border-orange-200' : 'bg-white border-slate-200';
+
+                html += `
+                    <div class="p-3 sm:p-3.5 rounded-2xl border ${cardBg} flex items-center justify-between gap-3 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <span class="font-black text-xs sm:text-sm px-2.5 py-1 rounded-xl bg-white/80 shadow-sm text-slate-700 border border-slate-200 min-w-[50px] text-center">
+                                ${rankBadge}
+                            </span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm leading-snug">${item.name}</h4>
+                                <p class="text-[11px] text-slate-500">રોલ: <b>${item.roll}</b> | તારીખ: ${item.date}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block bg-brand-600 text-white font-black text-xs px-2.5 py-1 rounded-xl shadow-sm">
+                                ${item.score}/${item.total} (${item.pct}%)
+                            </span>
+                            <p class="text-[11px] font-mono text-slate-500 mt-0.5"><i class="fa-regular fa-clock mr-1"></i>${item.timeFormatted}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function resetLeaderboardData() {
+            if (confirm("શું તમે લીડરબોર્ડ ડેટા રીસેટ કરવા માંગો છો?")) {
+                localStorage.removeItem(LEADERBOARD_KEY);
+                renderLeaderboard();
+                renderModalLeaderboard();
+                alert("લીડરબોર્ડ સફળતાપૂર્વક રીસેટ થઈ ગયું છે.");
+            }
+        }
+
     </script>
 
     <style>
@@ -126,8 +300,15 @@
                 </div>
             </div>
             
-            <!-- In-Quiz Live Status Bar (Timer, Audio & Submit) -->
-            <div id="quiz-header-status" class="hidden flex items-center space-x-2 sm:space-x-3 ml-auto">
+            <!-- Header Right Actions (Leaderboard & In-Quiz Status) -->
+            <div class="flex items-center space-x-2 sm:space-x-3 ml-auto">
+                <button onclick="openLeaderboardModal()" title="લીડરબોર્ડ જુઓ" class="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-900 font-bold px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl transition shadow flex items-center space-x-1.5 text-xs sm:text-sm no-print">
+                    <i class="fa-solid fa-trophy text-amber-900"></i>
+                    <span>લીડરબોર્ડ</span>
+                </button>
+
+                <!-- In-Quiz Live Status Bar (Timer, Audio & Submit) -->
+                <div id="quiz-header-status" class="hidden flex items-center space-x-2 sm:space-x-3">
                 <!-- Sound Toggle -->
                 <button onclick="toggleAudio()" id="sound-btn" title="ધ્વનિ ચાલુ/બંધ" class="bg-white/10 hover:bg-white/20 text-white p-2 sm:px-3 sm:py-2 rounded-xl border border-white/15 transition flex items-center justify-center">
                     <i id="sound-icon" class="fa-solid fa-volume-high text-sm"></i>
@@ -262,6 +443,14 @@
                 <span>કસોટી શરૂ કરો (Start 60-Min Test)</span>
                 <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1.5 transition-transform"></i>
             </button>
+
+            <!-- Leaderboard View Option on Start -->
+            <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-center">
+                <button onclick="openLeaderboardModal()" class="text-xs sm:text-sm font-bold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-trophy text-amber-500"></i>
+                    <span>ટોચના વિદ્યાર્થીઓનું લીડરબોર્ડ જુઓ (View Leaderboard)</span>
+                </button>
+            </div>
         </div>
 
         <!-- SCREEN 2: QUIZ SCREEN -->
@@ -468,6 +657,55 @@
                 <!-- Dynamically populated review cards -->
             </div>
 
+            <!-- LEADERBOARD SECTION AT END OF RESULT -->
+            <div class="mt-10 pt-8 border-t-2 border-slate-100" id="result-leaderboard-section">
+                <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 text-[11px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                            <i class="fa-solid fa-ranking-star mr-1"></i> TOP PERFORMERS
+                        </span>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-2 mt-1">
+                            <i class="fa-solid fa-trophy text-amber-500"></i>
+                            <span>શ્રેષ્ઠ વિદ્યાર્થી લીડરબોર્ડ (Leaderboard)</span>
+                        </h3>
+                        <p class="text-xs text-slate-500">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી - NMMS કસોટી પરિણામ રેન્કિંગ</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 no-print">
+                        <button onclick="resetLeaderboardData()" title="લીડરબોર્ડ રીસેટ" class="text-xs text-slate-400 hover:text-rose-600 transition p-2 rounded-lg hover:bg-rose-50 flex items-center gap-1 font-semibold">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                            <span>રીસેટ ડેટા</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Top 3 Podium Cards -->
+                <div id="podium-cards" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Full Leaderboard Table -->
+                <div class="bg-slate-50/80 rounded-2xl border border-slate-200 overflow-hidden shadow-inner">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-slate-200/80 text-slate-700 font-bold uppercase text-[11px] tracking-wider border-b border-slate-300">
+                                    <th class="py-3 px-3 sm:px-4 text-center">રેન્ક</th>
+                                    <th class="py-3 px-3 sm:px-4">વિદ્યાર્થીનું નામ</th>
+                                    <th class="py-3 px-3 text-center">રોલ નં.</th>
+                                    <th class="py-3 px-3 text-center">ગુણ / ટકાવારી</th>
+                                    <th class="py-3 px-3 text-center">સમય</th>
+                                    <th class="py-3 px-3 sm:px-4 text-center">તારીખ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-table-body" class="divide-y divide-slate-200 text-slate-700 font-medium">
+                                <!-- Dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <!-- Bottom Actions: Retake and Print -->
             <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap justify-center items-center gap-4 no-print">
                 <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 px-6 rounded-2xl shadow-md hover:shadow-lg transition flex items-center space-x-2 text-sm">
@@ -482,6 +720,39 @@
         </div>
 
     </main>
+
+    <!-- Leaderboard Modal -->
+    <div id="leaderboard-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] animate-subtle">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">NMMS કસોટી લીડરબોર્ડ</h3>
+                        <p class="text-xs text-slate-500">PM SHRI PRATHMIK VIDHYAMANDIR PONSRI</p>
+                    </div>
+                </div>
+                <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-slate-700 p-2 text-xl transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="overflow-y-auto custom-scrollbar flex-grow pr-1" id="modal-leaderboard-content">
+                <!-- Dynamically rendered -->
+            </div>
+
+            <div class="pt-4 border-t mt-3 flex justify-between items-center">
+                <button onclick="resetLeaderboardData()" class="text-xs text-slate-400 hover:text-rose-600 font-semibold transition">
+                    <i class="fa-solid fa-trash-can mr-1"></i> ડેટા રીસેટ
+                </button>
+                <button onclick="closeLeaderboardModal()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-xs sm:text-sm transition">
+                    બંધ કરો
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200/80 py-4 px-4 text-center text-xs text-slate-500 no-print mt-6">
@@ -998,6 +1269,22 @@
             document.getElementById('count-rev-wrong').innerText = wrong + unanswered;
 
             renderReview('all');
+
+            // Save to Leaderboard and render
+            const newEntry = {
+                id: 'sub_' + Date.now(),
+                name: studentName,
+                roll: studentRoll,
+                score: correct,
+                total: quizData.length,
+                pct: pct,
+                timeSeconds: timeTakenSecs,
+                timeFormatted: takenMins + ':' + takenSecs.toString().padStart(2, '0'),
+                date: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short' }),
+                timestamp: Date.now()
+            };
+            saveLeaderboardEntry(newEntry);
+            renderLeaderboard(newEntry.id);
         }
 
         let currentReviewFilter = 'all';
@@ -1082,6 +1369,180 @@
             resultScreen.classList.add('hidden');
             startScreen.classList.remove('hidden');
         }
+
+        // ==========================================
+        // LEADERBOARD SYSTEM (Local Persistence)
+        // ==========================================
+        const LEADERBOARD_KEY = 'nmms_quiz_ponsri_leaderboard';
+
+        function getDefaultLeaderboard() {
+            return [
+                { id: 'def_1', name: 'પટેલ મનન કે.', roll: '04', score: 10, total: 10, pct: 100, timeSeconds: 1120, timeFormatted: '18:40', date: '૦૭ નવે' },
+                { id: 'def_2', name: 'પ્રજાપતિ દિયા એસ.', roll: '09', score: 10, total: 10, pct: 100, timeSeconds: 1350, timeFormatted: '22:30', date: '૦૮ નવે' },
+                { id: 'def_3', name: 'ઠાકોર અર્જુન વી.', roll: '15', score: 9, total: 10, pct: 90, timeSeconds: 1210, timeFormatted: '20:10', date: '૦૭ નવે' },
+                { id: 'def_4', name: 'દેસાઈ રિયા એમ.', roll: '22', score: 9, total: 10, pct: 90, timeSeconds: 1480, timeFormatted: '24:40', date: '૦૬ નવે' },
+                { id: 'def_5', name: 'ચૌધરી ક્રિશ પી.', roll: '18', score: 8, total: 10, pct: 80, timeSeconds: 1560, timeFormatted: '26:00', date: '૦૮ નવે' }
+            ];
+        }
+
+        function getLeaderboard() {
+            try {
+                const stored = localStorage.getItem(LEADERBOARD_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch (e) {}
+            const def = getDefaultLeaderboard();
+            localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(def));
+            return def;
+        }
+
+        function saveLeaderboardEntry(entry) {
+            let list = getLeaderboard();
+            list.push(entry);
+            // Sort: highest score first; if equal, fastest time (lowest timeSeconds)
+            list.sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return a.timeSeconds - b.timeSeconds;
+            });
+            // Keep top 25 records
+            if (list.length > 25) list = list.slice(0, 25);
+            try {
+                localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(list));
+            } catch (e) {}
+            return list;
+        }
+
+        function renderLeaderboard(highlightId = null) {
+            const list = getLeaderboard();
+            const podiumContainer = document.getElementById('podium-cards');
+            const tableBody = document.getElementById('leaderboard-table-body');
+            if (!podiumContainer || !tableBody) return;
+
+            podiumContainer.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Podium for Top 3
+            const medals = [
+                { rank: 1, label: '૧મો રેન્ક (ગોલ્ડ)', bg: 'from-amber-400 via-amber-300 to-yellow-500', text: 'text-amber-950', border: 'border-amber-400', icon: 'fa-trophy', iconColor: 'text-amber-700' },
+                { rank: 2, label: '૨જો રેન્ક (સિલ્વર)', bg: 'from-slate-200 via-slate-100 to-slate-300', text: 'text-slate-900', border: 'border-slate-300', icon: 'fa-medal', iconColor: 'text-slate-600' },
+                { rank: 3, label: '૩જો રેન્ક (બ્રોન્ઝ)', bg: 'from-amber-700/20 via-orange-100 to-amber-200', text: 'text-amber-900', border: 'border-amber-600/40', icon: 'fa-award', iconColor: 'text-amber-700' }
+            ];
+
+            list.slice(0, 3).forEach((item, idx) => {
+                const medal = medals[idx];
+                const isCurrent = highlightId && (item.id === highlightId);
+                const podiumCard = document.createElement('div');
+                podiumCard.className = `p-4 rounded-2xl border-2 ${medal.border} bg-gradient-to-b ${medal.bg} shadow-md relative flex flex-col justify-between transition-all ${isCurrent ? 'ring-4 ring-emerald-400 scale-[1.02]' : ''}`;
+                
+                podiumCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[11px] font-black uppercase tracking-wider ${medal.text} flex items-center gap-1">
+                            <i class="fa-solid ${medal.icon} ${medal.iconColor}"></i> ${medal.label}
+                        </span>
+                        ${isCurrent ? '<span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow animate-pulse">તમે 🎯</span>' : ''}
+                    </div>
+                    <div class="my-2">
+                        <h4 class="text-base font-extrabold ${medal.text} truncate">${item.name}</h4>
+                        <p class="text-xs text-slate-600">રોલ નં: <b>${item.roll}</b></p>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pt-2 border-t border-black/10 font-bold ${medal.text}">
+                        <span>ગુણ: ${item.score}/${item.total} (${item.pct}%)</span>
+                        <span class="font-mono"><i class="fa-regular fa-clock mr-1"></i>${item.timeFormatted}</span>
+                    </div>
+                `;
+                podiumContainer.appendChild(podiumCard);
+            });
+
+            // Table rows for all students
+            list.forEach((item, idx) => {
+                const rank = idx + 1;
+                const isCurrent = highlightId && (item.id === highlightId);
+                const tr = document.createElement('tr');
+                tr.className = `transition-colors hover:bg-slate-100/70 ${isCurrent ? 'bg-emerald-50 border-2 border-emerald-400 font-bold' : ''}`;
+                
+                let rankBadge = '';
+                if (rank === 1) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-400 text-amber-950 font-black text-xs shadow-sm">🥇 1</span>';
+                else if (rank === 2) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-300 text-slate-800 font-black text-xs shadow-sm">🥈 2</span>';
+                else if (rank === 3) rankBadge = '<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-200 text-amber-900 font-black text-xs shadow-sm">🥉 3</span>';
+                else rankBadge = `<span class="text-slate-600 font-bold text-xs">#${rank}</span>`;
+
+                tr.innerHTML = `
+                    <td class="py-3 px-3 sm:px-4 text-center whitespace-nowrap">${rankBadge}</td>
+                    <td class="py-3 px-3 sm:px-4 font-bold text-slate-800 flex items-center gap-2">
+                        <span>${item.name}</span>
+                        ${isCurrent ? '<span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">તમે (You)</span>' : ''}
+                    </td>
+                    <td class="py-3 px-3 text-center text-slate-500 font-mono">${item.roll}</td>
+                    <td class="py-3 px-3 text-center whitespace-nowrap">
+                        <span class="bg-brand-50 text-brand-700 font-extrabold px-2.5 py-1 rounded-xl text-xs border border-brand-200">
+                            ${item.score}/${item.total} (${item.pct}%)
+                        </span>
+                    </td>
+                    <td class="py-3 px-3 text-center font-mono text-slate-600 text-xs whitespace-nowrap">${item.timeFormatted}</td>
+                    <td class="py-3 px-3 sm:px-4 text-center text-slate-400 text-xs whitespace-nowrap">${item.date}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Leaderboard Modal Logic
+        function openLeaderboardModal() {
+            renderModalLeaderboard();
+            document.getElementById('leaderboard-modal').classList.remove('hidden');
+        }
+
+        function closeLeaderboardModal() {
+            document.getElementById('leaderboard-modal').classList.add('hidden');
+        }
+
+        function renderModalLeaderboard() {
+            const list = getLeaderboard();
+            const container = document.getElementById('modal-leaderboard-content');
+            if (!container) return;
+
+            let html = '<div class="space-y-2.5">';
+
+            list.forEach((item, idx) => {
+                const rank = idx + 1;
+                let rankBadge = rank === 1 ? '🥇 1st' : rank === 2 ? '🥈 2nd' : rank === 3 ? '🥉 3rd' : `#${rank}`;
+                let cardBg = rank === 1 ? 'bg-amber-50 border-amber-300' : rank === 2 ? 'bg-slate-50 border-slate-300' : rank === 3 ? 'bg-orange-50 border-orange-200' : 'bg-white border-slate-200';
+
+                html += `
+                    <div class="p-3 sm:p-3.5 rounded-2xl border ${cardBg} flex items-center justify-between gap-3 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <span class="font-black text-xs sm:text-sm px-2.5 py-1 rounded-xl bg-white/80 shadow-sm text-slate-700 border border-slate-200 min-w-[50px] text-center">
+                                ${rankBadge}
+                            </span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm leading-snug">${item.name}</h4>
+                                <p class="text-[11px] text-slate-500">રોલ: <b>${item.roll}</b> | તારીખ: ${item.date}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block bg-brand-600 text-white font-black text-xs px-2.5 py-1 rounded-xl shadow-sm">
+                                ${item.score}/${item.total} (${item.pct}%)
+                            </span>
+                            <p class="text-[11px] font-mono text-slate-500 mt-0.5"><i class="fa-regular fa-clock mr-1"></i>${item.timeFormatted}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function resetLeaderboardData() {
+            if (confirm("શું તમે લીડરબોર્ડ ડેટા રીસેટ કરવા માંગો છો?")) {
+                localStorage.removeItem(LEADERBOARD_KEY);
+                renderLeaderboard();
+                renderModalLeaderboard();
+                alert("લીડરબોર્ડ સફળતાપૂર્વક રીસેટ થઈ ગયું છે.");
+            }
+        }
+
     </script>
 </body>
 </html>
