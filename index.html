@@ -1947,27 +1947,18 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         // LEADERBOARD
         const LEADERBOARD_KEY = 'nmms_quiz_ponsri_leaderboard';
 
-        function getDefaultLeaderboard() {
-            return [
-                { id: 'def_1', name: 'પટેલ મનન કે.', roll: '04', score: 10, total: 10, pct: 100, timeSeconds: 1120, timeFormatted: '18:40', date: '૦૭ નવે' },
-                { id: 'def_2', name: 'પ્રજાપતિ દિયા એસ.', roll: '09', score: 10, total: 10, pct: 100, timeSeconds: 1350, timeFormatted: '22:30', date: '૦૮ નવે' },
-                { id: 'def_3', name: 'ઠાકોર અર્જુન વી.', roll: '15', score: 9, total: 10, pct: 90, timeSeconds: 1210, timeFormatted: '20:10', date: '૦૭ નવે' },
-                { id: 'def_4', name: 'દેસાઈ રિયા એમ.', roll: '22', score: 9, total: 10, pct: 90, timeSeconds: 1480, timeFormatted: '24:40', date: '૦૬ નવે' },
-                { id: 'def_5', name: 'ચૌધરી ક્રિશ પી.', roll: '18', score: 8, total: 10, pct: 80, timeSeconds: 1560, timeFormatted: '26:00', date: '૦૮ નવે' }
-            ];
-        }
-
         function getLeaderboard() {
             try {
                 const stored = localStorage.getItem(LEADERBOARD_KEY);
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                    if (Array.isArray(parsed)) {
+                        // Purge any legacy fabricated entries
+                        return parsed.filter(item => item && !String(item.id).startsWith('def_'));
+                    }
                 }
             } catch (e) {}
-            const def = getDefaultLeaderboard();
-            localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(def));
-            return def;
+            return [];
         }
 
         function saveLeaderboardEntry(entry) {
@@ -1992,6 +1983,24 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
             podiumContainer.innerHTML = '';
             tableBody.innerHTML = '';
+
+            if (list.length === 0) {
+                podiumContainer.innerHTML = `
+                    <div class="sm:col-span-3 text-center py-6 text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800">
+                        <i class="fa-solid fa-trophy text-3xl text-slate-300 dark:text-slate-700 block mb-2"></i>
+                        <p class="font-bold text-sm text-slate-600 dark:text-slate-300">હજી સુધી કોઈ પરિણામ નોંધાયેલ નથી.</p>
+                        <p class="text-xs mt-0.5">વિદ્યાર્થીઓ કસોટી આપશે તેમ સાચા રેન્કિંગ અહીં લાઈવ જોવા મળશે.</p>
+                    </div>
+                `;
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-6 text-center text-slate-400 dark:text-slate-500 font-medium text-xs sm:text-sm">
+                            હજી સુધી કોઈ પરિણામ નોંધાયેલ નથી.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
 
             const medals = [
                 { rank: 1, label: '૧મો રેન્ક (ગોલ્ડ)', bg: 'from-amber-400 via-amber-300 to-yellow-500', text: 'text-amber-950', border: 'border-amber-400', icon: 'fa-trophy', iconColor: 'text-amber-700' },
@@ -2069,6 +2078,17 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             const container = document.getElementById('modal-leaderboard-content');
             if (!container) return;
 
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 text-slate-400 dark:text-slate-500">
+                        <i class="fa-solid fa-trophy text-4xl text-slate-300 dark:text-slate-700 block mb-2"></i>
+                        <p class="font-bold text-sm text-slate-700 dark:text-slate-300">હજી સુધી કોઈ પરિણામ નોંધાયેલ નથી.</p>
+                        <p class="text-xs mt-1">વિદ્યાર્થીઓ કસોટી આપશે તેમ તેમના સાચા ગુણ અને રેન્ક અહીં જોવા મળશે.</p>
+                    </div>
+                `;
+                return;
+            }
+
             let html = '<div class="space-y-2.5">';
             list.forEach((item, idx) => {
                 const rank = idx + 1;
@@ -2102,6 +2122,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         // PRINT LEADERBOARD PDF
         window.printLeaderboardPDF = function() {
             const list = getLeaderboard();
+            if (list.length === 0) {
+                alert("હજી સુધી કોઈ પરિણામ નોંધાયેલ નથી.");
+                return;
+            }
             const printableContainer = document.getElementById('printable-paper');
 
             let html = `
@@ -2713,7 +2737,20 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         };
 
         // Initialize application
-        initTheme();
+
+        // Cleanse legacy dummy data from local storage
+        try {
+            const stored = localStorage.getItem(LEADERBOARD_KEY);
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed)) {
+                    const cleaned = parsed.filter(item => item && !String(item.id).startsWith('def_'));
+                    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(cleaned));
+                }
+            }
+        } catch(e) {}
+
+                initTheme();
         refreshQuizUI();
         renderLeaderboard();
     </script>
