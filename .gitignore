@@ -1,1 +1,8 @@
+.DS_Store
+node_modules/
 .vercel
+/android-keystore/release.jks
+/android_app/.gradle/
+/android_app/build/
+/android_app/app/build/
+*.apk

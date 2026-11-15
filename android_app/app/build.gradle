@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'in.ponsrischool.nmms'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "in.ponsrischool.nmms"
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../../android-keystore/release.jks")
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "Ponsri@2026Secure"
+            keyAlias System.getenv("KEY_ALIAS") ?: "ponsri-release"
+            keyPassword System.getenv("KEY_PASSWORD") ?: "Ponsri@2026Secure"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+}

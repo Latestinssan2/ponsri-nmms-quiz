@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.NmmsPonsri" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#4338ca</item>
+        <item name="colorPrimaryVariant">#312e81</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="android:statusBarColor">#312e81</item>
+        <item name="android:navigationBarColor">#1e1b4b</item>
+    </style>
+
+    <style name="Theme.NmmsPonsri.Fullscreen" parent="Theme.NmmsPonsri">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:keepScreenOn">true</item>
+    </style>
+</resources>
