@@ -395,7 +395,7 @@
                     <i class="fa-solid fa-file-pdf text-rose-500"></i>
                     <span>પ્રશ્નપત્ર PDF</span>
                 </button>
-                <button onclick="copyAiPrompt()" class="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-300 hover:text-amber-900 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 border border-amber-300 dark:border-amber-800 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+                <button id="home-ai-prompt-btn" onclick="copyAiPrompt()" class="hidden text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-300 hover:text-amber-900 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 border border-amber-300 dark:border-amber-800 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
                     <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i>
                     <span>AI પ્રોમ્પ્ટ કોપી કરો</span>
                 </button>
@@ -1019,12 +1019,28 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 </div>
             </div>
 
-            <!-- TAB 5: RESULTS & LEADERBOARD -->
+            <!-- TAB 5: RESULTS, EXAMS & SUBMISSION DETAILS -->
             <div id="adm-content-results" class="admin-tab-content hidden space-y-4 overflow-y-auto custom-scrollbar flex-grow pr-1">
-                <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+                <!-- Sub-tabs for Results: Leaderboard vs Detailed Submissions -->
+                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
+                    <div class="flex space-x-2">
+                        <button onclick="switchAdminResultView('leaderboard')" id="res-subtab-leaderboard" class="px-3 py-1.5 rounded-xl bg-brand-600 text-white font-bold text-xs shadow-sm">
+                            🏆 શ્રેષ્ઠ લીડરબોર્ડ (Leaderboard)
+                        </button>
+                        <button onclick="switchAdminResultView('submissions')" id="res-subtab-submissions" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-200">
+                            📝 તમામ પરીક્ષા પરિણામો & પ્રશ્નો (All Exam Submissions)
+                        </button>
+                    </div>
+                    <button onclick="loadAdminCloudData(true)" class="text-xs bg-indigo-50 dark:bg-indigo-950 text-brand-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-bold px-2.5 py-1 rounded-lg hover:bg-indigo-100 flex items-center gap-1">
+                        <i class="fa-solid fa-arrows-rotate"></i> રીફ્રેશ ડેટાબેઝ
+                    </button>
+                </div>
+
+                <!-- VIEW A: LEADERBOARD -->
+                <div id="adm-view-leaderboard" class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
                     <div class="flex flex-wrap justify-between items-center gap-2">
                         <h4 class="font-bold text-slate-800 dark:text-white text-sm sm:text-base flex items-center">
-                            <i class="fa-solid fa-list-ol text-brand-600 mr-2"></i> તમામ વિદ્યાર્થી પરિણામો
+                            <i class="fa-solid fa-trophy text-amber-500 mr-2"></i> લીડરબોર્ડ રેન્કિંગ (ટોચના ગુણ)
                         </h4>
                         <div class="flex space-x-2">
                             <button onclick="printLeaderboardPDF()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1 shadow">
@@ -1057,6 +1073,25 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+
+                <!-- VIEW B: DETAILED EXAM SUBMISSIONS & QUESTIONS -->
+                <div id="adm-view-submissions" class="hidden bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <div>
+                            <h4 class="font-bold text-slate-800 dark:text-white text-sm sm:text-base flex items-center">
+                                <i class="fa-solid fa-clipboard-check text-emerald-600 mr-2"></i> તમામ પરીક્ષા સબમિશન & આપેલા જવાબો
+                            </h4>
+                            <p class="text-xs text-slate-500">દરેક વિદ્યાર્થીએ આપેલા પ્રશ્નો અને સાચા/ખોટા જવાબો વિગતે જોવા માટે 'પ્રશ્નો જુઓ' પર ક્લિક કરો.</p>
+                        </div>
+                        <span id="adm-submissions-count-badge" class="bg-indigo-100 dark:bg-indigo-950 text-brand-700 dark:text-indigo-300 text-xs font-bold px-2.5 py-1 rounded-full border border-indigo-200 dark:border-indigo-800">
+                            0 સબમિશન
+                        </span>
+                    </div>
+
+                    <div id="adm-submissions-container" class="space-y-3 max-h-[380px] overflow-y-auto custom-scrollbar">
+                        <!-- Populated dynamically from Firebase submissions collection -->
                     </div>
                 </div>
             </div>
@@ -1114,7 +1149,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, limit, deleteDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-e516egy6mQlxyV9jPjl2w82kiNoILcU",
@@ -1473,12 +1508,15 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
                 isUserAdmin = (user.email && ADMIN_EMAILS.some(em => em.toLowerCase() === user.email.toLowerCase()));
 
+                const homeAiBtn = document.getElementById('home-ai-prompt-btn');
                 if (isUserAdmin) {
                     userRoleBadge.innerText = "Admin 👑";
                     userRoleBadge.className = "text-[9px] text-amber-300 font-black uppercase";
                     adminBadgeBtn.classList.remove('hidden');
+                    if (homeAiBtn) homeAiBtn.classList.remove('hidden');
                     showToast(`સ્વાગત છે એડમિન (${user.displayName || user.email})! 👑`);
                 } else {
+                    if (homeAiBtn) homeAiBtn.classList.add('hidden');
                     userRoleBadge.innerText = "Student";
                     userRoleBadge.className = "text-[9px] text-slate-300 font-semibold uppercase";
                     adminBadgeBtn.classList.add('hidden');
@@ -1504,6 +1542,8 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 loginBtn.classList.remove('hidden');
                 profilePill.classList.add('hidden');
                 adminBadgeBtn.classList.add('hidden');
+                const homeAiBtn = document.getElementById('home-ai-prompt-btn');
+                if (homeAiBtn) homeAiBtn.classList.add('hidden');
 
                 // Lock Student Fields
                 googleRequiredBanner.classList.remove('hidden');
@@ -2001,10 +2041,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 incrementStudentTestCount(currentUser.email);
             }
 
-            // FIREBASE FIRESTORE DATA SAVING
+            // FIREBASE FIRESTORE DATA SAVING (Submissions, Leaderboard, Students)
             if (db) {
                 try {
-                    addDoc(collection(db, "submissions"), {
+                    const submissionData = {
                         quizId: activeQuizConfig.id,
                         quizTitle: activeQuizConfig.title,
                         studentUid: currentUser ? currentUser.uid : "anon",
@@ -2023,8 +2063,16 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                         submittedAt: new Date().toISOString(),
                         dateFormatted: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
                         answers: userAnswers
-                    }).catch(e => console.warn("Firebase submission error:", e));
+                    };
 
+                    addDoc(collection(db, "submissions"), submissionData)
+                        .then(() => {
+                            console.log("Firebase submission saved successfully");
+                            if (isUserAdmin) loadAdminSubmissionsFromFirebase();
+                        })
+                        .catch(e => console.warn("Firebase submission error:", e));
+
+                    // Student Key based on UID or unique string
                     const studentKey = currentUser ? currentUser.uid : ('guest_' + encodeURIComponent(studentName + '_' + studentRoll));
                     const leaderRef = doc(db, "leaderboard", studentKey);
                     
@@ -2047,16 +2095,36 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                                 score: correct,
                                 total: totalQ,
                                 pct: pct,
-                                timeSeconds: timeTakenSecs,
+                                isPassed: isPassed,
+                                sectionScores: sectionStats,
+                                timeTakenSecs: timeTakenSecs,
                                 timeFormatted: `${takenHours > 0 ? takenHours + ':' : ''}${takenMins}:${takenSecs.toString().padStart(2, '0')}`,
                                 date: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short' }),
                                 timestamp: Date.now()
                             }, { merge: true }).then(() => {
                                 syncLeaderboardFromFirebase();
-                            }).catch(() => {});
+                            }).catch(err => console.warn("Leaderboard save error:", err));
                         }
-                    }).catch(() => {});
-                } catch(e) {}
+                    }).catch(err => console.warn("Leaderboard get error:", err));
+
+                    // Save registered student profile to Firebase Firestore 'students' collection
+                    if (currentUser && currentUser.uid) {
+                        const studentDocRef = doc(db, "students", currentUser.uid);
+                        setDoc(studentDocRef, {
+                            uid: currentUser.uid,
+                            name: studentName,
+                            email: currentUser.email,
+                            photoURL: currentUser.photoURL || "logo.png",
+                            roll: studentRoll,
+                            school: studentSchool,
+                            lastActive: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                            lastScore: correct,
+                            timestamp: Date.now()
+                        }, { merge: true }).catch(err => console.warn("Student cloud save error:", err));
+                    }
+                } catch(e) {
+                    console.warn("Top level firestore save error:", e);
+                }
             }
         };
 
@@ -2173,32 +2241,208 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         }
 
         
-        // Real-Time Firebase Firestore Sync
+        // Real-Time Firebase Firestore Sync for Leaderboard
         async function syncLeaderboardFromFirebase() {
             if (!db) return;
             try {
-                const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), orderBy("timeSeconds", "asc"), limit(60));
+                const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), orderBy("timeSeconds", "asc"), limit(100));
                 const snap = await getDocs(q);
+                const cloudList = [];
                 if (!snap.empty) {
-                    const cloudList = [];
                     snap.forEach(docSnap => {
                         const item = docSnap.data();
                         if (item && !String(item.id).startsWith('def_')) {
                             cloudList.push(item);
                         }
                     });
-                    if (cloudList.length > 0) {
-                        localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(cloudList));
-                        renderLeaderboard();
-                        renderAdminLeaderboardTable();
-                        const badge = document.getElementById('firebase-cloud-badge');
-                        if (badge) badge.classList.remove('hidden');
-                    }
                 }
+                localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(cloudList));
+                renderLeaderboard();
+                renderAdminLeaderboardTable();
+                const badge = document.getElementById('firebase-cloud-badge');
+                if (badge) badge.classList.remove('hidden');
             } catch(e) {
                 console.warn("Firebase sync note:", e);
             }
         }
+
+        // Real-Time Firebase Firestore Sync for Registered Students
+        async function syncStudentsFromFirebase() {
+            if (!db) return;
+            try {
+                const snap = await getDocs(collection(db, "students"));
+                if (!snap.empty) {
+                    let localList = getRegisteredStudents();
+                    snap.forEach(docSnap => {
+                        const sData = docSnap.data();
+                        const idx = localList.findIndex(s => s.email.toLowerCase() === (sData.email || '').toLowerCase());
+                        if (idx !== -1) {
+                            localList[idx] = { ...localList[idx], ...sData };
+                        } else {
+                            localList.push(sData);
+                        }
+                    });
+                    localStorage.setItem(REG_STUDENTS_KEY, JSON.stringify(localList));
+                    renderAdminStudentsTable();
+                }
+            } catch(e) {
+                console.warn("Firebase sync students error:", e);
+            }
+        }
+
+        // In-memory cache for admin submissions
+        let adminSubmissionsList = [];
+
+        async function loadAdminSubmissionsFromFirebase() {
+            if (!db) return;
+            try {
+                const q = query(collection(db, "submissions"), orderBy("submittedAt", "desc"), limit(100));
+                const snap = await getDocs(q);
+                adminSubmissionsList = [];
+                snap.forEach(d => {
+                    adminSubmissionsList.push({ id: d.id, ...d.data() });
+                });
+                renderAdminSubmissionsView();
+            } catch(e) {
+                console.warn("Error loading submissions:", e);
+            }
+        }
+
+        window.loadAdminCloudData = function(showNotice = false) {
+            syncLeaderboardFromFirebase();
+            syncStudentsFromFirebase();
+            loadAdminSubmissionsFromFirebase();
+            if (showNotice) showToast("ડેટાબેઝ રીફ્રેશ થઈ ગયું! 🔄");
+        };
+
+        window.switchAdminResultView = function(view) {
+            const btnLead = document.getElementById('res-subtab-leaderboard');
+            const btnSubs = document.getElementById('res-subtab-submissions');
+            const viewLead = document.getElementById('adm-view-leaderboard');
+            const viewSubs = document.getElementById('adm-view-submissions');
+
+            if (view === 'leaderboard') {
+                btnLead.className = "px-3 py-1.5 rounded-xl bg-brand-600 text-white font-bold text-xs shadow-sm";
+                btnSubs.className = "px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-200";
+                viewLead.classList.remove('hidden');
+                viewSubs.classList.add('hidden');
+                renderAdminLeaderboardTable();
+            } else {
+                btnSubs.className = "px-3 py-1.5 rounded-xl bg-brand-600 text-white font-bold text-xs shadow-sm";
+                btnLead.className = "px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-200";
+                viewSubs.classList.remove('hidden');
+                viewLead.classList.add('hidden');
+                loadAdminSubmissionsFromFirebase();
+            }
+        };
+
+        function renderAdminSubmissionsView() {
+            const container = document.getElementById('adm-submissions-container');
+            const countBadge = document.getElementById('adm-submissions-count-badge');
+            if (!container) return;
+
+            if (countBadge) countBadge.innerText = `${adminSubmissionsList.length} સબમિશન`;
+            container.innerHTML = '';
+
+            if (adminSubmissionsList.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-200 dark:border-slate-800">
+                    હજી સુધી કોઈ કસોટી સબમિશન થયેલ નથી.
+                </div>`;
+                return;
+            }
+
+            // Get live questions or fallback
+            const currentQuestions = activeQuizConfig.questions || [];
+
+            adminSubmissionsList.forEach((sub, sIdx) => {
+                const card = document.createElement('div');
+                card.className = "p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3";
+                
+                const secBreakdown = sub.sectionScores ? Object.entries(sub.sectionScores).map(([sec, data]) => `
+                    <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[11px] font-bold">
+                        ${sec}: ${data.correct}/${data.total}
+                    </span>
+                `).join(' ') : '';
+
+                card.innerHTML = `
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div class="space-y-0.5">
+                            <div class="flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs flex items-center justify-center">#${sIdx + 1}</span>
+                                <h5 class="font-extrabold text-sm text-slate-900 dark:text-white">${sub.studentName}</h5>
+                                <span class="font-mono text-xs text-slate-500">(રોલ: ${sub.studentRoll || '-'})</span>
+                                ${sub.isPassed ? '<span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full">પાસ 🏆</span>' : '<span class="bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full">પ્રયાસ જારી</span>'}
+                            </div>
+                            <p class="text-xs text-slate-500">${sub.quizTitle || 'NMMS કસોટી'} | ઈમેલ: <span class="font-mono">${sub.studentEmail || '-'}</span> | તારીખ: ${sub.dateFormatted || sub.submittedAt || '-'}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="text-right">
+                                <div class="text-base font-black text-brand-600 dark:text-brand-400">${sub.score}/${sub.totalMarks || sub.totalQuestions}</div>
+                                <div class="text-[10px] text-slate-400 font-mono">${sub.percentage}% | ${sub.timeFormatted || '-'}</div>
+                            </div>
+                            <button onclick="toggleSubmissionAnswers('${sub.id}')" class="bg-indigo-50 dark:bg-indigo-950 text-brand-700 dark:text-indigo-300 hover:bg-indigo-100 font-bold text-xs px-3 py-1.5 rounded-xl border border-indigo-200 dark:border-indigo-800 transition">
+                                <i class="fa-solid fa-list-check mr-1"></i> પ્રશ્નો જુઓ
+                            </button>
+                            <button onclick="adminDeleteCloudSubmission('${sub.id}')" title="ડિલીટ કરો" class="text-rose-600 hover:text-rose-800 p-1.5 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    ${secBreakdown ? `<div class="flex flex-wrap gap-1.5 pt-1 border-t border-slate-100 dark:border-slate-800">${secBreakdown}</div>` : ''}
+
+                    <!-- Answer Details Collapsible -->
+                    <div id="sub-answers-${sub.id}" class="hidden pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                        <h6 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">વિદ્યાર્થીના જવાબો અને પ્રશ્નોની વિગત:</h6>
+                        <div class="max-h-64 overflow-y-auto custom-scrollbar space-y-2 text-xs">
+                            ${(currentQuestions.length > 0 ? currentQuestions : (sub.answers ? Object.keys(sub.answers).map(id => ({ id, question: `પ્રશ્ન #${id}`, options: ['A','B','C','D'], answer: 0 })) : [])).map((q, idx) => {
+                                const selected = sub.answers ? sub.answers[q.id] : undefined;
+                                const isCorrect = (selected !== undefined && selected === q.answer);
+                                const isSkipped = (selected === undefined || selected === null);
+                                return `
+                                    <div class="p-2.5 rounded-xl border ${isCorrect ? 'bg-emerald-50/60 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800' : isSkipped ? 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800' : 'bg-rose-50/60 dark:bg-rose-950/30 border-rose-300 dark:border-rose-800'}">
+                                        <div class="flex justify-between items-start gap-2">
+                                            <p class="font-bold text-slate-800 dark:text-slate-100">પ્ર. ${idx + 1}: ${q.question}</p>
+                                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${isCorrect ? 'bg-emerald-600 text-white' : isSkipped ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300' : 'bg-rose-600 text-white'}">
+                                                ${isCorrect ? '✓ સાચો' : isSkipped ? 'છોડેલ' : '✗ ખોટો'}
+                                            </span>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-1 mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">
+                                            ${q.options ? q.options.map((opt, oIdx) => `
+                                                <span class="${oIdx === q.answer ? 'text-emerald-700 dark:text-emerald-400 font-bold' : ''} ${oIdx === selected && !isCorrect ? 'text-rose-700 dark:text-rose-400 line-through' : ''}">
+                                                    ${['(A)','(B)','(C)','(D)'][oIdx]} ${opt} ${oIdx === selected ? '👈 (પસંદ કરેલ)' : ''}
+                                                </span>
+                                            `).join('') : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.toggleSubmissionAnswers = function(id) {
+            const el = document.getElementById(`sub-answers-${id}`);
+            if (el) el.classList.toggle('hidden');
+        };
+
+        window.adminDeleteCloudSubmission = async function(id) {
+            if (!confirm("શું તમે આ સબમિશન ડિલીટ કરવા માંગો છો?")) return;
+            try {
+                if (db) {
+                    await deleteDoc(doc(db, "submissions", id));
+                }
+                adminSubmissionsList = adminSubmissionsList.filter(s => s.id !== id);
+                renderAdminSubmissionsView();
+                showToast("સબમિશન ડિલીટ થઈ ગયું.");
+            } catch(e) {
+                console.warn("Delete submission error:", e);
+                showToast("ડિલીટ કરવામાં ભૂલ થઈ: " + e.message, true);
+            }
+        };
 
         function renderLeaderboard(highlightId = null) {
             const list = getLeaderboard();
@@ -2521,6 +2765,8 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             renderAdminQuizzesList();
             renderAdminStudentsTable();
             renderAdminLeaderboardTable();
+            loadAdminSubmissionsFromFirebase();
+            syncStudentsFromFirebase();
             document.getElementById('admin-modal').classList.remove('hidden');
         };
 
@@ -2866,21 +3112,42 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             });
         }
 
-        window.adminDeleteSubmission = function(id) {
+        window.adminDeleteSubmission = async function(id) {
             if (confirm("શું તમે આ પરિણામ કાઢી નાખવા માંગો છો?")) {
                 let list = getLeaderboard().filter(i => i.id !== id);
                 localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(list));
                 renderAdminLeaderboardTable();
                 renderLeaderboard();
+
+                if (db) {
+                    try {
+                        await deleteDoc(doc(db, "leaderboard", id));
+                    } catch(e) {
+                        console.warn("Delete doc error:", e);
+                    }
+                }
                 showToast("પરિણામ કાઢી નાખવામાં આવ્યું.");
             }
         };
 
-        window.adminResetLeaderboard = function() {
+        window.adminResetLeaderboard = async function() {
             if (confirm("ધ્યાન આપો: શું તમે તમામ લીડરબોર્ડ ડેટા ડિલીટ કરવા માંગો છો?")) {
+                const currentList = getLeaderboard();
                 localStorage.removeItem(LEADERBOARD_KEY);
                 renderAdminLeaderboardTable();
                 renderLeaderboard();
+
+                if (db) {
+                    try {
+                        for (const item of currentList) {
+                            if (item.id) {
+                                await deleteDoc(doc(db, "leaderboard", item.id));
+                            }
+                        }
+                    } catch(e) {
+                        console.warn("Firestore reset error:", e);
+                    }
+                }
                 showToast("લીડરબોર્ડ સંપૂર્ણપણે રીસેટ થઈ ગયું.");
             }
         };
@@ -2979,6 +3246,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         refreshQuizUI();
         renderLeaderboard();
         syncLeaderboardFromFirebase();
+        syncStudentsFromFirebase();
     </script>
 </body>
 </html>
