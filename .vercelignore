@@ -1,0 +1,7 @@
+flutter_app
+android_app
+android-keystore
+release_out
+*.apk
+.git
+.github
