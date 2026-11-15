@@ -25,8 +25,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Restore Keystore from Secret
         run: |
@@ -35,7 +35,7 @@ jobs:
             echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > android-keystore/release.jks
           fi
 
-      - name: Grant Execute Permission to Gradle Wrapper
+      - name: Generate Gradle Wrapper
         working-directory: android_app
         run: |
           gradle wrapper --gradle-version 8.5
@@ -47,7 +47,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'Ponsri@2026Secure' }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'ponsri-release' }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'Ponsri@2026Secure' }}
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease --stacktrace
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -66,12 +66,12 @@ jobs:
           prerelease: false
           body: |
             ## 📱 PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
-            ### NMMS Secure Examination App - Release
+            ### NMMS Secure Examination App - Official Release
 
             **મુખ્ય વિશેષતાઓ (Features):**
             - 🔒 **સુરક્ષિત પરીક્ષા મોડ (Anti-Cheat)**: કસોટી દરમિયાન ૩ વખત એપ મિનિમાઇઝ કરવા પર આપમેળે જમા (Auto-Submit).
             - 🔆 **સ્ક્રીન જાગૃત રહે છે (Screen Keep Awake)**: પરીક્ષા આપતી વખતે સ્ક્રીન બંધ થતી નથી.
             - 🔔 **લાઈવ કસોટી નોટિફિકેશન (Live Quiz Notification)**.
-            - 👑 **એડમિન પેનલ સપોર્ટ**.
+            - 👑 **એડમિન કંટ્રોલ પેનલ ઍક્સેસ**.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
