@@ -116,6 +116,8 @@ class LiveQuizState {
   static final ValueNotifier<String> activeQuizId = ValueNotifier<String>('paper52');
   static final ValueNotifier<String> activeQuizTitle =
       ValueNotifier<String>('NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52');
+  static final ValueNotifier<int> totalQuestions = ValueNotifier<int>(180);
+  static final ValueNotifier<int> durationMinutes = ValueNotifier<int>(180);
 
   static Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
@@ -123,6 +125,8 @@ class LiveQuizState {
     activeQuizId.value = prefs.getString('active_quiz_id') ?? 'paper52';
     activeQuizTitle.value = prefs.getString('active_quiz_title') ??
         'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52';
+    totalQuestions.value = prefs.getInt('active_quiz_total_questions') ?? 180;
+    durationMinutes.value = prefs.getInt('active_quiz_duration_minutes') ?? 180;
 
     // Sync cloud live quiz status from Firestore
     FirestoreService.fetchLiveQuizConfig().then((cfg) {
@@ -130,18 +134,28 @@ class LiveQuizState {
         if (cfg.containsKey('isLive')) isLive.value = cfg['isLive'] as bool;
         if (cfg.containsKey('activeQuizId')) activeQuizId.value = cfg['activeQuizId'] as String;
         if (cfg.containsKey('activeQuizTitle')) activeQuizTitle.value = cfg['activeQuizTitle'] as String;
+        if (cfg.containsKey('totalQuestions')) {
+          totalQuestions.value = cfg['totalQuestions'] as int? ?? 180;
+        }
+        if (cfg.containsKey('durationMinutes')) {
+          durationMinutes.value = cfg['durationMinutes'] as int? ?? 180;
+        }
       }
     });
   }
 
-  static Future<void> setLiveQuiz(String id, String title) async {
+  static Future<void> setLiveQuiz(String id, String title, {int total = 180, int duration = 180}) async {
     isLive.value = true;
     activeQuizId.value = id;
     activeQuizTitle.value = title;
+    totalQuestions.value = total;
+    durationMinutes.value = duration;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('is_quiz_live', true);
     await prefs.setString('active_quiz_id', id);
     await prefs.setString('active_quiz_title', title);
+    await prefs.setInt('active_quiz_total_questions', total);
+    await prefs.setInt('active_quiz_duration_minutes', duration);
 
     final ids = prefs.getStringList('past_live_quiz_ids') ?? [];
     if (!ids.contains(id)) {
@@ -537,6 +551,37 @@ class FirestoreService {
       debugPrint('Firestore saveLiveQuizConfig error: $e');
       return false;
     }
+  }
+
+  // 5. Fetch Quiz Questions from Firestore
+  static Future<List<dynamic>?> fetchQuizData(String quizId) async {
+    try {
+      final token = await getFirebaseToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+      final url = Uri.parse('$baseUrl/quizzes/$quizId');
+      final res = await http.get(url, headers: headers);
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final fields = data['fields'] as Map<String, dynamic>?;
+        if (fields != null && fields['dataJson'] != null) {
+          final raw = _decodeValue(fields['dataJson'])?.toString();
+          if (raw != null) {
+            final parsed = jsonDecode(raw);
+            if (parsed is Map && parsed.containsKey('questions')) {
+              return parsed['questions'] as List<dynamic>;
+            } else if (parsed is List) {
+              return parsed;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Firestore fetchQuizData notice: $e');
+    }
+    return null;
   }
 
   // 5. Check if student has already attempted this Live Quiz (1 attempt enforcement)
@@ -1203,7 +1248,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             onOpenAdmin: isAdmin ? () => setState(() => _selectedIndex = 4) : null,
           ),
           PastQuizzesScreen(
-            onSelectQuiz: (quizTitle, quizData) {
+            onSelectQuiz: (quizTitle, quizData, durationMinutes) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -1212,6 +1257,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                     studentRoll: '01',
                     customQuizTitle: quizTitle,
                     customQuizData: quizData,
+                    customDurationMinutes: durationMinutes,
                     isLiveExam: false,
                   ),
                 ),
@@ -2351,7 +2397,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
 // TAB 2: PAST QUIZZES ARCHIVE SCREEN
 // -------------------------------------------------------------
 class PastQuizzesScreen extends StatelessWidget {
-  final Function(String title, List<dynamic>? data) onSelectQuiz;
+  final Function(String title, List<dynamic>? data, int? durationMinutes) onSelectQuiz;
 
   const PastQuizzesScreen({super.key, required this.onSelectQuiz});
 
@@ -2492,7 +2538,8 @@ class PastQuizzesScreen extends StatelessWidget {
                       children: [
                         FilledButton.tonal(
                           onPressed: () {
-                            onSelectQuiz(paper['title'] as String, null);
+                            final dur = paper['questions'] as int? ?? 180;
+                            onSelectQuiz(paper['title'] as String, null, dur);
                           },
                           style: FilledButton.styleFrom(
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -4158,6 +4205,7 @@ class ExamScreen extends StatefulWidget {
   final String studentRoll;
   final String? customQuizTitle;
   final List<dynamic>? customQuizData;
+  final int? customDurationMinutes;
   final bool isLiveExam;
 
   const ExamScreen({
@@ -4166,6 +4214,7 @@ class ExamScreen extends StatefulWidget {
     required this.studentRoll,
     this.customQuizTitle,
     this.customQuizData,
+    this.customDurationMinutes,
     this.isLiveExam = true,
   });
 
@@ -4185,7 +4234,8 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
   DateTime? _lastStrikeTime;
 
   Timer? _examTimer;
-  int _remainingSeconds = 180 * 60; // 3 hours = 180 mins
+  int _initialTotalSeconds = 180 * 60;
+  int _remainingSeconds = 180 * 60;
 
   CameraController? _cameraController;
   bool _isCameraReady = false;
@@ -4201,7 +4251,6 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _initCamera();
     _loadQuestions();
-    _startTimer();
   }
 
   Future<void> _initCamera() async {
@@ -4319,28 +4368,58 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
 
   void _loadQuestions() async {
     try {
+      int durationMins = widget.customDurationMinutes ?? 180;
+      List<dynamic> loadedQuestions = [];
+
       if (widget.customQuizData != null && widget.customQuizData!.isNotEmpty) {
-        setState(() {
-          _questions = widget.customQuizData!;
-          _isLoading = false;
-        });
-        return;
+        loadedQuestions = widget.customQuizData!;
+      } else {
+        // 1. Try to load live quiz from Firestore first!
+        final activeId = widget.isLiveExam ? LiveQuizState.activeQuizId.value : 'paper52';
+        final remoteQuestions = await FirestoreService.fetchQuizData(activeId);
+        if (remoteQuestions != null && remoteQuestions.isNotEmpty) {
+          loadedQuestions = remoteQuestions;
+        } else {
+          // 2. Fallback to local asset
+          final jsonString = await rootBundle.loadString('assets/paper52.json');
+          final data = jsonDecode(jsonString);
+          if (data is Map) {
+            if (data.containsKey('durationMinutes')) {
+              durationMins = data['durationMinutes'] is int
+                  ? data['durationMinutes'] as int
+                  : (int.tryParse(data['durationMinutes'].toString()) ?? 180);
+            } else if (data.containsKey('quiz_info') &&
+                data['quiz_info'] is Map &&
+                data['quiz_info'].containsKey('duration_minutes')) {
+              durationMins = data['quiz_info']['duration_minutes'] is int
+                  ? data['quiz_info']['duration_minutes'] as int
+                  : (int.tryParse(data['quiz_info']['duration_minutes'].toString()) ?? 180);
+            }
+            if (data.containsKey('questions')) {
+              loadedQuestions = data['questions'] as List<dynamic>;
+            }
+          } else if (data is List) {
+            loadedQuestions = data;
+          }
+        }
       }
-      final jsonString = await rootBundle.loadString('assets/paper52.json');
-      final data = jsonDecode(jsonString);
-      if (data is Map && data.containsKey('questions')) {
-        setState(() {
-          _questions = data['questions'] as List<dynamic>;
-          _isLoading = false;
-        });
-      } else if (data is List) {
-        setState(() {
-          _questions = data;
-          _isLoading = false;
-        });
+
+      // If duration not explicitly provided, calculate 1 minute per question automatically!
+      if (widget.customDurationMinutes == null && loadedQuestions.isNotEmpty) {
+        if (durationMins == 180 && loadedQuestions.length != 180) {
+          durationMins = loadedQuestions.length;
+        }
       }
+
+      setState(() {
+        _questions = loadedQuestions;
+        _initialTotalSeconds = durationMins * 60;
+        _remainingSeconds = durationMins * 60;
+        _isLoading = false;
+      });
+      _startTimer();
     } catch (_) {
-      // Fallback 180 questions
+      final int durationMins = widget.customDurationMinutes ?? 180;
       List<dynamic> generated = [];
       for (int i = 1; i <= 180; i++) {
         generated.add({
@@ -4352,8 +4431,11 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       }
       setState(() {
         _questions = generated;
+        _initialTotalSeconds = durationMins * 60;
+        _remainingSeconds = durationMins * 60;
         _isLoading = false;
       });
+      _startTimer();
     }
   }
 
@@ -4425,9 +4507,15 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       final studentAns = _answers[i];
       final correctAns = (q['answer'] ?? q['correct_index'] ?? 0) as int;
       final timeSpent = _timeSpentPerQuestion[i] ?? 0;
-      final String status = studentAns == null
-          ? 'unattempted'
-          : (studentAns == correctAns ? 'correct' : 'incorrect');
+      final bool isGrace = q['isGrace'] == true ||
+          q['grace_mark'] == true ||
+          q['status'] == 'question_error' ||
+          q['status'] == 'no_correct_option';
+      final String status = isGrace
+          ? 'grace'
+          : (studentAns == null
+              ? 'unattempted'
+              : (studentAns == correctAns ? 'correct' : 'incorrect'));
 
       questionAnalysis.add({
         'index': i,
@@ -4436,6 +4524,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         'studentAnswer': studentAns,
         'correctAnswer': correctAns,
         'status': status,
+        'isGrace': isGrace,
         'timeSpentSeconds': timeSpent,
         'hasDiagram': q['hasDiagram'] == true,
         'diagramSvg': q['diagramSvg'],
@@ -4444,7 +4533,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       });
     }
 
-    final timeTakenSecs = (180 * 60) - _remainingSeconds;
+    final timeTakenSecs = _initialTotalSeconds - _remainingSeconds;
     final takenMins = timeTakenSecs ~/ 60;
     final takenSecs = timeTakenSecs % 60;
     final timeFormatted = '$takenMins:${takenSecs.toString().padLeft(2, '0')}';
@@ -4457,7 +4546,11 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     for (int i = 0; i < _questions.length; i++) {
       final q = _questions[i];
       final correct = (q['answer'] ?? q['correct_index'] ?? 0) as int;
-      final isCorrect = _answers[i] == correct;
+      final bool isGrace = q['isGrace'] == true ||
+          q['grace_mark'] == true ||
+          q['status'] == 'question_error' ||
+          q['status'] == 'no_correct_option';
+      final isCorrect = isGrace || (_answers[i] == correct);
       if (isCorrect) {
         if (i < 90) {
           matScore++;
@@ -4494,7 +4587,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       },
     };
 
-    final isPassed = score >= 72;
+    final isPassed = score >= ((total * 0.40).round());
     final quizId = widget.isLiveExam ? LiveQuizState.activeQuizId.value : 'past_practice';
     final quizTitle = widget.customQuizTitle ?? LiveQuizState.activeQuizTitle.value;
 
@@ -5360,7 +5453,7 @@ class _ResultScreenState extends State<ResultScreen> {
     final pct = widget.pct;
     final autoSubmitted = widget.autoSubmitted;
     final studentName = widget.studentName;
-    final isPassed = score >= 72;
+    final isPassed = score >= ((total * 0.40).round());
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final qList = widget.questionAnalysis;
     final incorrectCount = qList.where((q) => q['status'] == 'incorrect').length;
@@ -5914,14 +6007,33 @@ class _ExamReviewScreenState extends State<ExamReviewScreen> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    'સાચો ઉત્તર: ${String.fromCharCode(65 + correctAns)}',
-                                    style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF10B981),
+                                  if (item['isGrace'] == true) ...[
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.amber.withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(color: Colors.amber, width: 0.8),
+                                      ),
+                                      child: const Text(
+                                        'ગ્રેસ ગુણ (પ્રશ્નમાં ક્ષતિ)',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.amber,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ] else ...[
+                                    Text(
+                                      'સાચો ઉત્તર: ${String.fromCharCode(65 + correctAns)}',
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF10B981),
+                                      ),
+                                    ),
+                                  ],
                                 ],
                               ),
                             ),

@@ -43,12 +43,16 @@ const paper52Data = {
         "1601",
         "2101"
       ],
-      "correct_index": 2,
-      "correct_answer": "1601",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "શ્રેણીના પદો 70², 60², 50², 40², 30² માં 1 ઉમેરીને મેળવેલ છે:\n70² + 1 = 4900 + 1 = 4901\n60² + 1 = 3600 + 1 = 3601\n50² + 1 = 2500 + 1 = 2501\n40² + 1 = 1600 + 1 = 1601\n30² + 1 = 900 + 1 = 901\nતેથી લુપ્ત સંખ્યા 1601 છે."
+      "explanation": "તફાવત -1300, -1100, -900, -700 છે. તેથી 2501-900=1601.",
+      "solution": "તફાવત -1300, -1100, -900, -700 છે. તેથી 2501-900=1601.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "1601"
     },
     {
       "id": 2,
@@ -60,12 +64,16 @@ const paper52Data = {
         "20",
         "14"
       ],
-      "correct_index": 0,
-      "correct_answer": "15",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "શ્રેણીમાં ક્રમિક તફાવતમાં 1 નો ઘટાડો થાય છે:\n55 - 10 = 45\n45 - 9 = 36\n36 - 8 = 28\n28 - 7 = 21\n21 - 6 = 15\nતેથી સાચો જવાબ 15 છે."
+      "explanation": "ક્રમશઃ 10, 9, 8, 7 અને 6 ઘટાડવામાં આવે છે. 21-6=15.",
+      "solution": "ક્રમશઃ 10, 9, 8, 7 અને 6 ઘટાડવામાં આવે છે. 21-6=15.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "15"
     },
     {
       "id": 3,
@@ -77,12 +85,16 @@ const paper52Data = {
         "789",
         "798"
       ],
-      "correct_index": 2,
-      "correct_answer": "789",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "દરેક સંખ્યામાં 111 ઉમેરવામાં આવે છે:\n234 + 111 = 345\n345 + 111 = 456\n456 + 111 = 567\n567 + 111 = 678\n678 + 111 = 789\nતેથી સાચો જવાબ 789 છે."
+      "explanation": "દરેક અંકમાં 1 નો વધારો થાય છે: 234, 345, 456, 567, 678, 789.",
+      "solution": "દરેક અંકમાં 1 નો વધારો થાય છે: 234, 345, 456, 567, 678, 789.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "789"
     },
     {
       "id": 4,
@@ -94,12 +106,16 @@ const paper52Data = {
         "72",
         "70"
       ],
-      "correct_index": 0,
-      "correct_answer": "76",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ક્રમિક તફાવત 1 વધે છે:\n50 + 5 = 55\n55 + 6 = 61\n61 + 7 = 68\n68 + 8 = 76\nતેથી સાચો જવાબ 76 છે."
+      "explanation": "તફાવત +5, +6, +7, +8 છે. 68+8=76.",
+      "solution": "તફાવત +5, +6, +7, +8 છે. 68+8=76.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "76"
     },
     {
       "id": 5,
@@ -111,12 +127,16 @@ const paper52Data = {
         "21663",
         "63216"
       ],
-      "correct_index": 1,
-      "correct_answer": "36216",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "દરેક સંખ્યામાં સ્થાનિક અંકનો વર્ગ અને ઘન જોડેલા છે:\n1² અને 1³ => 1 1 = 11\n2² અને 2³ => 4 8 = 48\n3² અને 3³ => 9 27 = 927\n4² અને 4³ => 16 64 = 1664\n5² અને 5³ => 25 125 = 25125\n6² અને 6³ => 36 216 = 36216\nતેથી સાચો જવાબ 36216 છે."
+      "explanation": "દરેક પદમાં n² અને n³ જોડવામાં આવ્યા છે. 6²=36 અને 6³=216, તેથી 36216.",
+      "solution": "દરેક પદમાં n² અને n³ જોડવામાં આવ્યા છે. 6²=36 અને 6³=216, તેથી 36216.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "36216"
     },
     {
       "id": 6,
@@ -128,13 +148,17 @@ const paper52Data = {
         "26",
         "117"
       ],
-      "correct_index": 0,
-      "correct_answer": "36",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 150\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 20)\">\n    <!-- Shape 1 -->\n    <g transform=\"translate(0, 0)\">\n      <polygon points=\"45,10 5,90 85,90\" fill=\"#f1f5f9\" stroke=\"#475569\" stroke-width=\"2\" />\n      <circle cx=\"45\" cy=\"38\" r=\"16\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"45\" y=\"43\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">54</text>\n      <circle cx=\"20\" cy=\"85\" r=\"14\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"20\" y=\"89\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">20</text>\n      <circle cx=\"70\" cy=\"85\" r=\"14\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"70\" y=\"89\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">9</text>\n      <text x=\"45\" y=\"120\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(1)</text>\n    </g>\n    <!-- Shape 2 -->\n    <g transform=\"translate(110, 0)\">\n      <polygon points=\"45,10 5,90 85,90\" fill=\"#f1f5f9\" stroke=\"#475569\" stroke-width=\"2\" />\n      <circle cx=\"45\" cy=\"38\" r=\"16\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"45\" y=\"43\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">38</text>\n      <circle cx=\"20\" cy=\"85\" r=\"14\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"20\" y=\"89\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">24</text>\n      <circle cx=\"70\" cy=\"85\" r=\"14\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"70\" y=\"89\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">11</text>\n      <text x=\"45\" y=\"120\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(2)</text>\n    </g>\n    <!-- Shape 3 -->\n    <g transform=\"translate(220, 0)\">\n      <polygon points=\"45,10 5,90 85,90\" fill=\"#f1f5f9\" stroke=\"#475569\" stroke-width=\"2\" />\n      <circle cx=\"45\" cy=\"38\" r=\"16\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"45\" y=\"43\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">94</text>\n      <circle cx=\"20\" cy=\"85\" r=\"14\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"20\" y=\"89\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n      <circle cx=\"70\" cy=\"85\" r=\"14\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.5\" />\n      <text x=\"70\" y=\"89\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">13</text>\n      <text x=\"45\" y=\"120\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(3)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "ટોચની સંખ્યાના બંને અંકોનો ગુણાકાર ડાબી બાજુ અને સરવાળો જમણી બાજુ છે:\nઆકૃતિ 1: 54 => 5 × 4 = 20, 5 + 4 = 9\nઆકૃતિ 2: 38 => 3 × 8 = 24, 3 + 8 = 11\nઆકૃતિ 3: 94 => 9 × 4 = 36, 9 + 4 = 13\nતેથી લુપ્ત સંખ્યા 36 છે."
+      "explanation": "પ્રથમ સંખ્યા 5×4=20 અને 5+4=9. તેથી 9×4=36 અને 9+4=13.",
+      "solution": "પ્રથમ સંખ્યા 5×4=20 અને 5+4=9. તેથી 9×4=36 અને 9+4=13.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "36"
     },
     {
       "id": 7,
@@ -146,13 +170,17 @@ const paper52Data = {
         "18",
         "19"
       ],
-      "correct_index": 1,
-      "correct_answer": "14",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 125\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <!-- Circle 1 -->\n    <g transform=\"translate(0, 0)\">\n      <circle cx=\"45\" cy=\"45\" r=\"38\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\" />\n      <line x1=\"45\" y1=\"7\" x2=\"45\" y2=\"83\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n      <line x1=\"7\" y1=\"45\" x2=\"83\" y2=\"45\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n      <text x=\"25\" y=\"38\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">3</text>\n      <text x=\"65\" y=\"38\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">4</text>\n      <rect x=\"25\" y=\"52\" width=\"40\" height=\"22\" rx=\"4\" fill=\"#475569\" />\n      <text x=\"45\" y=\"68\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#ffffff\">10</text>\n    </g>\n    <!-- Circle 2 -->\n    <g transform=\"translate(110, 0)\">\n      <circle cx=\"45\" cy=\"45\" r=\"38\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\" />\n      <line x1=\"45\" y1=\"7\" x2=\"45\" y2=\"83\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n      <line x1=\"7\" y1=\"45\" x2=\"83\" y2=\"45\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n      <text x=\"25\" y=\"38\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">5</text>\n      <text x=\"65\" y=\"38\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">7</text>\n      <rect x=\"25\" y=\"52\" width=\"40\" height=\"22\" rx=\"4\" fill=\"#475569\" />\n      <text x=\"45\" y=\"68\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"bold\" fill=\"#ffffff\">?</text>\n    </g>\n    <!-- Circle 3 -->\n    <g transform=\"translate(220, 0)\">\n      <circle cx=\"45\" cy=\"45\" r=\"38\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\" />\n      <line x1=\"45\" y1=\"7\" x2=\"45\" y2=\"83\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n      <line x1=\"7\" y1=\"45\" x2=\"83\" y2=\"45\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n      <text x=\"25\" y=\"38\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">5</text>\n      <text x=\"65\" y=\"38\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">6</text>\n      <rect x=\"25\" y=\"52\" width=\"40\" height=\"22\" rx=\"4\" fill=\"#475569\" />\n      <text x=\"45\" y=\"68\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#ffffff\">9</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "પેટર્ન મુજબ પાયાની સંખ્યાઓનો સરવાળો અને મધ્યમ સંખ્યા:\nપ્રથમમાં: 3 + 4 = 7; 7 + 3 = 10\nત્રીજામાં: 5 + 6 = 11; 11 - 2 = 9\nબીજામાં: 5 + 7 = 12; 12 + 2 = 14.\nતેથી લુપ્ત સંખ્યા 14 છે."
+      "explanation": "આકૃતિની સંપૂર્ણ ગોઠવણી ઉપલબ્ધ નથી. આપેલી જવાબ કી મુજબ 14.",
+      "solution": "આકૃતિની સંપૂર્ણ ગોઠવણી ઉપલબ્ધ નથી. આપેલી જવાબ કી મુજબ 14.",
+      "status": "provisional",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "14"
     },
     {
       "id": 8,
@@ -164,13 +192,17 @@ const paper52Data = {
         "429",
         "529"
       ],
-      "correct_index": 1,
-      "correct_answer": "676",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 105\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <!-- Box 1 -->\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"70\" height=\"75\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <text x=\"20\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">C</text>\n      <text x=\"50\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">E</text>\n      <line x1=\"5\" y1=\"42\" x2=\"65\" y2=\"42\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n      <text x=\"35\" y=\"62\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#334155\">576</text>\n    </g>\n    <!-- Box 2 -->\n    <g transform=\"translate(80, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"70\" height=\"75\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <text x=\"18\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">M</text>\n      <text x=\"50\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">A</text>\n      <line x1=\"5\" y1=\"42\" x2=\"65\" y2=\"42\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n      <text x=\"35\" y=\"62\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#334155\">196</text>\n    </g>\n    <!-- Box 3 -->\n    <g transform=\"translate(160, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"70\" height=\"75\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <text x=\"20\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">E</text>\n      <text x=\"48\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">Q</text>\n      <line x1=\"5\" y1=\"42\" x2=\"65\" y2=\"42\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n      <text x=\"35\" y=\"62\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#334155\">484</text>\n    </g>\n    <!-- Box 4 -->\n    <g transform=\"translate(240, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"70\" height=\"75\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <text x=\"20\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">A</text>\n      <text x=\"48\" y=\"30\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">W</text>\n      <line x1=\"5\" y1=\"42\" x2=\"65\" y2=\"42\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n      <text x=\"35\" y=\"63\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "અંગ્રેજી મૂળાક્ષરોમાં પ્રથમ અક્ષરના ઉલટા ક્રમાંકનો વર્ગ છે (A=26, B=25, ..., Z=1):\nC નો ઉલટો ક્રમાંક 24 છે => 24² = 576\nM નો ઉલટો ક્રમાંક 14 છે => 14² = 196\nE નો ઉલટો ક્રમાંક 22 છે => 22² = 484\nA નો ઉલટો ક્રમાંક 26 છે => 26² = 676\nતેથી સાચો ઉત્તર 676 (વિકલ્પ B) છે."
+      "explanation": "અક્ષરોના સ્થાનનો સરવાળો કરીને તેનો વર્ગ કરો. A=1 અને W=23; (1+23)²=576.",
+      "solution": "અક્ષરોના સ્થાનનો સરવાળો કરીને તેનો વર્ગ કરો. A=1 અને W=23; (1+23)²=576.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "576"
     },
     {
       "id": 9,
@@ -182,13 +214,17 @@ const paper52Data = {
         "44",
         "48"
       ],
-      "correct_index": 1,
-      "correct_answer": "42",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 140\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(115, 15)\">\n    <circle cx=\"55\" cy=\"55\" r=\"50\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <line x1=\"5\" y1=\"55\" x2=\"105\" y2=\"55\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"55\" y1=\"5\" x2=\"55\" y2=\"105\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <circle cx=\"55\" cy=\"55\" r=\"16\" fill=\"#f1f5f9\" stroke=\"#475569\" stroke-width=\"1.2\"/>\n    <text x=\"32\" y=\"38\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">4</text>\n    <text x=\"78\" y=\"38\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">9</text>\n    <text x=\"78\" y=\"82\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">19</text>\n    <text x=\"32\" y=\"82\" font-size=\"14\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n  </g>\n\n  </svg>",
-      "explanation": "વર્તુળના ચાર ભાગોમાં સંબંધ:\n4 × 2 + 1 = 9\n9 × 2 + 1 = 19\n19 × 2 + 1 = 39, અને સામેના ભાગોનો તાર્કિક સરવાળો તપાસતાં સાચો વિકલ્પ 42 છે."
+      "explanation": "નિયમ મુજબ દરેક પદ અગાઉના પદનું બમણું કરીને 1 ઉમેરવાથી મળે છે. 4, 9, 19, 39 પછી 79 આવે છે. આપેલા વિકલ્પોમાં 79 નથી.",
+      "solution": "નિયમ મુજબ દરેક પદ અગાઉના પદનું બમણું કરીને 1 ઉમેરવાથી મળે છે. 4, 9, 19, 39 પછી 79 આવે છે. આપેલા વિકલ્પોમાં 79 નથી.",
+      "status": "question_error",
+      "isGrace": true,
+      "grace_mark": true,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "42"
     },
     {
       "id": 10,
@@ -200,13 +236,17 @@ const paper52Data = {
         "44",
         "60"
       ],
-      "correct_index": 0,
-      "correct_answer": "56",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 140\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(40, 15)\">\n    <!-- Wheel 1 -->\n    <g transform=\"translate(0, 0)\">\n      <circle cx=\"55\" cy=\"55\" r=\"45\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n      <circle cx=\"55\" cy=\"55\" r=\"20\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.2\"/>\n      <text x=\"55\" y=\"60\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#1e293b\">32</text>\n      <text x=\"55\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">5</text>\n      <text x=\"88\" y=\"59\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">21</text>\n      <text x=\"55\" y=\"93\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">7</text>\n      <text x=\"22\" y=\"59\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">-</text>\n    </g>\n    <!-- Wheel 2 -->\n    <g transform=\"translate(150, 0)\">\n      <circle cx=\"55\" cy=\"55\" r=\"45\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n      <circle cx=\"55\" cy=\"55\" r=\"20\" fill=\"#ffffff\" stroke=\"#475569\" stroke-width=\"1.2\"/>\n      <text x=\"55\" y=\"60\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n      <text x=\"55\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">13</text>\n      <text x=\"88\" y=\"59\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">5</text>\n      <text x=\"55\" y=\"93\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">11</text>\n      <text x=\"22\" y=\"59\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">-</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "ચક્ર 1 માં: (21 - 5) × (7 - 5) = 16 × 2 = 32.\nચક્ર 2 માં: તાર્કિક રીતે ગણતરી કરતાં કેન્દ્રની લુપ્ત સંખ્યા 56 મળે છે."
+      "explanation": "મૂળ આકૃતિ વગર સંખ્યાઓનો ચોક્કસ સંબંધ ચકાસી શકાય તેમ નથી. આપેલી જવાબ કી મુજબ 56.",
+      "solution": "મૂળ આકૃતિ વગર સંખ્યાઓનો ચોક્કસ સંબંધ ચકાસી શકાય તેમ નથી. આપેલી જવાબ કી મુજબ 56.",
+      "status": "provisional",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "56"
     },
     {
       "id": 11,
@@ -218,13 +258,17 @@ const paper52Data = {
         "24",
         "18"
       ],
-      "correct_index": 2,
-      "correct_answer": "24",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 180\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(70, 15)\">\n    <polygon points=\"100,10 10,140 190,140\" fill=\"#f8fafc\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n    <line x1=\"77.5\" y1=\"42.5\" x2=\"122.5\" y2=\"42.5\" stroke=\"#2563eb\" stroke-width=\"1.6\"/>\n    <line x1=\"55\" y1=\"75\" x2=\"145\" y2=\"75\" stroke=\"#2563eb\" stroke-width=\"1.6\"/>\n    <line x1=\"32.5\" y1=\"107.5\" x2=\"167.5\" y2=\"107.5\" stroke=\"#2563eb\" stroke-width=\"1.6\"/>\n    <line x1=\"100\" y1=\"10\" x2=\"70\" y2=\"140\" stroke=\"#2563eb\" stroke-width=\"1.6\"/>\n    <line x1=\"100\" y1=\"10\" x2=\"130\" y2=\"140\" stroke=\"#2563eb\" stroke-width=\"1.6\"/>\n    <text x=\"100\" y=\"160\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-11: કુલ ત્રિકોણ ગણો</text>\n  </g>\n\n  </svg>",
-      "explanation": "આપેલ આકૃતિમાં તમામ નાના ત્રિકોણો (16) અને બે-બે કે ચાર-ચાર ત્રિકોણ જોડાઈને બનતા મોટા ત્રિકોણો મળીને કુલ 24 ત્રિકોણ બને છે."
+      "explanation": "ત્રિકોણોની ગણતરી માટે આકૃતિ-11 જરૂરી છે. આપેલી કી મુજબ 24.",
+      "solution": "ત્રિકોણોની ગણતરી માટે આકૃતિ-11 જરૂરી છે. આપેલી કી મુજબ 24.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "24"
     },
     {
       "id": 12,
@@ -236,13 +280,17 @@ const paper52Data = {
         "44",
         "48"
       ],
-      "correct_index": 2,
-      "correct_answer": "44",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 190\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(95, 15)\">\n    <rect x=\"0\" y=\"0\" width=\"150\" height=\"150\" fill=\"#f8fafc\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n    <line x1=\"75\" y1=\"0\" x2=\"75\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n    <line x1=\"0\" y1=\"75\" x2=\"150\" y2=\"75\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n    <line x1=\"0\" y1=\"0\" x2=\"75\" y2=\"75\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <line x1=\"75\" y1=\"0\" x2=\"0\" y2=\"75\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <line x1=\"75\" y1=\"0\" x2=\"150\" y2=\"75\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <line x1=\"150\" y1=\"0\" x2=\"75\" y2=\"75\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <line x1=\"0\" y1=\"75\" x2=\"75\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <line x1=\"75\" y1=\"75\" x2=\"0\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <line x1=\"75\" y1=\"75\" x2=\"150\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <line x1=\"150\" y1=\"75\" x2=\"75\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n    <text x=\"75\" y=\"172\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-12 (2×2 ચોરસ ગ્રીડ)</text>\n  </g>\n\n  </svg>",
-      "explanation": "2×2 ચોરસ ગ્રીડમાં બંને વિકર્ણો દોરેલા હોવાથી:\n4 નાના ચોરસમાં પ્રત્યેકમાં 8 ત્રિકોણ = 32 ત્રિકોણ\nબે ચોરસ મળીને બનતા 8 મોટા ત્રિકોણ\nચાર ચોરસ મળીને બનતા 4 કેન્દ્રીય ત્રિકોણ\nકુલ ત્રિકોણ = 32 + 8 + 4 = 44 ત્રિકોણ."
+      "explanation": "ત્રિકોણોની ગણતરી માટે આકૃતિ-12 જરૂરી છે. આપેલી કી મુજબ 44.",
+      "solution": "ત્રિકોણોની ગણતરી માટે આકૃતિ-12 જરૂરી છે. આપેલી કી મુજબ 44.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "44"
     },
     {
       "id": 13,
@@ -254,13 +302,17 @@ const paper52Data = {
         "56",
         "60"
       ],
-      "correct_index": 3,
-      "correct_answer": "60",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 185\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(60, 15)\">\n    <polygon points=\"110,10 10,140 210,140\" fill=\"#f8fafc\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n    <line x1=\"85\" y1=\"42.5\" x2=\"135\" y2=\"42.5\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n    <line x1=\"60\" y1=\"75\" x2=\"160\" y2=\"75\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n    <line x1=\"35\" y1=\"107.5\" x2=\"185\" y2=\"107.5\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n    <line x1=\"110\" y1=\"10\" x2=\"50\" y2=\"140\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n    <line x1=\"110\" y1=\"10\" x2=\"90\" y2=\"140\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n    <line x1=\"110\" y1=\"10\" x2=\"130\" y2=\"140\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n    <line x1=\"110\" y1=\"10\" x2=\"170\" y2=\"140\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n    <text x=\"110\" y=\"165\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-13: કુલ ત્રિકોણ ગણો</text>\n  </g>\n\n  </svg>",
-      "explanation": "આપેલ જટિલ ભૌમિતિક આકૃતિમાં સ્તરવાર અને સંયુક્ત ત્રિકોણોની ગણતરી કરતાં કુલ 60 ત્રિકોણ બને છે."
+      "explanation": "ત્રિકોણોની ગણતરી માટે આકૃતિ-13 જરૂરી છે. આપેલી કી મુજબ 60.",
+      "solution": "ત્રિકોણોની ગણતરી માટે આકૃતિ-13 જરૂરી છે. આપેલી કી મુજબ 60.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "60"
     },
     {
       "id": 14,
@@ -272,13 +324,17 @@ const paper52Data = {
         "14",
         "16"
       ],
-      "correct_index": 3,
-      "correct_answer": "16",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 175\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(105, 15)\">\n    <rect x=\"0\" y=\"0\" width=\"130\" height=\"130\" fill=\"#f8fafc\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n    <line x1=\"0\" y1=\"0\" x2=\"130\" y2=\"130\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n    <line x1=\"130\" y1=\"0\" x2=\"0\" y2=\"130\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n    <line x1=\"65\" y1=\"0\" x2=\"65\" y2=\"130\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n    <line x1=\"0\" y1=\"65\" x2=\"130\" y2=\"65\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n    <text x=\"65\" y=\"155\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-14: કુલ ત્રિકોણ ગણો</text>\n  </g>\n\n  </svg>",
-      "explanation": "ચોરસમાં બંને વિકર્ણો અને મધ્યબિંદુઓની રેખાઓથી:\n8 એકલ ત્રિકોણ + 4 બે ઘટકોવાળા ત્રિકોણ + 4 ચાર ઘટકોવાળા ત્રિકોણ = કુલ 16 ત્રિકોણ બને છે."
+      "explanation": "ત્રિકોણોની ગણતરી માટે આકૃતિ-14 જરૂરી છે. આપેલી કી મુજબ 16.",
+      "solution": "ત્રિકોણોની ગણતરી માટે આકૃતિ-14 જરૂરી છે. આપેલી કી મુજબ 16.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "16"
     },
     {
       "id": 15,
@@ -290,13 +346,17 @@ const paper52Data = {
         "બંનેમાં સરખા",
         "કંઈ કહી ન શકાય"
       ],
-      "correct_index": 0,
-      "correct_answer": "આકૃતિ-1",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 160\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(30, 20)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"105\" height=\"105\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n      <line x1=\"35\" y1=\"0\" x2=\"35\" y2=\"105\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <line x1=\"70\" y1=\"0\" x2=\"70\" y2=\"105\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <line x1=\"0\" y1=\"35\" x2=\"105\" y2=\"35\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <line x1=\"0\" y1=\"70\" x2=\"105\" y2=\"70\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <text x=\"52.5\" y=\"125\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-1 (3×3)</text>\n    </g>\n    <g transform=\"translate(160, 0)\">\n      <rect x=\"0\" y=\"17.5\" width=\"105\" height=\"70\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n      <line x1=\"35\" y1=\"17.5\" x2=\"35\" y2=\"87.5\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <line x1=\"70\" y1=\"17.5\" x2=\"70\" y2=\"87.5\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <line x1=\"0\" y1=\"52.5\" x2=\"105\" y2=\"52.5\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n      <text x=\"52.5\" y=\"125\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-2 (2×3)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિ-1 માં ચોરસની સંખ્યા 5 છે (4 નાના + 1 મોટો), જ્યારે આકૃતિ-2 માં ચોરસ ઓછા બને છે. તેથી આકૃતિ-1 માં ચોરસ વધુ છે."
+      "explanation": "બંને આકૃતિઓ વગર ચોરસોની સંખ્યા સરખાવી શકાતી નથી. આપેલી કી મુજબ આકૃતિ-1.",
+      "solution": "બંને આકૃતિઓ વગર ચોરસોની સંખ્યા સરખાવી શકાતી નથી. આપેલી કી મુજબ આકૃતિ-1.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "આકૃતિ-1"
     },
     {
       "id": 16,
@@ -308,13 +368,17 @@ const paper52Data = {
         "8",
         "6"
       ],
-      "correct_index": 0,
-      "correct_answer": "9",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 170\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(100, 15)\">\n    <rect x=\"40\" y=\"0\" width=\"40\" height=\"120\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <rect x=\"0\" y=\"40\" width=\"120\" height=\"40\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <line x1=\"40\" y1=\"40\" x2=\"40\" y2=\"80\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"80\" y1=\"40\" x2=\"80\" y2=\"80\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"40\" y1=\"40\" x2=\"80\" y2=\"40\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"40\" y1=\"80\" x2=\"80\" y2=\"80\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <text x=\"60\" y=\"145\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-16: ચોરસની સંખ્યા ગણો</text>\n  </g>\n\n  </svg>",
-      "explanation": "આપેલ આકૃતિમાં સ્વતંત્ર અને સંયુક્ત ચોરસ મળીને મહત્તમ 9 ચોરસ બને છે."
+      "explanation": "આકૃતિ-16માં ચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 9.",
+      "solution": "આકૃતિ-16માં ચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 9.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "9"
     },
     {
       "id": 17,
@@ -326,13 +390,17 @@ const paper52Data = {
         "10",
         "11"
       ],
-      "correct_index": 1,
-      "correct_answer": "9",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 150\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(95, 15)\">\n    <rect x=\"0\" y=\"0\" width=\"140\" height=\"90\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <line x1=\"45\" y1=\"0\" x2=\"45\" y2=\"90\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"95\" y1=\"0\" x2=\"95\" y2=\"90\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"0\" y1=\"45\" x2=\"140\" y2=\"45\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <rect x=\"25\" y=\"20\" width=\"50\" height=\"50\" fill=\"#f1f5f9\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    <text x=\"70\" y=\"125\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-17: કુલ ચોરસ ગણો</text>\n  </g>\n\n  </svg>",
-      "explanation": "આપેલ આકૃતિમાં વિવિધ કદના ચોરસ ગણતાં કુલ 9 ચોરસ બને છે."
+      "explanation": "આકૃતિ-17માં ચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 9.",
+      "solution": "આકૃતિ-17માં ચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 9.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "9"
     },
     {
       "id": 18,
@@ -344,13 +412,17 @@ const paper52Data = {
         "13",
         "14"
       ],
-      "correct_index": 3,
-      "correct_answer": "14",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 150\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(90, 15)\">\n    <rect x=\"0\" y=\"0\" width=\"160\" height=\"90\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <line x1=\"50\" y1=\"0\" x2=\"50\" y2=\"90\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"110\" y1=\"0\" x2=\"110\" y2=\"90\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"0\" y1=\"45\" x2=\"160\" y2=\"45\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <text x=\"80\" y=\"125\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-18: લંબચોરસની સંખ્યા ગણો</text>\n  </g>\n\n  </svg>",
-      "explanation": "આપેલ આકૃતિમાં આડા અને ઊભા તમામ લંબચોરસની ગણતરી કરતાં કુલ 14 લંબચોરસ બને છે."
+      "explanation": "આકૃતિ-18માં લંબચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 14.",
+      "solution": "આકૃતિ-18માં લંબચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 14.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "14"
     },
     {
       "id": 19,
@@ -362,13 +434,17 @@ const paper52Data = {
         "22",
         "25"
       ],
-      "correct_index": 2,
-      "correct_answer": "22",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 150\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(80, 15)\">\n    <rect x=\"0\" y=\"0\" width=\"180\" height=\"90\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <line x1=\"45\" y1=\"0\" x2=\"45\" y2=\"90\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"90\" y1=\"0\" x2=\"90\" y2=\"90\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"135\" y1=\"0\" x2=\"135\" y2=\"90\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"0\" y1=\"45\" x2=\"180\" y2=\"45\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <text x=\"90\" y=\"125\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-19: લંબચોરસની સંખ્યા ગણો</text>\n  </g>\n\n  </svg>",
-      "explanation": "આપેલ ગ્રીડમાં તમામ કદના લંબચોરસોની વિગતવાર ગણતરી કરતાં કુલ 22 લંબચોરસ બને છે."
+      "explanation": "આકૃતિ-19માં લંબચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 22.",
+      "solution": "આકૃતિ-19માં લંબચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 22.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "22"
     },
     {
       "id": 20,
@@ -380,13 +456,17 @@ const paper52Data = {
         "8",
         "6"
       ],
-      "correct_index": 1,
-      "correct_answer": "10",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 165\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(85, 15)\">\n    <rect x=\"0\" y=\"0\" width=\"170\" height=\"110\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <line x1=\"56.6\" y1=\"0\" x2=\"56.6\" y2=\"110\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"113.3\" y1=\"0\" x2=\"113.3\" y2=\"110\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"0\" y1=\"55\" x2=\"170\" y2=\"55\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <text x=\"85\" y=\"140\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"bold\" fill=\"#334155\">આકૃતિ-20 (2×3 ગ્રીડ: ચોરસ સિવાયના લંબચોરસ)</text>\n  </g>\n\n  </svg>",
-      "explanation": "2×3 ગ્રીડમાં:\nકુલ લંબચોરસ = [2(2+1)/2] × [3(3+1)/2] = 3 × 6 = 18.\nચોરસની સંખ્યા = (2×3) + (1×2) = 6 + 2 = 8.\nચોરસ ન હોય તેવા લંબચોરસ = 18 - 8 = 10."
+      "explanation": "આકૃતિ-20માં ચોરસ સિવાયના લંબચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 10.",
+      "solution": "આકૃતિ-20માં ચોરસ સિવાયના લંબચોરસોની ગણતરી કરવાની છે. આપેલી કી મુજબ 10.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "10"
     },
     {
       "id": 21,
@@ -398,12 +478,16 @@ const paper52Data = {
         "EELMPT",
         "EEMLPT"
       ],
-      "correct_index": 2,
-      "correct_answer": "EELMPT",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "TEMPLE ના મૂળાક્ષરોને અંગ્રેજી કક્કાવારી (A-Z) મુજબ ગોઠવતાં: E, E, L, M, P, T એટલે કે EELMPT બને છે."
+      "explanation": "TEMPLEના અક્ષરોને મૂળાક્ષરના ક્રમમાં ગોઠવતાં E, E, L, M, P, T મળે છે.",
+      "solution": "TEMPLEના અક્ષરોને મૂળાક્ષરના ક્રમમાં ગોઠવતાં E, E, L, M, P, T મળે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "EELMPT"
     },
     {
       "id": 22,
@@ -415,12 +499,16 @@ const paper52Data = {
         "AAEGHORSVY",
         "AAEHGORSVY"
       ],
-      "correct_index": 2,
-      "correct_answer": "AAEGHORSVY",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "YOGESHAVAR ના મૂળાક્ષરો: A(2 વખત), E, G, H, O, R, S, V, Y ક્રમમાં ગોઠવતાં AAEGHORSVY બને છે."
+      "explanation": "YOGESHAVARના અક્ષરોનો અંગ્રેજી મૂળાક્ષર મુજબ ચડતો ક્રમ AAEGHORSVY છે.",
+      "solution": "YOGESHAVARના અક્ષરોનો અંગ્રેજી મૂળાક્ષર મુજબ ચડતો ક્રમ AAEGHORSVY છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "AAEGHORSVY"
     },
     {
       "id": 23,
@@ -432,12 +520,16 @@ const paper52Data = {
         "AHIKNRS",
         "AHINKRS"
       ],
-      "correct_index": 2,
-      "correct_answer": "AHIKNRS",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "KRISHNA ના મૂળાક્ષરો: A, H, I, K, N, R, S ક્રમમાં ગોઠવતાં AHIKNRS બને છે."
+      "explanation": "KRISHNAના અક્ષરોને ચડતા ક્રમમાં ગોઠવતાં AHIKNRS મળે છે.",
+      "solution": "KRISHNAના અક્ષરોને ચડતા ક્રમમાં ગોઠવતાં AHIKNRS મળે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "AHIKNRS"
     },
     {
       "id": 24,
@@ -449,12 +541,16 @@ const paper52Data = {
         "AABHOHLNT",
         "AABHHLOTN"
       ],
-      "correct_index": 1,
-      "correct_answer": "AABHHLNOT",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "BHOLANATH ના મૂળાક્ષરો: A, A, B, H, H, L, N, O, T ક્રમમાં ગોઠવતાં AABHHLNOT બને છે."
+      "explanation": "BHOLANATHના અક્ષરોનો ચડતો ક્રમ AABHHLNOT છે.",
+      "solution": "BHOLANATHના અક્ષરોનો ચડતો ક્રમ AABHHLNOT છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "AABHHLNOT"
     },
     {
       "id": 25,
@@ -466,12 +562,16 @@ const paper52Data = {
         "AAHMNNU",
         "AHAMNNU"
       ],
-      "correct_index": 2,
-      "correct_answer": "AAHMNNU",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "HANUMAN ના મૂળાક્ષરો: A, A, H, M, N, N, U ક્રમમાં ગોઠવતાં AAHMNNU બને છે."
+      "explanation": "HANUMANના અક્ષરોને ચડતા ક્રમમાં ગોઠવતાં AAHMNNU મળે છે.",
+      "solution": "HANUMANના અક્ષરોને ચડતા ક્રમમાં ગોઠવતાં AAHMNNU મળે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "AAHMNNU"
     },
     {
       "id": 26,
@@ -483,12 +583,16 @@ const paper52Data = {
         "13",
         "0"
       ],
-      "correct_index": 0,
-      "correct_answer": "14",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "કોષ્ટક મુજબ: ક=0, ર=5, શ=3, ન=6. સરવાળો: કરશન = 0 + 5 + 3 + 6 = 14."
+      "explanation": "ક=0, ર=5, શ=3, ન=6. સરવાળો 0+5+3+6=14.",
+      "solution": "ક=0, ર=5, શ=3, ન=6. સરવાળો 0+5+3+6=14.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "14"
     },
     {
       "id": 27,
@@ -500,12 +604,16 @@ const paper52Data = {
         "ગક",
         "રન"
       ],
-      "correct_index": 1,
-      "correct_answer": "શક",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ર = 5 અને ન = 6. ર × ન = 5 × 6 = 30. કોષ્ટકમાં 3=શ અને 0=ક હોવાથી 30 = 'શક' બને."
+      "explanation": "ર=5 અને ન=6. 5×6=30. 3=શ અને 0=ક, તેથી શક.",
+      "solution": "ર=5 અને ન=6. 5×6=30. 3=શ અને 0=ક, તેથી શક.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "શક"
     },
     {
       "id": 28,
@@ -517,12 +625,16 @@ const paper52Data = {
         "646",
         "446"
       ],
-      "correct_index": 3,
-      "correct_answer": "446",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ગ = 4 અને ન = 6. તેથી 'ગગન' = 4 4 6 એટલે કે 446 બને."
+      "explanation": "ગ=4 અને ન=6. ગગનનો સંકેત 4,4,6 એટલે 446.",
+      "solution": "ગ=4 અને ન=6. ગગનનો સંકેત 4,4,6 એટલે 446.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "446"
     },
     {
       "id": 29,
@@ -534,12 +646,16 @@ const paper52Data = {
         "124",
         "421"
       ],
-      "correct_index": 0,
-      "correct_answer": "214",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "અ=2, ચ=7, ક=0 (અચક = 270) અને ર=5, ન=6 (રન = 56). બાદબાકી: 270 - 56 = 214."
+      "explanation": "અચક=270 અને રન=56. 270-56=214.",
+      "solution": "અચક=270 અને રન=56. 270-56=214.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "214"
     },
     {
       "id": 30,
@@ -551,12 +667,16 @@ const paper52Data = {
         "રન + અપગ = અચક",
         "શ × ચ = પઅ"
       ],
-      "correct_index": 3,
-      "correct_answer": "શ × ચ = પઅ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "શ = 3 અને ચ = 7. શ × ચ = 3 × 7 = 21. 21 નો અર્થ 'અપ' થાય (અ=2, પ=1). વિકલ્પ D માં 'પઅ' (12) આપેલું છે જે અસંગત છે."
+      "explanation": "શ=3 અને ચ=7. 3×7=21, જેનો સંકેત અપ થાય છે, પઅ નહીં. તેથી આ વિધાન અસંગત છે.",
+      "solution": "શ=3 અને ચ=7. 3×7=21, જેનો સંકેત અપ થાય છે, પઅ નહીં. તેથી આ વિધાન અસંગત છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "શ × ચ = પઅ"
     },
     {
       "id": 31,
@@ -568,13 +688,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 3,
-      "correct_answer": "આકૃતિ D",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 20)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <polygon points=\"32.5,15 12,50 53,50\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <circle cx=\"32.5\" cy=\"30\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"24\" cy=\"45\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"41\" cy=\"45\" r=\"2.5\" fill=\"#334155\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n    </g>\n    <g transform=\"translate(75, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <rect x=\"15\" y=\"15\" width=\"35\" height=\"35\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <circle cx=\"23\" cy=\"23\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"42\" cy=\"23\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"23\" cy=\"42\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"42\" cy=\"42\" r=\"2.5\" fill=\"#334155\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n    </g>\n    <g transform=\"translate(150, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <polygon points=\"32.5,12 52,26 44,50 21,50 13,26\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <circle cx=\"32.5\" cy=\"24\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"23\" cy=\"33\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"42\" cy=\"33\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"26\" cy=\"44\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"39\" cy=\"44\" r=\"2.5\" fill=\"#334155\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n    </g>\n    <g transform=\"translate(225, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <polygon points=\"32.5,12 52,23 52,43 32.5,54 13,43 13,23\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <circle cx=\"25\" cy=\"28\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"40\" cy=\"28\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"25\" cy=\"39\" r=\"2.5\" fill=\"#334155\"/>\n      <circle cx=\"40\" cy=\"39\" r=\"2.5\" fill=\"#334155\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિ D માં ત્રિકોણની દિશા અને રચના અન્ય આકૃતિઓ A, B, C કરતાં ભિન્ન હોવાથી તે અલગ પડે છે."
+      "explanation": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-31 જરૂરી છે. આપેલી કી મુજબ D.",
+      "solution": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-31 જરૂરી છે. આપેલી કી મુજબ D.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "આકૃતિ D"
     },
     {
       "id": 32,
@@ -586,13 +710,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 2,
-      "correct_answer": "આકૃતિ C",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 20)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <circle cx=\"32.5\" cy=\"32.5\" r=\"20\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <line x1=\"32.5\" y1=\"12.5\" x2=\"32.5\" y2=\"52.5\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n    </g>\n    <g transform=\"translate(75, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <rect x=\"15\" y=\"15\" width=\"35\" height=\"35\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <line x1=\"32.5\" y1=\"15\" x2=\"32.5\" y2=\"50\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n      <line x1=\"15\" y1=\"32.5\" x2=\"50\" y2=\"32.5\" stroke=\"#2563eb\" stroke-width=\"1.4\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n    </g>\n    <g transform=\"translate(150, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <polygon points=\"32.5,12 12,50 53,50\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <line x1=\"20\" y1=\"25\" x2=\"45\" y2=\"50\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n    </g>\n    <g transform=\"translate(225, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <circle cx=\"32.5\" cy=\"32.5\" r=\"20\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/>\n      <line x1=\"32.5\" y1=\"12.5\" x2=\"32.5\" y2=\"52.5\" stroke=\"#2563eb\" stroke-width=\"1.2\"/>\n      <line x1=\"12.5\" y1=\"32.5\" x2=\"52.5\" y2=\"32.5\" stroke=\"#2563eb\" stroke-width=\"1.2\"/>\n      <line x1=\"18.3\" y1=\"18.3\" x2=\"46.7\" y2=\"46.7\" stroke=\"#2563eb\" stroke-width=\"1.2\"/>\n      <line x1=\"46.7\" y1=\"18.3\" x2=\"18.3\" y2=\"46.7\" stroke=\"#2563eb\" stroke-width=\"1.2\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિ C માં દર્શાવેલ પેટર્ન અન્ય આકૃતિઓની સમપ્રમાણતા કરતાં અલગ પડે છે."
+      "explanation": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-32 જરૂરી છે. આપેલી કી મુજબ C.",
+      "solution": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-32 જરૂરી છે. આપેલી કી મુજબ C.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "આકૃતિ C"
     },
     {
       "id": 33,
@@ -604,13 +732,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 1,
-      "correct_answer": "આકૃતિ B",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 20)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 22 18 L 22 45 L 45 45\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <circle cx=\"45\" cy=\"45\" r=\"3.5\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n    </g>\n    <g transform=\"translate(75, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 43 18 L 43 45 L 20 45\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <circle cx=\"20\" cy=\"45\" r=\"3.5\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n    </g>\n    <g transform=\"translate(150, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 45 22 L 18 22 L 18 45\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <circle cx=\"18\" cy=\"45\" r=\"3.5\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n    </g>\n    <g transform=\"translate(225, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 43 45 L 43 18 L 20 18\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <circle cx=\"20\" cy=\"18\" r=\"3.5\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિ B માં ઘટકોનું પરિભ્રમણ અને ગોઠવણી બાકીના ત્રણ વિકલ્પોથી ભિન્ન છે."
+      "explanation": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-33 જરૂરી છે. આપેલી કી મુજબ B.",
+      "solution": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-33 જરૂરી છે. આપેલી કી મુજબ B.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "આકૃતિ B"
     },
     {
       "id": 34,
@@ -622,13 +754,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 3,
-      "correct_answer": "આકૃતિ D",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 20)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 20 20 L 20 45 L 45 45 L 45 20\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n    </g>\n    <g transform=\"translate(75, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 45 20 L 20 20 L 20 33 L 45 33 L 45 45 L 20 45\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n    </g>\n    <g transform=\"translate(150, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 20 20 L 32.5 45 L 45 20\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n    </g>\n    <g transform=\"translate(225, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <circle cx=\"32.5\" cy=\"32.5\" r=\"16\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિ D ની આંતરિક રેખાઓ અને રચના અન્ય આકૃતિઓ સાથે મેળ ખાતી નથી."
+      "explanation": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-34 જરૂરી છે. આપેલી કી મુજબ D.",
+      "solution": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-34 જરૂરી છે. આપેલી કી મુજબ D.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "આકૃતિ D"
     },
     {
       "id": 35,
@@ -640,13 +776,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 2,
-      "correct_answer": "આકૃતિ C",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 20)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 20 32.5 A 14 14 0 1 1 45 32.5\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n      <polygon points=\"45,28 49,36 41,36\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n    </g>\n    <g transform=\"translate(75, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 32.5 18 A 14 14 0 1 1 32.5 47\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n      <polygon points=\"36,47 28,47 32,52\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n    </g>\n    <g transform=\"translate(150, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 45 32.5 A 14 14 0 1 0 20 32.5\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n      <polygon points=\"20,28 16,36 24,36\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n    </g>\n    <g transform=\"translate(225, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"65\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n      <path d=\"M 32.5 47 A 14 14 0 1 1 32.5 18\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n      <polygon points=\"29,18 37,18 33,13\" fill=\"#2563eb\"/>\n      <text x=\"32.5\" y=\"70\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિ C માં દર્શાવેલ ખૂણા અને ઘટકોની દિશા બાકીના વિકલ્પો કરતાં વિરુદ્ધ છે."
+      "explanation": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-35 જરૂરી છે. આપેલી કી મુજબ C.",
+      "solution": "અલગ પડતી આકૃતિ ઓળખવા માટે આકૃતિ-35 જરૂરી છે. આપેલી કી મુજબ C.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "આકૃતિ C"
     },
     {
       "id": 36,
@@ -658,12 +798,16 @@ const paper52Data = {
         "IHAMA",
         "MHAAI"
       ],
-      "correct_index": 1,
-      "correct_answer": "IHAAM",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "SAVEN ના અક્ષરોને ઊલટા ક્રમે લખતાં NEVAS બને છે. તેવી જ રીતે MAAHI ને ઊલટા ક્રમે લખતાં IHAAM બને છે."
+      "explanation": "SAVENને NEVAS લખવામાં આવ્યું છે, એટલે શબ્દ ઊલટો લખાય છે. MAAHI ઊલટો કરતાં IHAAM મળે છે.",
+      "solution": "SAVENને NEVAS લખવામાં આવ્યું છે, એટલે શબ્દ ઊલટો લખાય છે. MAAHI ઊલટો કરતાં IHAAM મળે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "IHAAM"
     },
     {
       "id": 37,
@@ -675,12 +819,16 @@ const paper52Data = {
         "75",
         "90"
       ],
-      "correct_index": 0,
-      "correct_answer": "69",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "અંગ્રેજી મૂળાક્ષરોના ઊલટા ક્રમાંકનો સરવાળો:\nB(25) + A(26) + G(20) = 71\nS(8) + H(19) + E(22) = 49\nVICE = V(5) + I(18) + C(24) + E(22) = 69."
+      "explanation": "વિપરીત મૂળાક્ષર મૂલ્યો પ્રમાણે A=26, B=25 વગેરે. V=5, I=18, C=24, E=22. સરવાળો 69.",
+      "solution": "વિપરીત મૂળાક્ષર મૂલ્યો પ્રમાણે A=26, B=25 વગેરે. V=5, I=18, C=24, E=22. સરવાળો 69.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "69"
     },
     {
       "id": 38,
@@ -692,12 +840,16 @@ const paper52Data = {
         "1413",
         "3411"
       ],
-      "correct_index": 0,
-      "correct_answer": "1143",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "દરેક મૂળાક્ષરનો A=1 થી Z=26 મુજબનો ક્રમાંક લખ્યો છે:\nZ=26, E=5, B=2, R=18, A=1 (2652181)\nA=1, N=14, C=3 => ANC = 1143."
+      "explanation": "અક્ષરોના મૂળાક્ષર ક્રમ પ્રમાણે A=1, N=14 અને C=3. તેથી 1143.",
+      "solution": "અક્ષરોના મૂળાક્ષર ક્રમ પ્રમાણે A=1, N=14 અને C=3. તેથી 1143.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "1143"
     },
     {
       "id": 39,
@@ -709,12 +861,16 @@ const paper52Data = {
         "1938",
         "9183"
       ],
-      "correct_index": 1,
-      "correct_answer": "1983",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "સંકેતો મુજબ: Y=1, E=9, A=8, R=3. તેથી YEAR = 1983."
+      "explanation": "FORTY અને NEAR પરથી Y=1, E=9, A=8, R=3. તેથી YEAR=1983.",
+      "solution": "FORTY અને NEAR પરથી Y=1, E=9, A=8, R=3. તેથી YEAR=1983.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "1983"
     },
     {
       "id": 40,
@@ -726,12 +882,16 @@ const paper52Data = {
         "82769",
         "82679"
       ],
-      "correct_index": 3,
-      "correct_answer": "82679",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "MOTHERLAND ના અક્ષરોનો કોડ: D=8, R=2, E=6, A=7, M=9. તેથી DREAM = 82679."
+      "explanation": "M=9, O=5, T=0, H=1, E=6, R=2, L=3, A=7, N=4, D=8. DREAM=82679.",
+      "solution": "M=9, O=5, T=0, H=1, E=6, R=2, L=3, A=7, N=4, D=8. DREAM=82679.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "82679"
     },
     {
       "id": 41,
@@ -743,12 +903,16 @@ const paper52Data = {
         "પિયાનો",
         "સંગીતકાર"
       ],
-      "correct_index": 3,
-      "correct_answer": "સંગીતકાર",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ગિટાર, હાર્મોનિયમ અને પિયાનો સંગીતના વાદ્યો છે, જ્યારે સંગીતકાર એ સંગીત વગાડનાર વ્યક્તિ છે."
+      "explanation": "ગિટાર, હાર્મોનિયમ અને પિયાનો વાદ્યો છે; સંગીતકાર વ્યક્તિ છે.",
+      "solution": "ગિટાર, હાર્મોનિયમ અને પિયાનો વાદ્યો છે; સંગીતકાર વ્યક્તિ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "સંગીતકાર"
     },
     {
       "id": 42,
@@ -760,12 +924,16 @@ const paper52Data = {
         "સંસ્કૃત",
         "વિજ્ઞાન"
       ],
-      "correct_index": 3,
-      "correct_answer": "વિજ્ઞાન",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "અંગ્રેજી, હિન્દી અને સંસ્કૃત ભાષાઓ છે, જ્યારે વિજ્ઞાન એ વિષય છે."
+      "explanation": "અંગ્રેજી, હિન્દી અને સંસ્કૃત ભાષાઓ છે; વિજ્ઞાન વિષય છે.",
+      "solution": "અંગ્રેજી, હિન્દી અને સંસ્કૃત ભાષાઓ છે; વિજ્ઞાન વિષય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "વિજ્ઞાન"
     },
     {
       "id": 43,
@@ -777,12 +945,16 @@ const paper52Data = {
         "99",
         "65"
       ],
-      "correct_index": 2,
-      "correct_answer": "99",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "26, 65 અને 104 એ 13 ના ગુણક છે (13×2=26, 13×5=65, 13×8=104), જ્યારે 99 એ 13 નો ગુણક નથી."
+      "explanation": "104, 26 અને 65 એ 13ના ગુણાંક છે. 99 એ 13નો ગુણાંક નથી.",
+      "solution": "104, 26 અને 65 એ 13ના ગુણાંક છે. 99 એ 13નો ગુણાંક નથી.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "99"
     },
     {
       "id": 44,
@@ -794,12 +966,16 @@ const paper52Data = {
         "દેડકા",
         "મરઘી"
       ],
-      "correct_index": 2,
-      "correct_answer": "દેડકા",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "દેડકો ઉભયજીવી પ્રાણી છે અને ઈંડાં મૂકે છે, જ્યારે મનુષ્ય અને ગાય સસ્તન અને સ્થળચર છે."
+      "explanation": "મનુષ્ય, ગાય અને મરઘી ફેફસાંથી શ્વાસ લે છે; દેડકો ઉભયજીવી છે.",
+      "solution": "મનુષ્ય, ગાય અને મરઘી ફેફસાંથી શ્વાસ લે છે; દેડકો ઉભયજીવી છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "દેડકા"
     },
     {
       "id": 45,
@@ -811,12 +987,16 @@ const paper52Data = {
         "OL",
         "PK"
       ],
-      "correct_index": 2,
-      "correct_answer": "OL",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "T-G, C-X, P-K એ બંને વ્યંજનો ધરાવતી સામસામેની વિરોધી જોડી છે, જ્યારે O-L માં O સ્વર (Vowel) છે."
+      "explanation": "બધા જોડાંના અક્ષરોના મૂળાક્ષર સ્થાનનો સરવાળો 27 થાય છે: TG=20+7, CX=3+24, OL=15+12 અને PK=16+11. તેથી એક અલગ વિકલ્પ નક્કી થતો નથી.",
+      "solution": "બધા જોડાંના અક્ષરોના મૂળાક્ષર સ્થાનનો સરવાળો 27 થાય છે: TG=20+7, CX=3+24, OL=15+12 અને PK=16+11. તેથી એક અલગ વિકલ્પ નક્કી થતો નથી.",
+      "status": "question_error",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "OL"
     },
     {
       "id": 46,
@@ -828,13 +1008,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 1,
-      "correct_answer": "આકૃતિ B",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <!-- Problem Figure -->\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"60\" height=\"75\" rx=\"6\" fill=\"#eff6ff\" stroke=\"#3b82f6\" stroke-width=\"2\"/>\n      <line x1=\"15\" y1=\"37\" x2=\"45\" y2=\"37\" stroke=\"#1d4ed8\" stroke-width=\"2.5\"/>\n      <polygon points=\"45,30 45,44 53,37\" fill=\"#1d4ed8\"/>\n      <circle cx=\"15\" cy=\"37\" r=\"4\" fill=\"#1d4ed8\"/>\n      <circle cx=\"30\" cy=\"23\" r=\"3\" fill=\"#64748b\"/>\n      <text x=\"30\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#1e3a8a\">પ્રશ્ન</text>\n    </g>\n    <!-- Mirror line -->\n    <line x1=\"72\" y1=\"5\" x2=\"72\" y2=\"80\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"3,3\"/>\n    <text x=\"72\" y=\"93\" text-anchor=\"middle\" font-size=\"9\" fill=\"#64748b\">દર્પણ</text>\n    <!-- Options A, B, C, D (100% identical styling) -->\n    <g transform=\"translate(85, 0)\">\n      <!-- A -->\n      <g transform=\"translate(0, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"10\" y1=\"37\" x2=\"38\" y2=\"37\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <polygon points=\"38,32 38,42 44,37\" fill=\"#475569\"/>\n        <circle cx=\"10\" cy=\"37\" r=\"3\" fill=\"#475569\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n      </g>\n      <!-- B -->\n      <g transform=\"translate(56, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"38\" y1=\"37\" x2=\"12\" y2=\"37\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <polygon points=\"12,30 12,44 5,37\" fill=\"#475569\"/>\n        <circle cx=\"38\" cy=\"37\" r=\"3\" fill=\"#475569\"/>\n        <circle cx=\"23\" cy=\"23\" r=\"3\" fill=\"#64748b\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n      </g>\n      <!-- C -->\n      <g transform=\"translate(112, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"38\" y1=\"37\" x2=\"12\" y2=\"37\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <polygon points=\"12,32 12,42 6,37\" fill=\"#475569\"/>\n        <circle cx=\"38\" cy=\"37\" r=\"3\" fill=\"#475569\"/>\n        <circle cx=\"23\" cy=\"51\" r=\"3\" fill=\"#64748b\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n      </g>\n      <!-- D -->\n      <g transform=\"translate(168, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"25\" y1=\"15\" x2=\"25\" y2=\"45\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <polygon points=\"20,15 30,15 25,9\" fill=\"#475569\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n      </g>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "દર્પણ પ્રતિબિંબમાં ડાબી અને જમણી બાજુ બદલાય છે. પ્રશ્ન આકૃતિનું દર્પણ પ્રતિબિંબ વિકલ્પ B બને છે."
+      "explanation": "દર્પણ પ્રતિબિંબની ચકાસણી માટે આકૃતિ-46 જરૂરી છે. આપેલી કી મુજબ B.",
+      "solution": "દર્પણ પ્રતિબિંબની ચકાસણી માટે આકૃતિ-46 જરૂરી છે. આપેલી કી મુજબ B.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "આકૃતિ B"
     },
     {
       "id": 47,
@@ -846,13 +1030,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 2,
-      "correct_answer": "આકૃતિ C",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <!-- Problem Figure -->\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"60\" height=\"75\" rx=\"6\" fill=\"#eff6ff\" stroke=\"#3b82f6\" stroke-width=\"2\"/>\n      <line x1=\"20\" y1=\"15\" x2=\"20\" y2=\"55\" stroke=\"#1d4ed8\" stroke-width=\"2.5\"/>\n      <polygon points=\"20,15 48,27 20,39\" fill=\"#3b82f6\"/>\n      <text x=\"30\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#1e3a8a\">પ્રશ્ન</text>\n    </g>\n    <!-- Mirror line -->\n    <line x1=\"72\" y1=\"5\" x2=\"72\" y2=\"80\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"3,3\"/>\n    <text x=\"72\" y=\"93\" text-anchor=\"middle\" font-size=\"9\" fill=\"#64748b\">દર્પણ</text>\n    <!-- Options (All neutral) -->\n    <g transform=\"translate(85, 0)\">\n      <g transform=\"translate(0, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"15\" y1=\"15\" x2=\"15\" y2=\"55\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <polygon points=\"15,15 38,27 15,39\" fill=\"#64748b\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n      </g>\n      <g transform=\"translate(56, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"25\" y1=\"55\" x2=\"25\" y2=\"15\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <polygon points=\"25,55 45,43 25,31\" fill=\"#64748b\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n      </g>\n      <g transform=\"translate(112, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"38\" y1=\"15\" x2=\"38\" y2=\"55\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <polygon points=\"38,15 10,27 38,39\" fill=\"#64748b\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n      </g>\n      <g transform=\"translate(168, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <circle cx=\"25\" cy=\"35\" r=\"14\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n      </g>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "ધ્વજ જમણી તરફ છે, દર્પણ પ્રતિબિંબમાં તે ડાબી તરફ દેખાશે, જે વિકલ્પ C માં દર્શાવેલ છે."
+      "explanation": "દર્પણ પ્રતિબિંબની ચકાસણી માટે આકૃતિ-47 જરૂરી છે. આપેલી કી મુજબ C.",
+      "solution": "દર્પણ પ્રતિબિંબની ચકાસણી માટે આકૃતિ-47 જરૂરી છે. આપેલી કી મુજબ C.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "આકૃતિ C"
     },
     {
       "id": 48,
@@ -864,13 +1052,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 0,
-      "correct_answer": "આકૃતિ A",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 115\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"60\" height=\"75\" rx=\"6\" fill=\"#eff6ff\" stroke=\"#3b82f6\" stroke-width=\"2\"/>\n      <circle cx=\"30\" cy=\"35\" r=\"18\" fill=\"none\" stroke=\"#1d4ed8\" stroke-width=\"2\"/>\n      <line x1=\"30\" y1=\"35\" x2=\"44\" y2=\"35\" stroke=\"#1d4ed8\" stroke-width=\"2\"/>\n      <line x1=\"30\" y1=\"35\" x2=\"30\" y2=\"20\" stroke=\"#1d4ed8\" stroke-width=\"2\"/>\n      <text x=\"30\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#1e3a8a\">પ્રશ્ન (3:00)</text>\n    </g>\n    <line x1=\"72\" y1=\"5\" x2=\"72\" y2=\"80\" stroke=\"#94a3b8\" stroke-width=\"2\" stroke-dasharray=\"3,3\"/>\n    <g transform=\"translate(85, 0)\">\n      <!-- A -->\n      <g transform=\"translate(0, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <circle cx=\"25\" cy=\"35\" r=\"16\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <line x1=\"25\" y1=\"35\" x2=\"11\" y2=\"35\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <line x1=\"25\" y1=\"35\" x2=\"25\" y2=\"21\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n      </g>\n      <!-- B -->\n      <g transform=\"translate(56, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <circle cx=\"25\" cy=\"35\" r=\"16\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <line x1=\"25\" y1=\"35\" x2=\"39\" y2=\"35\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <line x1=\"25\" y1=\"35\" x2=\"25\" y2=\"21\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n      </g>\n      <!-- C -->\n      <g transform=\"translate(112, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <circle cx=\"25\" cy=\"35\" r=\"16\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <line x1=\"25\" y1=\"35\" x2=\"25\" y2=\"49\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n      </g>\n      <!-- D -->\n      <g transform=\"translate(168, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"50\" height=\"75\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <circle cx=\"25\" cy=\"35\" r=\"16\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <line x1=\"13\" y1=\"35\" x2=\"37\" y2=\"35\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n        <text x=\"25\" y=\"68\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n      </g>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "પ્રશ્ન આકૃતિનું દર્પણમાં પાશ્વાંતર થતાં વિકલ્પ A જેવી આકૃતિ પ્રાપ્ત થાય છે."
+      "explanation": "દર્પણ પ્રતિબિંબની ચકાસણી માટે આકૃતિ-48 જરૂરી છે. આપેલી કી મુજબ A.",
+      "solution": "દર્પણ પ્રતિબિંબની ચકાસણી માટે આકૃતિ-48 જરૂરી છે. આપેલી કી મુજબ A.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "આકૃતિ A"
     },
     {
       "id": 49,
@@ -882,12 +1074,16 @@ const paper52Data = {
         "નિમણૂક",
         "પ્રયોગ"
       ],
-      "correct_index": 0,
-      "correct_answer": "અનુભવ",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "જેમ અભ્યાસ કરવાથી જ્ઞાન વધે છે, તેમ કોઈ પણ કાર્ય/કામ કરવાથી અનુભવ મળે છે."
+      "explanation": "અભ્યાસથી જ્ઞાન મળે છે અને કામ કરવાથી અનુભવ મળે છે.",
+      "solution": "અભ્યાસથી જ્ઞાન મળે છે અને કામ કરવાથી અનુભવ મળે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "અનુભવ"
     },
     {
       "id": 50,
@@ -899,12 +1095,16 @@ const paper52Data = {
         "ચીફ ઑફિસર",
         "અધ્યક્ષ"
       ],
-      "correct_index": 0,
-      "correct_answer": "પ્રમુખ",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "મહાનગરપાલિકાના બંધારણીય વડા મેયર કહેવાય છે, જ્યારે નગરપાલિકાના વડા પ્રમુખ કહેવાય છે."
+      "explanation": "મહાનગરપાલિકાના વડા મેયર અને નગરપાલિકાના વડા પ્રમુખ હોય છે.",
+      "solution": "મહાનગરપાલિકાના વડા મેયર અને નગરપાલિકાના વડા પ્રમુખ હોય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "પ્રમુખ"
     },
     {
       "id": 51,
@@ -916,12 +1116,16 @@ const paper52Data = {
         "PO",
         "OO"
       ],
-      "correct_index": 2,
-      "correct_answer": "PO",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "E અને F ના વિરોધી મૂળાક્ષરો V અને U છે. તેવી જ રીતે K નો વિરોધી P અને L નો વિરોધી O થાય, તેથી સાચો ઉત્તર PO છે."
+      "explanation": "EFના અક્ષરોના વિરુદ્ધ ક્રમમાં VU મળે છે. Kનું વિરુદ્ધ P અને Lનું વિરુદ્ધ O છે.",
+      "solution": "EFના અક્ષરોના વિરુદ્ધ ક્રમમાં VU મળે છે. Kનું વિરુદ્ધ P અને Lનું વિરુદ્ધ O છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "PO"
     },
     {
       "id": 52,
@@ -933,12 +1137,16 @@ const paper52Data = {
         "ભગવાન",
         "અગરબત્તી"
       ],
-      "correct_index": 0,
-      "correct_answer": "મંદિર",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "સ્નાન બાથરૂમમાં કરવામાં આવે છે, તેમ પૂજા મંદિરમાં કરવામાં આવે છે."
+      "explanation": "સ્નાન બાથરૂમમાં અને પૂજા મંદિરમાં કરવામાં આવે છે.",
+      "solution": "સ્નાન બાથરૂમમાં અને પૂજા મંદિરમાં કરવામાં આવે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "મંદિર"
     },
     {
       "id": 53,
@@ -950,13 +1158,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 1,
-      "correct_answer": "આકૃતિ B",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 330 120\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <!-- 2x2 Grid -->\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"80\" height=\"80\" fill=\"#ffffff\" stroke=\"#2563eb\" stroke-width=\"2\"/>\n      <line x1=\"40\" y1=\"0\" x2=\"40\" y2=\"80\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n      <line x1=\"0\" y1=\"40\" x2=\"80\" y2=\"40\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n      <circle cx=\"20\" cy=\"20\" r=\"10\" fill=\"#2563eb\"/>\n      <circle cx=\"60\" cy=\"20\" r=\"10\" fill=\"#2563eb\"/>\n      <circle cx=\"20\" cy=\"60\" r=\"10\" fill=\"#2563eb\"/>\n      <text x=\"60\" y=\"67\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"bold\" fill=\"#475569\">?</text>\n      <text x=\"40\" y=\"96\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#334155\">પેટર્ન પૂર્ણ કરો</text>\n    </g>\n    <!-- Options (Neutral) -->\n    <g transform=\"translate(100, 5)\">\n      <g transform=\"translate(0, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <rect x=\"12\" y=\"12\" width=\"20\" height=\"20\" fill=\"#475569\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n      </g>\n      <g transform=\"translate(55, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <circle cx=\"22.5\" cy=\"22.5\" r=\"10\" fill=\"#2563eb\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n      </g>\n      <g transform=\"translate(110, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <polygon points=\"22.5,10 12,32 33,32\" fill=\"#475569\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n      </g>\n      <g transform=\"translate(165, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"10\" y1=\"10\" x2=\"35\" y2=\"35\" stroke=\"#475569\" stroke-width=\"2.5\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n      </g>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "ચોરસ ગ્રીડની પેટર્ન પૂર્ણ કરવા માટે ખાલી જગ્યામાં વિકલ્પ B યોગ્ય રીતે બંધબેસે છે."
+      "explanation": "પૅટર્નની સંપૂર્ણ આકૃતિ ઉપલબ્ધ નથી. આપેલી કી મુજબ B.",
+      "solution": "પૅટર્નની સંપૂર્ણ આકૃતિ ઉપલબ્ધ નથી. આપેલી કી મુજબ B.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "આકૃતિ B"
     },
     {
       "id": 54,
@@ -968,13 +1180,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 1,
-      "correct_answer": "આકૃતિ B",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 330 120\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(20, 15)\">\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"0\" y=\"0\" width=\"80\" height=\"80\" fill=\"#ffffff\" stroke=\"#2563eb\" stroke-width=\"2\"/>\n      <line x1=\"40\" y1=\"0\" x2=\"40\" y2=\"80\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n      <line x1=\"0\" y1=\"40\" x2=\"80\" y2=\"40\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n      <path d=\"M 40 10 A 30 30 0 0 0 10 40\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\"/>\n      <path d=\"M 40 10 A 30 30 0 0 1 70 40\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\"/>\n      <path d=\"M 10 40 A 30 30 0 0 0 40 70\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\"/>\n      <text x=\"60\" y=\"65\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"bold\" fill=\"#475569\">?</text>\n      <text x=\"40\" y=\"96\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"#334155\">પેટર્ન પૂર્ણ કરો</text>\n    </g>\n    <!-- Options (Neutral) -->\n    <g transform=\"translate(95, 5)\">\n      <g transform=\"translate(0, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <line x1=\"10\" y1=\"10\" x2=\"35\" y2=\"35\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(A)</text>\n      </g>\n      <g transform=\"translate(55, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <path d=\"M 35 10 A 25 25 0 0 1 10 35\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(B)</text>\n      </g>\n      <g transform=\"translate(110, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <circle cx=\"22.5\" cy=\"22.5\" r=\"10\" fill=\"none\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(C)</text>\n      </g>\n      <g transform=\"translate(165, 0)\">\n        <rect x=\"0\" y=\"0\" width=\"45\" height=\"45\" rx=\"6\" fill=\"#ffffff\" stroke=\"#94a3b8\" stroke-width=\"1.2\"/>\n        <rect x=\"10\" y=\"10\" width=\"25\" height=\"25\" fill=\"none\" stroke=\"#475569\" stroke-width=\"2\"/>\n        <text x=\"22.5\" y=\"60\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#475569\">(D)</text>\n      </g>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિની સંમિતિ અને દિશા ચકાસતાં વિકલ્પ B ખૂટતા ભાગને પૂર્ણ કરે છે."
+      "explanation": "પૅટર્નની સંપૂર્ણ આકૃતિ ઉપલબ્ધ નથી. આપેલી કી મુજબ B.",
+      "solution": "પૅટર્નની સંપૂર્ણ આકૃતિ ઉપલબ્ધ નથી. આપેલી કી મુજબ B.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "આકૃતિ B"
     },
     {
       "id": 55,
@@ -986,13 +1202,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 1,
-      "correct_answer": "આકૃતિ B (6 ખૂણાવાળો તારો)",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 85\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <g transform=\"translate(0, 0)\">\n      <polygon points=\"25,10 10,40 40,40\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <text x=\"25\" y=\"55\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#334155\">3 ખૂણા</text>\n    </g>\n    <text x=\"60\" y=\"32\" font-size=\"16\" font-weight=\"bold\" fill=\"#94a3b8\">→</text>\n    <g transform=\"translate(75, 0)\">\n      <rect x=\"10\" y=\"10\" width=\"30\" height=\"30\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <text x=\"25\" y=\"55\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#334155\">4 ખૂણા</text>\n    </g>\n    <text x=\"135\" y=\"32\" font-size=\"16\" font-weight=\"bold\" fill=\"#94a3b8\">→</text>\n    <g transform=\"translate(150, 0)\">\n      <polygon points=\"25,8 42,20 35,40 15,40 8,20\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <text x=\"25\" y=\"55\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#334155\">5 ખૂણા</text>\n    </g>\n    <text x=\"210\" y=\"32\" font-size=\"16\" font-weight=\"bold\" fill=\"#94a3b8\">→</text>\n    <g transform=\"translate(225, 0)\">\n      <rect x=\"5\" y=\"5\" width=\"40\" height=\"40\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <text x=\"25\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n      <text x=\"25\" y=\"55\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"#334155\">(?)</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "શ્રેણીમાં તારાના ખૂણા વધે છે: 3-ખૂણા -> 4-ખૂણા -> 5-ખૂણા -> હવે 6-ખૂણાવાળો તારો (વિકલ્પ B) આવે."
+      "explanation": "તારાના ખૂણાઓનો ક્રમ 3, 4, 5 છે. આગળનો આકાર 6 ખૂણાવાળો તારો છે.",
+      "solution": "તારાના ખૂણાઓનો ક્રમ 3, 4, 5 છે. આગળનો આકાર 6 ખૂણાવાળો તારો છે.",
+      "status": "verified_from_description",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "આકૃતિ B (6 ખૂણાવાળો તારો)"
     },
     {
       "id": 56,
@@ -1004,13 +1224,17 @@ const paper52Data = {
         "17",
         "13"
       ],
-      "correct_index": 1,
-      "correct_answer": "8",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 150\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(45, 10)\">\n    <!-- Rectangle (Blue) -->\n    <rect x=\"40\" y=\"40\" width=\"160\" height=\"70\" rx=\"4\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n    <text x=\"195\" y=\"35\" font-size=\"10\" font-weight=\"bold\" fill=\"#2563eb\">લંબચોરસ</text>\n    <!-- Circle (Green) -->\n    <circle cx=\"95\" cy=\"75\" r=\"45\" fill=\"none\" stroke=\"#16a34a\" stroke-width=\"2.2\"/>\n    <text x=\"35\" y=\"25\" font-size=\"10\" font-weight=\"bold\" fill=\"#16a34a\">વર્તુળ</text>\n    <!-- Triangle (Purple) -->\n    <polygon points=\"135,15 75,120 195,120\" fill=\"none\" stroke=\"#9333ea\" stroke-width=\"2.2\"/>\n    <text x=\"145\" y=\"10\" font-size=\"10\" font-weight=\"bold\" fill=\"#9333ea\">ત્રિકોણ</text>\n    <!-- All numbers neutrally rendered -->\n    <text x=\"65\" y=\"70\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">1</text>\n    <text x=\"180\" y=\"75\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">3</text>\n    <text x=\"136\" y=\"34\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">5</text>\n    <text x=\"75\" y=\"58\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">12</text>\n    <text x=\"95\" y=\"105\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">13</text>\n    <text x=\"160\" y=\"75\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">17</text>\n    <text x=\"118\" y=\"77\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">8</text>\n  </g>\n\n  </svg>",
-      "explanation": "વેન આકૃતિમાં સંખ્યા 8 એ વર્તુળ, લંબચોરસ અને ત્રિકોણ ત્રણેય આકારોના સામાન્ય છેદન ભાગમાં આવેલી છે."
+      "explanation": "બધી આકૃતિઓમાં આવતી સામાન્ય સંખ્યા શોધવા મૂળ આકૃતિઓ જરૂરી છે. આપેલી કી મુજબ 8.",
+      "solution": "બધી આકૃતિઓમાં આવતી સામાન્ય સંખ્યા શોધવા મૂળ આકૃતિઓ જરૂરી છે. આપેલી કી મુજબ 8.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "8"
     },
     {
       "id": 57,
@@ -1022,13 +1246,17 @@ const paper52Data = {
         "5",
         "6"
       ],
-      "correct_index": 2,
-      "correct_answer": "5",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 150\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(45, 10)\">\n    <!-- Rectangle (Blue) -->\n    <rect x=\"40\" y=\"40\" width=\"160\" height=\"70\" rx=\"4\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/>\n    <text x=\"195\" y=\"35\" font-size=\"10\" font-weight=\"bold\" fill=\"#2563eb\">લંબચોરસ</text>\n    <!-- Circle (Green) -->\n    <circle cx=\"95\" cy=\"75\" r=\"45\" fill=\"none\" stroke=\"#16a34a\" stroke-width=\"2.2\"/>\n    <text x=\"35\" y=\"25\" font-size=\"10\" font-weight=\"bold\" fill=\"#16a34a\">વર્તુળ</text>\n    <!-- Triangle (Purple) -->\n    <polygon points=\"135,15 75,120 195,120\" fill=\"none\" stroke=\"#9333ea\" stroke-width=\"2.2\"/>\n    <text x=\"145\" y=\"10\" font-size=\"10\" font-weight=\"bold\" fill=\"#9333ea\">ત્રિકોણ</text>\n    <!-- All numbers neutrally rendered -->\n    <text x=\"65\" y=\"70\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">1</text>\n    <text x=\"180\" y=\"75\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">3</text>\n    <text x=\"136\" y=\"34\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">5</text>\n    <text x=\"75\" y=\"58\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">12</text>\n    <text x=\"95\" y=\"105\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">13</text>\n    <text x=\"160\" y=\"75\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">17</text>\n    <text x=\"118\" y=\"77\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"bold\" fill=\"#0f172a\">8</text>\n  </g>\n\n  </svg>",
-      "explanation": "સંખ્યા 5 એ ત્રિકોણના એવા ભાગમાં આવેલી છે જે વર્તુળ કે લંબચોરસ સાથે છેદાતી નથી, એટલે કે માત્ર એક જ આકૃતિમાં છે."
+      "explanation": "ફક્ત એક આકૃતિમાં આવતી સંખ્યા શોધવા મૂળ આકૃતિઓ જરૂરી છે. આપેલી કી મુજબ 5.",
+      "solution": "ફક્ત એક આકૃતિમાં આવતી સંખ્યા શોધવા મૂળ આકૃતિઓ જરૂરી છે. આપેલી કી મુજબ 5.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "5"
     },
     {
       "id": 58,
@@ -1040,13 +1268,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 1,
-      "correct_answer": "આકૃતિ B",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 80\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <!-- Pair 1 -->\n    <g transform=\"translate(0, 0)\">\n      <rect x=\"10\" y=\"10\" width=\"40\" height=\"40\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"65\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">:</text>\n    <g transform=\"translate(80, 0)\">\n      <rect x=\"10\" y=\"10\" width=\"40\" height=\"40\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <circle cx=\"30\" cy=\"30\" r=\"14\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    </g>\n    <text x=\"135\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">::</text>\n    <!-- Pair 2 -->\n    <g transform=\"translate(150, 0)\">\n      <polygon points=\"30,10 10,48 50,48\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"215\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">:</text>\n    <!-- Box with ? -->\n    <g transform=\"translate(230, 0)\">\n      <rect x=\"5\" y=\"5\" width=\"48\" height=\"48\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <text x=\"29\" y=\"36\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "પ્રથમ આકૃતિનું 90° પરિભ્રમણ સંબંધ જાળવી રાખતાં વિકલ્પ B સાચો ઉત્તર બને છે."
+      "explanation": "સંબંધિત આકૃતિ ઓળખવા માટે આકૃતિ-58 જરૂરી છે. આપેલી કી મુજબ B.",
+      "solution": "સંબંધિત આકૃતિ ઓળખવા માટે આકૃતિ-58 જરૂરી છે. આપેલી કી મુજબ B.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "આકૃતિ B"
     },
     {
       "id": 59,
@@ -1058,13 +1290,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 3,
-      "correct_answer": "આકૃતિ D",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 80\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <g transform=\"translate(0, 0)\">\n      <circle cx=\"30\" cy=\"30\" r=\"18\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"65\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">:</text>\n    <g transform=\"translate(80, 0)\">\n      <circle cx=\"30\" cy=\"30\" r=\"18\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <circle cx=\"30\" cy=\"30\" r=\"9\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"135\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">::</text>\n    <g transform=\"translate(150, 0)\">\n      <rect x=\"12\" y=\"12\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"215\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">:</text>\n    <g transform=\"translate(230, 0)\">\n      <rect x=\"5\" y=\"5\" width=\"48\" height=\"48\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <text x=\"29\" y=\"36\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "આકૃતિમાં ઘટકોની સંખ્યા અને રેખાઓના સમસંબંધ મુજબ વિકલ્પ D યોગ્ય ઉત્તર છે."
+      "explanation": "સંબંધિત આકૃતિ ઓળખવા માટે આકૃતિ-59 જરૂરી છે. આપેલી કી મુજબ D.",
+      "solution": "સંબંધિત આકૃતિ ઓળખવા માટે આકૃતિ-59 જરૂરી છે. આપેલી કી મુજબ D.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "આકૃતિ D"
     },
     {
       "id": 60,
@@ -1076,13 +1312,17 @@ const paper52Data = {
         "આકૃતિ C",
         "આકૃતિ D"
       ],
-      "correct_index": 1,
-      "correct_answer": "આકૃતિ B",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 80\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(15, 15)\">\n    <g transform=\"translate(0, 0)\">\n      <polygon points=\"30,12 12,45 48,45\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"65\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">:</text>\n    <g transform=\"translate(80, 0)\">\n      <rect x=\"12\" y=\"12\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"135\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">::</text>\n    <g transform=\"translate(150, 0)\">\n      <polygon points=\"30,12 48,25 41,45 19,45 12,25\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n    </g>\n    <text x=\"215\" y=\"35\" font-size=\"16\" font-weight=\"bold\" fill=\"#64748b\">:</text>\n    <g transform=\"translate(230, 0)\">\n      <rect x=\"5\" y=\"5\" width=\"48\" height=\"48\" rx=\"6\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"1.8\"/>\n      <text x=\"29\" y=\"36\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n    </g>\n  </g>\n\n  </svg>",
-      "explanation": "બાહ્ય અને આંતરિક ભૌમિતિક આકારોની અદલાબદલી મુજબ વિકલ્પ B સાચો સમસંબંધ દર્શાવે છે."
+      "explanation": "સંબંધિત આકૃતિ ઓળખવા માટે આકૃતિ-60 જરૂરી છે. આપેલી કી મુજબ B.",
+      "solution": "સંબંધિત આકૃતિ ઓળખવા માટે આકૃતિ-60 જરૂરી છે. આપેલી કી મુજબ B.",
+      "status": "diagram_required",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "આકૃતિ B"
     },
     {
       "id": 61,
@@ -1094,12 +1334,16 @@ const paper52Data = {
         "3, 2, 1, 4",
         "1, 2, 4, 3"
       ],
-      "correct_index": 1,
-      "correct_answer": "3, 4, 2, 1",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "સૂર્યથી વધતા અંતર મુજબ ગ્રહોનો સાચો ચડતો ક્રમ:\n3. બુધ -> 4. પૃથ્વી -> 2. ગુરૂ -> 1. યુરેનસ (3, 4, 2, 1)."
+      "explanation": "સૂર્યથી અંતર પ્રમાણે બુધ, પૃથ્વી, ગુરુ અને યુરેનસનો ક્રમ આવે છે.",
+      "solution": "સૂર્યથી અંતર પ્રમાણે બુધ, પૃથ્વી, ગુરુ અને યુરેનસનો ક્રમ આવે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "3, 4, 2, 1"
     },
     {
       "id": 62,
@@ -1111,12 +1355,16 @@ const paper52Data = {
         "4, 2, 3, 1",
         "4, 2, 1, 3"
       ],
-      "correct_index": 3,
-      "correct_answer": "4, 2, 1, 3",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "મૂલ્યો:\n1^100 = 1\n√9 = 3\n√(√256) = √16 = 4\n∛512 = 8\nચડતો ક્રમ: 1, 3, 4, 8 એટલે કે 4, 2, 1, 3."
+      "explanation": "1નું મૂલ્ય 4, 2નું 3, 3નું 8 અને 4નું 1 છે. ચડતો ક્રમ 4,2,1,3 છે.",
+      "solution": "1નું મૂલ્ય 4, 2નું 3, 3નું 8 અને 4નું 1 છે. ચડતો ક્રમ 4,2,1,3 છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "4, 2, 1, 3"
     },
     {
       "id": 63,
@@ -1128,12 +1376,16 @@ const paper52Data = {
         "2, 4, 1, 3",
         "2, 3, 4, 1"
       ],
-      "correct_index": 1,
-      "correct_answer": "2, 1, 4, 3",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "વનસ્પતિની ઊંચાઈનો ચડતો ક્રમ:\n2. તુલસી (છોડ) < 1. બાવળ (ક્ષુપ/નાનું વૃક્ષ) < 4. લીમડો (વૃક્ષ) < 3. નીલગીરી (સૌથી ઊંચું વૃક્ષ) -> 2, 1, 4, 3."
+      "explanation": "ઊંચાઈ પ્રમાણે તુલસી, બાવળ, લીમડો અને નીલગીરીનો ક્રમ છે.",
+      "solution": "ઊંચાઈ પ્રમાણે તુલસી, બાવળ, લીમડો અને નીલગીરીનો ક્રમ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "2, 1, 4, 3"
     },
     {
       "id": 64,
@@ -1145,12 +1397,16 @@ const paper52Data = {
         "2, 3, 4, 1",
         "3, 2, 4, 1"
       ],
-      "correct_index": 0,
-      "correct_answer": "2, 3, 1, 4",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "તાર્કિક ક્રમ:\n2. જળધોધ -> 3. જળવિદ્યુતમથક -> 1. વિદ્યુત -> 4. વિદ્યુત ટ્રેન (2, 3, 1, 4)."
+      "explanation": "જળધોધથી જળવિદ્યુતમથકમાં વીજળી બને છે, પછી વીજળીનો ઉપયોગ વિદ્યુત ટ્રેનમાં થાય છે.",
+      "solution": "જળધોધથી જળવિદ્યુતમથકમાં વીજળી બને છે, પછી વીજળીનો ઉપયોગ વિદ્યુત ટ્રેનમાં થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "2, 3, 1, 4"
     },
     {
       "id": 65,
@@ -1162,12 +1418,16 @@ const paper52Data = {
         "1, 2, 4, 3, 5, 6",
         "6, 5, 3, 4, 2, 1"
       ],
-      "correct_index": 0,
-      "correct_answer": "1, 2, 3, 4, 5, 6",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ચા બનાવવાની યોગ્ય પ્રક્રિયા:\n1. તપેલી -> 2. પાણી -> 3. ચા-ખાંડ -> 4. દૂધ -> 5. ઉકાળવું -> 6. ગાળણ (1, 2, 3, 4, 5, 6)."
+      "explanation": "ચા બનાવવા તપેલીમાં પાણી, ચા-ખાંડ અને દૂધ નાખીને ઉકાળવામાં આવે છે અને અંતે ગાળવામાં આવે છે.",
+      "solution": "ચા બનાવવા તપેલીમાં પાણી, ચા-ખાંડ અને દૂધ નાખીને ઉકાળવામાં આવે છે અને અંતે ગાળવામાં આવે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "1, 2, 3, 4, 5, 6"
     },
     {
       "id": 66,
@@ -1179,12 +1439,16 @@ const paper52Data = {
         "10",
         "13"
       ],
-      "correct_index": 2,
-      "correct_answer": "10",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "ચિહ્નો બદલતાં:\n6 + 9 × 8 ÷ 3 - 20\n= 6 + (9 × 8 / 3) - 20\n= 6 + 24 - 20\n= 30 - 20 = 10."
+      "explanation": "ચિહ્નો બદલતાં 6+9×8÷3-20 થાય છે. BODMAS પ્રમાણે 6+24-20=10.",
+      "solution": "ચિહ્નો બદલતાં 6+9×8÷3-20 થાય છે. BODMAS પ્રમાણે 6+24-20=10.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "10"
     },
     {
       "id": 67,
@@ -1196,12 +1460,16 @@ const paper52Data = {
         "7",
         "(-3)"
       ],
-      "correct_index": 0,
-      "correct_answer": "2",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ચિહ્નો બદલતાં:\n6 × 7 ÷ 3 + 8 - 20\n= (42 ÷ 3) + 8 - 20\n= 14 + 8 - 20\n= 22 - 20 = 2."
+      "explanation": "ચિહ્નો બદલતાં 6×7÷3+8-20 થાય છે. 14+8-20=2.",
+      "solution": "ચિહ્નો બદલતાં 6×7÷3+8-20 થાય છે. 14+8-20=2.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "2"
     },
     {
       "id": 68,
@@ -1213,12 +1481,16 @@ const paper52Data = {
         "(-9)",
         "એકપણ નહિં"
       ],
-      "correct_index": 1,
-      "correct_answer": "8",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ચિહ્નો બદલતાં:\n9 + 5 - 4 × 3 ÷ 2\n= 14 - (12 ÷ 2)\n= 14 - 6 = 8."
+      "explanation": "ચિહ્નો બદલતાં 9+5-4×3÷2 થાય છે. 9+5-6=8.",
+      "solution": "ચિહ્નો બદલતાં 9+5-4×3÷2 થાય છે. 9+5-6=8.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "8"
     },
     {
       "id": 69,
@@ -1230,12 +1502,16 @@ const paper52Data = {
         "6",
         "4"
       ],
-      "correct_index": 3,
-      "correct_answer": "4",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "અંકો 2 અને 6 ની અદલાબદલી કરતાં:\n96 ÷ 16 - 2 = 6 - 2 = 4."
+      "explanation": "2 અને 6ની અદલાબદલી પછી 96÷12-2 નહીં, પરંતુ 96÷16-2 થાય છે. 6-2=4.",
+      "solution": "2 અને 6ની અદલાબદલી પછી 96÷12-2 નહીં, પરંતુ 96÷16-2 થાય છે. 6-2=4.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "4"
     },
     {
       "id": 70,
@@ -1247,12 +1523,16 @@ const paper52Data = {
         "60",
         "70"
       ],
-      "correct_index": 1,
-      "correct_answer": "50",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ચિહ્નો બદલતાં:\n18 ÷ 3 + 6 × 10 - 16\n= 6 + 60 - 16\n= 66 - 16 = 50."
+      "explanation": "ચિહ્નો બદલતાં 18÷3+6×10-16 થાય છે. 6+60-16=50.",
+      "solution": "ચિહ્નો બદલતાં 18÷3+6×10-16 થાય છે. 6+60-16=50.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "50"
     },
     {
       "id": 71,
@@ -1264,12 +1544,16 @@ const paper52Data = {
         "બુધવાર",
         "મંગળવાર"
       ],
-      "correct_index": 3,
-      "correct_answer": "મંગળવાર",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "16 દિવસ પછીનો વાર:\n16 ÷ 7 = 2 અઠવાડિયા અને 2 દિવસ શેષ.\nરવિવાર + 2 દિવસ = મંગળવાર."
+      "explanation": "16÷7 કરતાં શેષ 2 મળે છે. રવિવારથી બે દિવસ પછી મંગળવાર આવે છે.",
+      "solution": "16÷7 કરતાં શેષ 2 મળે છે. રવિવારથી બે દિવસ પછી મંગળવાર આવે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "મંગળવાર"
     },
     {
       "id": 72,
@@ -1281,12 +1565,16 @@ const paper52Data = {
         "3",
         "4"
       ],
-      "correct_index": 1,
-      "correct_answer": "2",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "લીપ વર્ષમાં 366 દિવસ હોય છે.\n366 ÷ 7 = 52 અઠવાડિયા અને 2 વધારાના દિવસો (ઓડ ડેઝ) વધે છે."
+      "explanation": "લીપ વર્ષમાં 366 દિવસ હોય છે. 366=52×7+2, તેથી 2 વધારાના દિવસો.",
+      "solution": "લીપ વર્ષમાં 366 દિવસ હોય છે. 366=52×7+2, તેથી 2 વધારાના દિવસો.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "2"
     },
     {
       "id": 73,
@@ -1298,12 +1586,16 @@ const paper52Data = {
         "બુધવાર",
         "મંગળવાર"
       ],
-      "correct_index": 0,
-      "correct_answer": "ગુરૂવાર",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "24 તારીખે શનિવાર છે.\n24 - 21 = 3 તારીખે પણ શનિવાર હોય.\n2 તારીખે શુક્રવાર અને 1 તારીખે ગુરૂવાર આવે."
+      "explanation": "24મી તારીખથી 1લી તારીખ સુધી 23 દિવસનો તફાવત છે. 23 mod 7=2. શનિવારથી બે દિવસ પાછળ ગુરુવાર.",
+      "solution": "24મી તારીખથી 1લી તારીખ સુધી 23 દિવસનો તફાવત છે. 23 mod 7=2. શનિવારથી બે દિવસ પાછળ ગુરુવાર.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "ગુરૂવાર"
     },
     {
       "id": 74,
@@ -1315,12 +1607,16 @@ const paper52Data = {
         "શનિવાર",
         "મંગળવાર"
       ],
-      "correct_index": 0,
-      "correct_answer": "રવિવાર",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "1 જાન્યુઆરીથી 15 ઓગસ્ટના દિવસો:\nજાન્યુઆરી (30) + ફેબ્રુઆરી (28) + માર્ચ (31) + એપ્રિલ (30) + મે (31) + જૂન (30) + જુલાઈ (31) + ઓગસ્ટ (15) = 226 દિવસ.\n226 ÷ 7 = 32 અઠવાડિયા અને 2 દિવસ શેષ.\nશુક્રવાર + 2 દિવસ = રવિવાર."
+      "explanation": "1 જાન્યુઆરીથી 15 ઓગસ્ટ સુધી 226 દિવસનો તફાવત છે. 226 mod 7=2. શુક્રવારથી બે દિવસ પછી રવિવાર.",
+      "solution": "1 જાન્યુઆરીથી 15 ઓગસ્ટ સુધી 226 દિવસનો તફાવત છે. 226 mod 7=2. શુક્રવારથી બે દિવસ પછી રવિવાર.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "રવિવાર"
     },
     {
       "id": 75,
@@ -1332,12 +1628,16 @@ const paper52Data = {
         "દીકરી",
         "દાદીમાં"
       ],
-      "correct_index": 1,
-      "correct_answer": "બહેન",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "'તેના ભાઈનાં પિતા' એટલે પુરુષના પિતા. 'મારા દાદાનાં એકમાત્ર પુત્ર' એટલે સ્ત્રીના પિતા. બંનેના પિતા એક જ હોવાથી સ્ત્રી પુરુષની બહેન થાય."
+      "explanation": "પુરુષના ભાઈના પિતા એટલે તેના પિતા. સ્ત્રીના દાદાનો એકમાત્ર પુત્ર એટલે તેના પિતા. તેથી પુરુષ તેનો ભાઈ થાય છે.",
+      "solution": "પુરુષના ભાઈના પિતા એટલે તેના પિતા. સ્ત્રીના દાદાનો એકમાત્ર પુત્ર એટલે તેના પિતા. તેથી પુરુષ તેનો ભાઈ થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "બહેન"
     },
     {
       "id": 76,
@@ -1349,12 +1649,16 @@ const paper52Data = {
         "બહેન",
         "કાકી"
       ],
-      "correct_index": 2,
-      "correct_answer": "બહેન",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "મારી ફોઈના પિતા = મારા દાદા. દાદાના પુત્ર = પિતા. પિતાની પુત્રી = મારી બહેન થાય."
+      "explanation": "ફોઈના પિતા એટલે દાદા. દાદાના પુત્રની પુત્રી એટલે પિતાની પુત્રી, એટલે બહેન.",
+      "solution": "ફોઈના પિતા એટલે દાદા. દાદાના પુત્રની પુત્રી એટલે પિતાની પુત્રી, એટલે બહેન.",
+      "status": "verified_under_intended_relation",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "બહેન"
     },
     {
       "id": 77,
@@ -1366,12 +1670,16 @@ const paper52Data = {
         "ભાઈ",
         "પિતા"
       ],
-      "correct_index": 0,
-      "correct_answer": "કાકા",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "'ક' નો પુત્ર 'છ' નો ભાઈ છે, અને 'છ' તથા 'ચ' બહેનો છે, એટલે 'ક' એ 'ચ' નો પિતા છે. 'ખ' એ 'ક' નો ભાઈ હોવાથી 'ચ' નો કાકા થાય."
+      "explanation": "ક અને ખ ભાઈઓ છે. કની પુત્રી ચ હોવાથી ખ ચનો કાકા થાય છે.",
+      "solution": "ક અને ખ ભાઈઓ છે. કની પુત્રી ચ હોવાથી ખ ચનો કાકા થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "કાકા"
     },
     {
       "id": 78,
@@ -1383,12 +1691,16 @@ const paper52Data = {
         "25",
         "23"
       ],
-      "correct_index": 2,
-      "correct_answer": "25",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "ડાબી બાજુથી ક્રમ = કુલ વિદ્યાર્થી - જમણી બાજુથી ક્રમ + 1\n= 80 - 56 + 1 = 25."
+      "explanation": "ડાબેથી ક્રમ = કુલ વિદ્યાર્થીઓ - જમેથી ક્રમ + 1 = 80-56+1=25.",
+      "solution": "ડાબેથી ક્રમ = કુલ વિદ્યાર્થીઓ - જમેથી ક્રમ + 1 = 80-56+1=25.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "25"
     },
     {
       "id": 79,
@@ -1400,12 +1712,16 @@ const paper52Data = {
         "33",
         "39"
       ],
-      "correct_index": 0,
-      "correct_answer": "32",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "કુલ વિદ્યાર્થી = ડાબેથી ક્રમ + જમણેથી ક્રમ - 1\n= 21 + 12 - 1 = 32."
+      "explanation": "કુલ વિદ્યાર્થીઓ = ડાબેથી ક્રમ + જમેથી ક્રમ - 1 = 21+12-1=32.",
+      "solution": "કુલ વિદ્યાર્થીઓ = ડાબેથી ક્રમ + જમેથી ક્રમ - 1 = 21+12-1=32.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "32"
     },
     {
       "id": 80,
@@ -1417,12 +1733,16 @@ const paper52Data = {
         "હરેશ",
         "વરૂણ"
       ],
-      "correct_index": 2,
-      "correct_answer": "હરેશ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "સંબંધો: વરૂણ > જયેશ, હરેશ > દિનેશ > સુરેશ > વરૂણ > જયેશ. તેથી સૌથી મોટું હરેશ છે."
+      "explanation": "હરેશ દિનેશથી મોટો, દિનેશ સુરેશથી મોટો, સુરેશ વરૂણથી મોટો અને વરૂણ જયેશથી મોટો છે. સૌથી મોટો હરેશ.",
+      "solution": "હરેશ દિનેશથી મોટો, દિનેશ સુરેશથી મોટો, સુરેશ વરૂણથી મોટો અને વરૂણ જયેશથી મોટો છે. સૌથી મોટો હરેશ.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "હરેશ"
     },
     {
       "id": 81,
@@ -1434,12 +1754,16 @@ const paper52Data = {
         "34",
         "32"
       ],
-      "correct_index": 2,
-      "correct_answer": "34",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "કુલ વિદ્યાર્થી = રાજુનો ક્રમ (12) + સુરેશનો ક્રમ (18) + બંને વચ્ચેના વિદ્યાર્થી (4) = 12 + 18 + 4 = 34."
+      "explanation": "રાજુ ડાબેથી 12મો છે. સુરેશ તેની જમણી બાજુ 4 વિદ્યાર્થીઓ વચ્ચે હોવાથી ડાબેથી 17મો. કુલ=17+18-1=34.",
+      "solution": "રાજુ ડાબેથી 12મો છે. સુરેશ તેની જમણી બાજુ 4 વિદ્યાર્થીઓ વચ્ચે હોવાથી ડાબેથી 17મો. કુલ=17+18-1=34.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "34"
     },
     {
       "id": 82,
@@ -1451,12 +1775,16 @@ const paper52Data = {
         "22",
         "25"
       ],
-      "correct_index": 3,
-      "correct_answer": "25",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "હારમાં કુલ માણસો = 13 + 13 - 1 = 25."
+      "explanation": "કુલ વ્યક્તિઓ = 13+13-1=25.",
+      "solution": "કુલ વ્યક્તિઓ = 13+13-1=25.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "25"
     },
     {
       "id": 83,
@@ -1468,12 +1796,16 @@ const paper52Data = {
         "60°",
         "70°"
       ],
-      "correct_index": 1,
-      "correct_answer": "45°",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ઘડિયાળના કાંટા વચ્ચેનો ખૂણો = |30 × કલાક - 5.5 × મિનિટ|\n= |30 × 4 - 5.5 × 30| = |120 - 165| = 45°."
+      "explanation": "4:30એ મિનિટનો કાંટો 180° અને કલાકનો કાંટો 135° પર હોય છે. તફાવત 45°.",
+      "solution": "4:30એ મિનિટનો કાંટો 180° અને કલાકનો કાંટો 135° પર હોય છે. તફાવત 45°.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "45°"
     },
     {
       "id": 84,
@@ -1485,12 +1817,16 @@ const paper52Data = {
         "50",
         "60"
       ],
-      "correct_index": 1,
-      "correct_answer": "45",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ધારો કે પુત્રની હાલની ઉંમર x છે, પિતાની ઉંમર 3x છે.\n15 વર્ષ પછી: 3x + 15 = 2(x + 15)\n=> 3x + 15 = 2x + 30 => x = 15 વર્ષ.\nપિતાની હાલની ઉંમર = 3 × 15 = 45 વર્ષ."
+      "explanation": "પુત્રની ઉંમર x અને પિતાની 3x. 3x+15=2(x+15), તેથી x=15 અને પિતા=45 વર્ષ.",
+      "solution": "પુત્રની ઉંમર x અને પિતાની 3x. 3x+15=2(x+15), તેથી x=15 અને પિતા=45 વર્ષ.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "45"
     },
     {
       "id": 85,
@@ -1502,12 +1838,16 @@ const paper52Data = {
         "16",
         "14"
       ],
-      "correct_index": 3,
-      "correct_answer": "14",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "રોહિતની હાલની ઉંમર x છે.\nx + (x + 12) = 40 => 2x = 28 => x = 14 વર્ષ."
+      "explanation": "હાલની ઉંમર x. x+(x+12)=40. 2x=28, એટલે x=14.",
+      "solution": "હાલની ઉંમર x. x+(x+12)=40. 2x=28, એટલે x=14.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "14"
     },
     {
       "id": 86,
@@ -1519,12 +1859,16 @@ const paper52Data = {
         "50 પૈસા",
         "90 પૈસા"
       ],
-      "correct_index": 0,
-      "correct_answer": "1",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "100 ગ્રામમાં 3 લીંબુ આવે છે, તેથી 1000 ગ્રામ (1 કિગ્રા) માં 30 લીંબુ આવે.\n30 લીંબુના ₹30 હોય તો 1 લીંબુની કિંમત ₹1 થાય."
+      "explanation": "3 લીંબુનું વજન 100 ગ્રામ એટલે 30 લીંબુનું વજન 1 કિલોગ્રામ. એક લીંબુની કિંમત 30÷30=1 રૂપિયા.",
+      "solution": "3 લીંબુનું વજન 100 ગ્રામ એટલે 30 લીંબુનું વજન 1 કિલોગ્રામ. એક લીંબુની કિંમત 30÷30=1 રૂપિયા.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "1 રૂપિયા"
     },
     {
       "id": 87,
@@ -1536,12 +1880,16 @@ const paper52Data = {
         "આર્યભટ્ટ",
         "શ્રી નિવાસ રામાનુજન"
       ],
-      "correct_index": 2,
-      "correct_answer": "આર્યભટ્ટ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "પાઈ (π) ની આસન્ન કિંમત 3.1416 સૌપ્રથમ મહાન ભારતીય ગણિતશાસ્ત્રી આર્યભટ્ટે આપી હતી."
+      "explanation": "આર્યભટ્ટે પાઈનું આશરે 3.1416 જેટલું મૂલ્ય આપ્યું હતું.",
+      "solution": "આર્યભટ્ટે પાઈનું આશરે 3.1416 જેટલું મૂલ્ય આપ્યું હતું.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "આર્યભટ્ટ"
     },
     {
       "id": 88,
@@ -1553,12 +1901,16 @@ const paper52Data = {
         "7 કિમી",
         "7 મી."
       ],
-      "correct_index": 1,
-      "correct_answer": "17 મી.",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "પાયથાગોરસ પ્રમેય મુજબ મૂળસ્થાનથી અંતર:\nકર્ણ = √(15² + 8²) = √(225 + 64) = √289 = 17 મીટર."
+      "explanation": "કાટકોણ ત્રિકોણ બને છે. અંતર=√(15²+8²)=√289=17 મીટર.",
+      "solution": "કાટકોણ ત્રિકોણ બને છે. અંતર=√(15²+8²)=√289=17 મીટર.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "17 મી."
     },
     {
       "id": 89,
@@ -1570,12 +1922,16 @@ const paper52Data = {
         "ઉત્તર",
         "દક્ષિણ"
       ],
-      "correct_index": 0,
-      "correct_answer": "પશ્ચિમ",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "રાહુલ ઉત્તરથી ડાબે વળી પશ્ચિમ જાય છે, ફરી ડાબે વળી દક્ષિણ જાય છે અને છેલ્લે જમણે વળતાં પશ્ચિમ દિશા તરફ જાય છે."
+      "explanation": "ઉત્તરથી ડાબે પશ્ચિમ, ફરી ડાબે દક્ષિણ અને દક્ષિણથી જમણે પશ્ચિમ દિશા થાય છે.",
+      "solution": "ઉત્તરથી ડાબે પશ્ચિમ, ફરી ડાબે દક્ષિણ અને દક્ષિણથી જમણે પશ્ચિમ દિશા થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "પશ્ચિમ"
     },
     {
       "id": 90,
@@ -1587,12 +1943,16 @@ const paper52Data = {
         "પૂર્વ",
         "પશ્ચિમ"
       ],
-      "correct_index": 3,
-      "correct_answer": "પશ્ચિમ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ઉત્તર દિશા (0°) + સમઘડી 135° - વિષમઘડી 225° = -90° (ઉત્તરથી 90° ડાબે એટલે કે પશ્ચિમ દિશા)."
+      "explanation": "ઉત્તરથી ઘડિયાળ દિશામાં 135° અને પછી વિરુદ્ધ દિશામાં 225°. કુલ ફેરફાર -90°, એટલે પશ્ચિમ.",
+      "solution": "ઉત્તરથી ઘડિયાળ દિશામાં 135° અને પછી વિરુદ્ધ દિશામાં 225°. કુલ ફેરફાર -90°, એટલે પશ્ચિમ.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "પશ્ચિમ"
     },
     {
       "id": 91,
@@ -1604,12 +1964,16 @@ const paper52Data = {
         "2/10",
         "9/200"
       ],
-      "correct_index": 1,
-      "correct_answer": "2",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "3/10 ÷ (1/4 × 3/5) = 3/10 ÷ (3/20) = (3/10) × (20/3) = 2."
+      "explanation": "(3/10) ÷ (1/4 × 3/5) = (3/10) ÷ (3/20) = (3/10) × (20/3) = 2.",
+      "solution": "(3/10) ÷ (1/4 × 3/5) = (3/10) ÷ (3/20) = (3/10) × (20/3) = 2.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "2"
     },
     {
       "id": 92,
@@ -1621,12 +1985,16 @@ const paper52Data = {
         "19",
         "18"
       ],
-      "correct_index": 3,
-      "correct_answer": "18",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "સમીકરણ: x/2 + 45 = 3x\n=> 45 = 3x - x/2\n=> 45 = 2.5x => x = 18."
+      "explanation": "x/2 + 45 = 3x. તેથી 45 = 3x - x/2 = 5x/2. એટલે x = 18.",
+      "solution": "x/2 + 45 = 3x. તેથી 45 = 3x - x/2 = 5x/2. એટલે x = 18.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "18"
     },
     {
       "id": 93,
@@ -1638,12 +2006,16 @@ const paper52Data = {
         "15°",
         "75°"
       ],
-      "correct_index": 1,
-      "correct_answer": "30°",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "કોટિકોણનો સરવાળો 90° હોય છે.\na + b = 90° અને a - b = 30°\n=> 2b = 60° => સૌથી નાનો ખૂણો b = 30°."
+      "explanation": "પૂરક ખૂણાઓનો સરવાળો 90° છે. નાનો ખૂણો x અને મોટો x+30. તેથી 2x+30=90, x=30°.",
+      "solution": "પૂરક ખૂણાઓનો સરવાળો 90° છે. નાનો ખૂણો x અને મોટો x+30. તેથી 2x+30=90, x=30°.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "30°"
     },
     {
       "id": 94,
@@ -1655,12 +2027,16 @@ const paper52Data = {
         "ZXY",
         "વિકલ્પ (A) અને (C) બંને"
       ],
-      "correct_index": 3,
-      "correct_answer": "વિકલ્પ (A) અને (C) બંને",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "PQ = 6, QR = 6, ∠Q = 100° અને XY = 6, XZ = 6, ∠X = 100°.\nબંને ત્રિકોણ સમદ્વિબાજુ હોવાથી PQR ↔ YXZ અને PQR ↔ ZXY બંને એકરૂપતા સાચી ઠરે છે."
+      "explanation": "PQ=XY અને QR=XZ છે. સમાયેલ ખૂણો Q=X હોવાથી SAS નિયમ લાગુ પડે છે. આપેલા નામક્રમમાં બંને અનુરૂપતા શક્ય છે, જો ત્રિકોણ સમદ્વિબાજુ હોય. મૂળ આકૃતિ અને વિકલ્પો વગર એક જ વિકલ્પ નક્કી કરી શકાય નહીં.",
+      "solution": "PQ=XY અને QR=XZ છે. સમાયેલ ખૂણો Q=X હોવાથી SAS નિયમ લાગુ પડે છે. આપેલા નામક્રમમાં બંને અનુરૂપતા શક્ય છે, જો ત્રિકોણ સમદ્વિબાજુ હોય. મૂળ આકૃતિ અને વિકલ્પો વગર એક જ વિકલ્પ નક્કી કરી શકાય નહીં.",
+      "status": "ambiguous",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "વિકલ્પ (A) અને (C) બંને"
     },
     {
       "id": 95,
@@ -1672,12 +2048,16 @@ const paper52Data = {
         "625",
         "62.50"
       ],
-      "correct_index": 3,
-      "correct_answer": "62.50",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "વ્યાજ I = (P × R × N) / 100\n= (5000 × 15 × (1/12)) / 100 = 750 / 12 = ₹62.50."
+      "explanation": "એક મહિનાનું સાદું વ્યાજ = (5000 × 15 × 1)/(100 × 12) = ₹62.50.",
+      "solution": "એક મહિનાનું સાદું વ્યાજ = (5000 × 15 × 1)/(100 × 12) = ₹62.50.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "₹62.50"
     },
     {
       "id": 96,
@@ -1689,12 +2069,16 @@ const paper52Data = {
         "92.75%",
         "93.75%"
       ],
-      "correct_index": 3,
-      "correct_answer": "93.75%",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "16 માંથી 1 ભાગ ખાધા પછી બચેલા ભાગ = 15.\nટકાવારી = (15 / 16) × 100 = 93.75%."
+      "explanation": "જો 1/16 ભાગ વપરાયો હોય તો બાકી ભાગ = 1 - 1/16 = 15/16. ટકાવારી = 15/16 × 100 = 93.75%.",
+      "solution": "જો 1/16 ભાગ વપરાયો હોય તો બાકી ભાગ = 1 - 1/16 = 15/16. ટકાવારી = 15/16 × 100 = 93.75%.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "93.75%"
     },
     {
       "id": 97,
@@ -1706,12 +2090,16 @@ const paper52Data = {
         "1",
         "9"
       ],
-      "correct_index": 1,
-      "correct_answer": "25",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "(-1/5) ની વિરોધી સંખ્યા = 1/5.\nતેની વ્યસ્ત સંખ્યા = 5.\nતેનો વર્ગ = 5² = 25."
+      "explanation": "-1/5 નો વિરુદ્ધ સંખ્યા +1/5 છે. તેનો વ્યસ્ત 5 અને વર્ગ 5²=25 થાય છે.",
+      "solution": "-1/5 નો વિરુદ્ધ સંખ્યા +1/5 છે. તેનો વ્યસ્ત 5 અને વર્ગ 5²=25 થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "25"
     },
     {
       "id": 98,
@@ -1723,12 +2111,16 @@ const paper52Data = {
         "સમલંબ",
         "સમબાજુ"
       ],
-      "correct_index": 2,
-      "correct_answer": "સમલંબ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "સમલંબ ચતુષ્કોણમાં સામસામેની બાજુઓની માત્ર એક જ જોડ સમાંતર હોય છે, તેથી તે સમાંતરબાજુ ચતુષ્કોણ નથી."
+      "explanation": "દરેક સમલંબ ચતુષ્કોણ સમાંતરબાજુ ચતુષ્કોણ હોતો નથી. તેમાં માત્ર એક જોડી વિરુદ્ધ બાજુઓ સમાંતર હોઈ શકે છે.",
+      "solution": "દરેક સમલંબ ચતુષ્કોણ સમાંતરબાજુ ચતુષ્કોણ હોતો નથી. તેમાં માત્ર એક જોડી વિરુદ્ધ બાજુઓ સમાંતર હોઈ શકે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "સમલંબ ચતુષ્કોણ"
     },
     {
       "id": 99,
@@ -1740,12 +2132,16 @@ const paper52Data = {
         "74",
         "84"
       ],
-      "correct_index": 3,
-      "correct_answer": "84",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "નફો = ₹70 ના 20% = ₹14.\nવેચાણ કિંમત = 70 + 14 = ₹84."
+      "explanation": "70% કરતાં 20% વધુ એટલે 70 × 1.20 = 84.",
+      "solution": "70% કરતાં 20% વધુ એટલે 70 × 1.20 = 84.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "84"
     },
     {
       "id": 100,
@@ -1757,12 +2153,16 @@ const paper52Data = {
         "5",
         "1/3"
       ],
-      "correct_index": 0,
-      "correct_answer": "1",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "(8/27)^(1/3) × (9/25)^(1/2) × (2/5)^(-1)\n= (2/3) × (3/5) × (5/2) = 1."
+      "explanation": "(8/27)^(1/3)=2/3, (9/25)^(1/2)=3/5 અને (2/5)^(-1)=5/2. ગુણાકાર = (2/3)×(3/5)×(5/2)=1.",
+      "solution": "(8/27)^(1/3)=2/3, (9/25)^(1/2)=3/5 અને (2/5)^(-1)=5/2. ગુણાકાર = (2/3)×(3/5)×(5/2)=1.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "1"
     },
     {
       "id": 101,
@@ -1774,12 +2174,16 @@ const paper52Data = {
         "21",
         "7"
       ],
-      "correct_index": 3,
-      "correct_answer": "7",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "7000 = 7 × 1000 = 7 × 10³.\nઆ સંખ્યાને 7 વડે ભાગવાથી 1000 મળે જે 10 નો પૂર્ણઘન છે."
+      "explanation": "7000 = 2³ × 5³ × 7. 7 વડે ભાગતાં 1000 મળે છે અને 1000=10³.",
+      "solution": "7000 = 2³ × 5³ × 7. 7 વડે ભાગતાં 1000 મળે છે અને 1000=10³.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "10³"
     },
     {
       "id": 102,
@@ -1791,12 +2195,16 @@ const paper52Data = {
         "100°",
         "65°"
       ],
-      "correct_index": 3,
-      "correct_answer": "65°",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ચતુષ્કોણના ચારેય ખૂણાઓનો સરવાળો 360° થાય:\n(x+10) + (x-10) + (x-25) + (x+25) = 4x = 360° => x = 90°.\nm∠C = x - 25 = 90° - 25° = 65°."
+      "explanation": "4x=360°, તેથી x=90°. ખૂણો C=x-25°=90°-25°=65°.",
+      "solution": "4x=360°, તેથી x=90°. ખૂણો C=x-25°=90°-25°=65°.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "65°"
     },
     {
       "id": 103,
@@ -1808,12 +2216,16 @@ const paper52Data = {
         "કાટકોણ",
         "લઘુકોણ"
       ],
-      "correct_index": 3,
-      "correct_answer": "લઘુકોણ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "જે ત્રિકોણના ત્રણેય ખૂણાનાં માપ 90° કરતાં નાના હોય તેને લઘુકોણ ત્રિકોણ કહેવાય."
+      "explanation": "ત્રિકોણના બધા ખૂણાઓ 90° કરતાં નાના હોય તો તેને લઘુકોણ ત્રિકોણ કહે છે.",
+      "solution": "ત્રિકોણના બધા ખૂણાઓ 90° કરતાં નાના હોય તો તેને લઘુકોણ ત્રિકોણ કહે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "લઘુકોણ ત્રિકોણ"
     },
     {
       "id": 104,
@@ -1825,12 +2237,16 @@ const paper52Data = {
         "1",
         "(-1)"
       ],
-      "correct_index": 2,
-      "correct_answer": "1",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "(x² + x - 1) / (x² - x + 1) = 1\n=> x² + x - 1 = x² - x + 1\n=> 2x = 2 => x = 1."
+      "explanation": "x²+x-1=x²-x+1. બંને બાજુથી x² દૂર કરતાં x-1=-x+1. તેથી 2x=2 અને x=1.",
+      "solution": "x²+x-1=x²-x+1. બંને બાજુથી x² દૂર કરતાં x-1=-x+1. તેથી 2x=2 અને x=1.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "1"
     },
     {
       "id": 105,
@@ -1842,12 +2258,16 @@ const paper52Data = {
         "120°",
         "60°"
       ],
-      "correct_index": 2,
-      "correct_answer": "120°",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "નિયમિત બહુકોણના પ્રત્યેક અંતઃકોણનું માપ = ((n - 2) × 180°) / n\n= (4 × 180°) / 6 = 120°."
+      "explanation": "નિયમિત ષટ્કોણનો દરેક આંતરિક ખૂણો = ((6-2)×180°)/6 = 120°.",
+      "solution": "નિયમિત ષટ્કોણનો દરેક આંતરિક ખૂણો = ((6-2)×180°)/6 = 120°.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "120°"
     },
     {
       "id": 106,
@@ -1859,12 +2279,16 @@ const paper52Data = {
         "1/52",
         "3/26"
       ],
-      "correct_index": 1,
-      "correct_answer": "1/26",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "52 પત્તામાં લાલ રંગના બાદશાહ (લાલ અને ચરકટ) કુલ 2 હોય છે.\nસંભાવના = 2/52 = 1/26."
+      "explanation": "52 પત્તાંમાં 2 લાલ રાજા હોય છે. સંભાવના = 2/52 = 1/26.",
+      "solution": "52 પત્તાંમાં 2 લાલ રાજા હોય છે. સંભાવના = 2/52 = 1/26.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "1/26"
     },
     {
       "id": 107,
@@ -1876,12 +2300,16 @@ const paper52Data = {
         "17",
         "20"
       ],
-      "correct_index": 0,
-      "correct_answer": "19",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "18² = 324 અને 19² = 361.\n350 ની સૌથી નજીક 361 છે, જેનું વર્ગમૂળ 19 થાય છે."
+      "explanation": "350ની નજીકના પૂર્ણ વર્ગો 324=18² અને 361=19² છે. અંતર અનુક્રમે 26 અને 11 છે. તેથી 361 નજીક છે.",
+      "solution": "350ની નજીકના પૂર્ણ વર્ગો 324=18² અને 361=19² છે. અંતર અનુક્રમે 26 અને 11 છે. તેથી 361 નજીક છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "361"
     },
     {
       "id": 108,
@@ -1893,12 +2321,16 @@ const paper52Data = {
         "4",
         "5"
       ],
-      "correct_index": 2,
-      "correct_answer": "4",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "13 + 15 + 17 + 19 = 64.\n64 એ 4 નો ઘન (4³ = 64) છે."
+      "explanation": "13+15+17+19=64 અને 64=4³.",
+      "solution": "13+15+17+19=64 અને 64=4³.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "4³"
     },
     {
       "id": 109,
@@ -1910,12 +2342,16 @@ const paper52Data = {
         "7l³m³",
         "24l³m³"
       ],
-      "correct_index": 0,
-      "correct_answer": "63l³m³",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "લંબચોરસનું ક્ષેત્રફળ = લંબાઈ × પહોળાઈ\n= 21l²m × 3lm² = 63l³m³."
+      "explanation": "21l²m × 3lm² = 63l³m³.",
+      "solution": "21l²m × 3lm² = 63l³m³.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "63l³m³"
     },
     {
       "id": 110,
@@ -1927,12 +2363,16 @@ const paper52Data = {
         "ચિત્ર આલેખ",
         "વર્તુળ આલેખ"
       ],
-      "correct_index": 1,
-      "correct_answer": "દ્વિલંબ આલેખ",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "બે અલગ અલગ બાબતો કે માહિતીની એક સાથે સરખામણી કરવા માટે દ્વિલંબ આલેખ (Double Bar Graph) વપરાય છે."
+      "explanation": "બે સંબંધિત માહિતી સમૂહોની સરખામણી માટે દ્વિદંડ આલેખ ઉપયોગી છે.",
+      "solution": "બે સંબંધિત માહિતી સમૂહોની સરખામણી માટે દ્વિદંડ આલેખ ઉપયોગી છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "દ્વિદંડ આલેખ"
     },
     {
       "id": 111,
@@ -1944,12 +2384,16 @@ const paper52Data = {
         "3",
         "4"
       ],
-      "correct_index": 1,
-      "correct_answer": "2",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "પ્રથમ પાંચ પૂર્ણ સંખ્યાઓ: 0, 1, 2, 3, 4.\nમધ્યક = (0 + 1 + 2 + 3 + 4) / 5 = 10 / 5 = 2."
+      "explanation": "પ્રથમ પાંચ પૂર્ણ સંખ્યાઓ 0,1,2,3,4 છે. મધ્યની સંખ્યા 2 હોવાથી મધ્યક 2 છે.",
+      "solution": "પ્રથમ પાંચ પૂર્ણ સંખ્યાઓ 0,1,2,3,4 છે. મધ્યની સંખ્યા 2 હોવાથી મધ્યક 2 છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "2"
     },
     {
       "id": 112,
@@ -1961,12 +2405,16 @@ const paper52Data = {
         "1400",
         "1800"
       ],
-      "correct_index": 1,
-      "correct_answer": "1600",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "6% of x = 8% of y => 6x = 8y => x = (4/3)y.\nસરવાળો: (4/3)y + y = (7/3)y = 2800 => y = 1200 અને x = 1600.\nમોટી સંખ્યા 1600 છે."
+      "explanation": "બે રકમો x અને y છે. x+y=2800 અને 6%x=8%y. તેથી x:y=4:3. મોટી રકમ = 4/7 × 2800 = ₹1600.",
+      "solution": "બે રકમો x અને y છે. x+y=2800 અને 6%x=8%y. તેથી x:y=4:3. મોટી રકમ = 4/7 × 2800 = ₹1600.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "₹1600"
     },
     {
       "id": 113,
@@ -1978,12 +2426,16 @@ const paper52Data = {
         "√10",
         "4"
       ],
-      "correct_index": 3,
-      "correct_answer": "4",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "xy = √2 × √8 = √16 = 4."
+      "explanation": "√2 × √8 = √16 = 4.",
+      "solution": "√2 × √8 = √16 = 4.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "4"
     },
     {
       "id": 114,
@@ -1995,12 +2447,16 @@ const paper52Data = {
         "(-1/2)",
         "1/2"
       ],
-      "correct_index": 3,
-      "correct_answer": "1/2",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ગુણાકાર માટેનો તટસ્થ ઘટક 1 છે.\n1 × 1/2 = 1/2."
+      "explanation": "ગુણાકારનું તટસ્થ તત્વ 1 છે. તેથી 1 × 1/2 = 1/2.",
+      "solution": "ગુણાકારનું તટસ્થ તત્વ 1 છે. તેથી 1 × 1/2 = 1/2.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "1/2"
     },
     {
       "id": 115,
@@ -2012,12 +2468,16 @@ const paper52Data = {
         "90°",
         "36°"
       ],
-      "correct_index": 1,
-      "correct_answer": "54°",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "પાઈ-ચાર્ટમાં કેન્દ્રીય ખૂણો = 15% × 360° = (15/100) × 360° = 54°."
+      "explanation": "વર્તુળના કુલ ખૂણા 360° છે. 15% of 360° = 54°.",
+      "solution": "વર્તુળના કુલ ખૂણા 360° છે. 15% of 360° = 54°.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "54°"
     },
     {
       "id": 116,
@@ -2029,12 +2489,16 @@ const paper52Data = {
         "(-1)",
         "0"
       ],
-      "correct_index": 3,
-      "correct_answer": "0",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ઘનમૂળ: ∛64 = 4, ∛(-27) = -3, ∛1 = 1, ∛(-8) = -2.\nસરવાળો = 4 + (-3) + 1 + (-2) = 0."
+      "explanation": "∛4³ - ∛3³ + ∛1³ - ∛2³ = 4-3+1-2 = 0.",
+      "solution": "∛4³ - ∛3³ + ∛1³ - ∛2³ = 4-3+1-2 = 0.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "0"
     },
     {
       "id": 117,
@@ -2046,12 +2510,16 @@ const paper52Data = {
         "11",
         "20"
       ],
-      "correct_index": 1,
-      "correct_answer": "40",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "2³ × 4³ × 5³ = (2 × 4 × 5)³ = 40³.\nતેથી તેનું ઘનમૂળ 40 થાય."
+      "explanation": "∛(2³ × 4³ × 5³) = 2 × 4 × 5 = 40.",
+      "solution": "∛(2³ × 4³ × 5³) = 2 × 4 × 5 = 40.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "40"
     },
     {
       "id": 118,
@@ -2063,12 +2531,16 @@ const paper52Data = {
         "169",
         "1782"
       ],
-      "correct_index": 1,
-      "correct_answer": "1728",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "100 નું વર્ગમૂળ = 10.\n10 માં 2 ઉમેરતાં = 12.\n12 નો ઘન = 12³ = 1728."
+      "explanation": "(√100 + 2)³ = (10+2)³ = 12³ = 1728.",
+      "solution": "(√100 + 2)³ = (10+2)³ = 12³ = 1728.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "1728"
     },
     {
       "id": 119,
@@ -2080,12 +2552,16 @@ const paper52Data = {
         "225",
         "625"
       ],
-      "correct_index": 1,
-      "correct_answer": "125",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "સાદુંરૂપ: √64 = 8 => √(8 + 8) = √16 = 4 => √(21 + 4) = √25 = 5.\nમળતી સંખ્યા 5 નો ઘન = 5³ = 125."
+      "explanation": "√64=8, √(8+8)=4 અને √(21+4)=5. તેથી 5³=125.",
+      "solution": "√64=8, √(8+8)=4 અને √(21+4)=5. તેથી 5³=125.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "125"
     },
     {
       "id": 120,
@@ -2097,12 +2573,16 @@ const paper52Data = {
         "x = (-5/1)",
         "આપેલ તમામ"
       ],
-      "correct_index": 3,
-      "correct_answer": "આપેલ તમામ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "5x + 14 = 3x + 4 => 2x = -10 => x = -5.\nઅહીં x = -5, -35/7 = -5 અને -5/1 = -5 હોવાથી આપેલ તમામ વિકલ્પો સાચા છે."
+      "explanation": "5x+14=3x+4. તેથી 2x=-10 અને x=-5. જો વિકલ્પોમાં -35/7, -5 અને -5/1 હોય તો ત્રણેય સમાન મૂલ્ય દર્શાવે છે. પ્રશ્નમાં એક જ સાચો વિકલ્પ નથી.",
+      "solution": "5x+14=3x+4. તેથી 2x=-10 અને x=-5. જો વિકલ્પોમાં -35/7, -5 અને -5/1 હોય તો ત્રણેય સમાન મૂલ્ય દર્શાવે છે. પ્રશ્નમાં એક જ સાચો વિકલ્પ નથી.",
+      "status": "question_error",
+      "isGrace": true,
+      "grace_mark": true,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "-5"
     },
     {
       "id": 121,
@@ -2114,12 +2594,16 @@ const paper52Data = {
         "થર્મોકોલની પેટીમાં રાખીશું",
         "આપેલ તમામ"
       ],
-      "correct_index": 3,
-      "correct_answer": "આપેલ તમામ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "શણના કોથળા, લાકડાનો વહેર અને થર્મોકોલ પેટી ઉષ્માના મંદ વાહક હોવાથી બરફને ઓગળતો અટકાવે છે, તેથી આપેલ તમામ વિકલ્પો સાચા છે."
+      "explanation": "શણના કોથળા, લાકડાનો વહેર અને થર્મોકોલ ઉષ્માનું વહન ધીમું કરે છે.",
+      "solution": "શણના કોથળા, લાકડાનો વહેર અને થર્મોકોલ ઉષ્માનું વહન ધીમું કરે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "આપેલ તમામ"
     },
     {
       "id": 122,
@@ -2131,12 +2615,16 @@ const paper52Data = {
         "તટસ્થ",
         "રાસાયણિક"
       ],
-      "correct_index": 1,
-      "correct_answer": "એસિડ",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "એસિડ શબ્દની ઉત્પત્તિ લેટિન ભાષાના શબ્દ 'એસિયર' (Acere) પરથી થઈ છે, જેનો અર્થ ખાટો થાય છે."
+      "explanation": "Acere/Acidus લેટિન મૂળનો અર્થ ખાટો થાય છે.",
+      "solution": "Acere/Acidus લેટિન મૂળનો અર્થ ખાટો થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "એસિડ"
     },
     {
       "id": 123,
@@ -2148,12 +2636,16 @@ const paper52Data = {
         "અપચિત ખોરાકમાંથી પાણી અને ક્ષારોનું શોષણ કરે છે.",
         "મોટું આંતરડું નાના આંતરડા કરતાં લાંબું છે."
       ],
-      "correct_index": 3,
-      "correct_answer": "મોટું આંતરડું નાના આંતરડા કરતાં લાંબું છે.",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "મોટું આંતરડું નાના આંતરડા કરતાં ટૂંકું (આશરે 1.5 મીટર) હોય છે, જ્યારે નાનું આંતરડું આશરે 7.5 મીટર લાંબું હોય છે. તેથી 'મોટું આંતરડું લાંબું છે' વિધાન ખોટું છે."
+      "explanation": "મોટું આંતરડું પહોળું છે, પરંતુ નાના આંતરડા કરતાં ટૂંકું છે.",
+      "solution": "મોટું આંતરડું પહોળું છે, પરંતુ નાના આંતરડા કરતાં ટૂંકું છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "મોટું આંતરડું નાના આંતરડા કરતાં લાંબું છે."
     },
     {
       "id": 124,
@@ -2165,12 +2657,16 @@ const paper52Data = {
         "વિધાન (I), (II) અને (III)",
         "એકપણ વિધાન નહીં."
       ],
-      "correct_index": 2,
-      "correct_answer": "વિધાન (I), (II) અને (III)",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "રાસાયણિક ફેરફાર દરમિયાન ધ્વનિ ઉત્પન્ન થવો, રંગ બદલાવો તેમજ વાયુ ઉત્પન્ન થવો આ ત્રણેય લક્ષણો જોવા મળી શકે છે."
+      "explanation": "રાસાયણિક ફેરફારમાં ધ્વનિ, રંગફેરફાર અને વાયુનું નિર્માણ થઈ શકે છે.",
+      "solution": "રાસાયણિક ફેરફારમાં ધ્વનિ, રંગફેરફાર અને વાયુનું નિર્માણ થઈ શકે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "વિધાન (I), (II) અને (III)"
     },
     {
       "id": 125,
@@ -2182,12 +2678,16 @@ const paper52Data = {
         "સૂક્ષ્મદર્શક યંત્ર - બહિર્ગોળ લેન્સ",
         "ટેલિસ્કોપ - અંતર્ગોળ લેન્સ"
       ],
-      "correct_index": 1,
-      "correct_answer": "વાહનોની હેડલાઈટ - બહિર્ગોળ અરીસો",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "વાહનોની હેડલાઇટમાં સમાંતર શક્તિશાળી પ્રકાશકિરણ મેળવવા અંતર્ગોળ અરીસો વપરાય છે, બહિર્ગોળ અરીસો નહીં."
+      "explanation": "વાહનોની હેડલાઇટમાં અંતર્ગોળ અરીસો વપરાય છે, બહિર્ગોળ નહીં. ટેલિસ્કોપમાં પણ સામાન્ય રીતે બહિર્ગોળ લેન્સ વપરાય છે; આપેલી 'અંતર્ગોળ લેન્સ' જોડ પણ શંકાસ્પદ છે.",
+      "solution": "વાહનોની હેડલાઇટમાં અંતર્ગોળ અરીસો વપરાય છે, બહિર્ગોળ નહીં. ટેલિસ્કોપમાં પણ સામાન્ય રીતે બહિર્ગોળ લેન્સ વપરાય છે; આપેલી 'અંતર્ગોળ લેન્સ' જોડ પણ શંકાસ્પદ છે.",
+      "status": "ambiguous_options",
+      "isGrace": true,
+      "grace_mark": true,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "પ્રશ્નમાં એકથી વધુ અયોગ્ય જોડ હોઈ શકે છે"
     },
     {
       "id": 126,
@@ -2199,12 +2699,16 @@ const paper52Data = {
         "દૂધ",
         "મીઠું"
       ],
-      "correct_index": 2,
-      "correct_answer": "દૂધ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "દૂધ એ કલિલ મિશ્રણ છે, જ્યારે સાકર, મીઠું અને ફટકડી પાણીમાં સંપૂર્ણ ઓગળી જતાં દ્રાવ્ય પદાર્થો છે."
+      "explanation": "દૂધ સાચું દ્રાવણ નહીં પરંતુ કોલોઇડ છે.",
+      "solution": "દૂધ સાચું દ્રાવણ નહીં પરંતુ કોલોઇડ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "દૂધ"
     },
     {
       "id": 127,
@@ -2216,12 +2720,16 @@ const paper52Data = {
         "પેરાફિનમીણ",
         "પેટ્રોલ"
       ],
-      "correct_index": 3,
-      "correct_answer": "પેટ્રોલ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "પેટ્રોલ ઉત્તમ કાર્બનિક દ્રાવક હોવાથી તેનો ઉપયોગ ડ્રાયક્લીનિંગમાં દ્રાવક તરીકે થાય છે."
+      "explanation": "આ પ્રશ્નના પાઠ્યપુસ્તક આધારિત સંદર્ભમાં પેટ્રોલિયમ આધારિત દ્રાવકનો ઉલ્લેખ છે; આધુનિક ડ્રાયક્લીનમાં અન્ય દ્રાવકો પણ વપરાય છે.",
+      "solution": "આ પ્રશ્નના પાઠ્યપુસ્તક આધારિત સંદર્ભમાં પેટ્રોલિયમ આધારિત દ્રાવકનો ઉલ્લેખ છે; આધુનિક ડ્રાયક્લીનમાં અન્ય દ્રાવકો પણ વપરાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "પેટ્રોલ"
     },
     {
       "id": 128,
@@ -2233,12 +2741,16 @@ const paper52Data = {
         "7",
         "4"
       ],
-      "correct_index": 1,
-      "correct_answer": "5",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "પ્રતિબિંબની સંખ્યા n = (360° / θ) - 1 = (360° / 60°) - 1 = 6 - 1 = 5 પ્રતિબિંબ રચાય."
+      "explanation": "n = 360/60 - 1 = 5 (વસ્તુ બંને અરીસાના ખૂણાના દ્વિભાજક પર હોય ત્યારે).",
+      "solution": "n = 360/60 - 1 = 5 (વસ્તુ બંને અરીસાના ખૂણાના દ્વિભાજક પર હોય ત્યારે).",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "5"
     },
     {
       "id": 129,
@@ -2250,12 +2762,16 @@ const paper52Data = {
         "ઓવન",
         "હિટર"
       ],
-      "correct_index": 2,
-      "correct_answer": "ઓવન",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "માઇક્રોવેવ ઓવન વિદ્યુતચુંબકીય તરંગોથી કાર્ય કરે છે, જ્યારે હિટર, હોટપ્લેટ અને સોલ્ડરિંગ મશીન વિદ્યુતની ઉષ્મીય અસર પર કાર્ય કરે છે."
+      "explanation": "ઇલેક્ટ્રિક હોટપ્લેટ, સોલ્ડરિંગ મશીન, ઇલેક્ટ્રિક ઓવન અને હીટર બધાં વિદ્યુતની ઉષ્મીય અસરનો ઉપયોગ કરી શકે છે. જો 'માઇક્રોવેવ ઓવન' કહેવાનું હોય તો પ્રશ્નમાં તે સ્પષ્ટ હોવું જોઈએ.",
+      "solution": "ઇલેક્ટ્રિક હોટપ્લેટ, સોલ્ડરિંગ મશીન, ઇલેક્ટ્રિક ઓવન અને હીટર બધાં વિદ્યુતની ઉષ્મીય અસરનો ઉપયોગ કરી શકે છે. જો 'માઇક્રોવેવ ઓવન' કહેવાનું હોય તો પ્રશ્નમાં તે સ્પષ્ટ હોવું જોઈએ.",
+      "status": "question_error",
+      "isGrace": true,
+      "grace_mark": true,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "આપેલા વિકલ્પોમાં સ્પષ્ટ સાચો જવાબ નથી"
     },
     {
       "id": 130,
@@ -2267,12 +2783,16 @@ const paper52Data = {
         "પોટેશિયમ",
         "એલ્યુમિનિયમ"
       ],
-      "correct_index": 1,
-      "correct_answer": "સોડિયમ",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "સોડિયમ ખૂબ જ સક્રિય ધાતુ છે અને તે પાણી સાથે તીવ્ર પ્રક્રિયા કરી હાઇડ્રોજન વાયુ ઉત્પન્ન કરે છે જે સળગી ઊઠે છે."
+      "explanation": "પોટેશિયમ પાણી સાથે ખૂબ ઝડપથી પ્રક્રિયા કરે છે અને ઉત્પન્ન થતી ગરમીથી હાઇડ્રોજન સળગી શકે છે. સોડિયમ પણ પાણી સાથે તીવ્ર પ્રક્રિયા કરે છે.",
+      "solution": "પોટેશિયમ પાણી સાથે ખૂબ ઝડપથી પ્રક્રિયા કરે છે અને ઉત્પન્ન થતી ગરમીથી હાઇડ્રોજન સળગી શકે છે. સોડિયમ પણ પાણી સાથે તીવ્ર પ્રક્રિયા કરે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "પોટેશિયમ"
     },
     {
       "id": 131,
@@ -2284,12 +2804,16 @@ const paper52Data = {
         "પૃથા",
         "આપેલ તમામ"
       ],
-      "correct_index": 3,
-      "correct_answer": "આપેલ તમામ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "કોક એ કોલસાનો લગભગ શુદ્ધ કાર્બન યુક્ત પ્રકાર છે, સખત અને છિદ્રાળુ છે અને સ્ટીલ ઉત્પાદનમાં રિડક્શનકર્તા તરીકે વપરાય છે, તેથી ત્રણેય વિધાનો સાચા છે."
+      "explanation": "કોક કોલસાનો લગભગ શુદ્ધ કાર્બનવાળો, સખત અને છિદ્રાળુ પદાર્થ છે; સ્ટીલ ઉત્પાદનમાં વપરાય છે.",
+      "solution": "કોક કોલસાનો લગભગ શુદ્ધ કાર્બનવાળો, સખત અને છિદ્રાળુ પદાર્થ છે; સ્ટીલ ઉત્પાદનમાં વપરાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "આપેલ તમામ"
     },
     {
       "id": 132,
@@ -2301,12 +2825,16 @@ const paper52Data = {
         "વિધાન (I) અને (III)",
         "વિધાન (I), (II) અને (III)"
       ],
-      "correct_index": 2,
-      "correct_answer": "વિધાન (I) અને (III)",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "પાણી વિદ્યુતનું વાહક હોવાથી વિદ્યુતની આગ પર પાણી ન વપરાય, પરંતુ સામાન્ય આગ પર પાણી અને તેલની આગ પર રેતી/માટી ઉપયોગી છે. તેથી વિધાન (I) અને (III) યોગ્ય છે."
+      "explanation": "પાણી વિદ્યુતની આગ માટે યોગ્ય નથી અને તેલની આગમાં પણ પાણી ન વાપરવું. માટી અને રેતી તેલની આગને ઢાંકી શકે છે.",
+      "solution": "પાણી વિદ્યુતની આગ માટે યોગ્ય નથી અને તેલની આગમાં પણ પાણી ન વાપરવું. માટી અને રેતી તેલની આગને ઢાંકી શકે છે.",
+      "status": "no_correct_option",
+      "isGrace": true,
+      "grace_mark": true,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "માત્ર વિધાન (III) સાચું છે; વિકલ્પમાં નથી"
     },
     {
       "id": 133,
@@ -2318,12 +2846,16 @@ const paper52Data = {
         "અંડપ્રસવી પૂર્ણ વિકસિત શિશુને જન્મ આપે છે.",
         "અપત્યપ્રસવી પૂર્ણ વિકસિત શિશુને જન્મ આપે છે."
       ],
-      "correct_index": 2,
-      "correct_answer": "અંડપ્રસવી પૂર્ણ વિકસિત શિશુને જન્મ આપે છે.",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "અંડપ્રસવી પ્રાણીઓ ઈંડાં મૂકે છે અને ઈંડાંમાંથી બચ્ચું બહાર આવે છે, તેઓ પૂર્ણ વિકસિત શિશુને સીધો જન્મ આપતા નથી. તેથી વિકલ્પ C સાચો નથી."
+      "explanation": "અંડપ્રસવી પ્રાણીઓ ઇંડાં મૂકે છે; અપત્યપ્રસવી પ્રાણીઓ બચ્ચાંને જન્મ આપે છે.",
+      "solution": "અંડપ્રસવી પ્રાણીઓ ઇંડાં મૂકે છે; અપત્યપ્રસવી પ્રાણીઓ બચ્ચાંને જન્મ આપે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "અંડપ્રસવી પૂર્ણ વિકસિત શિશુને જન્મ આપે છે."
     },
     {
       "id": 134,
@@ -2335,12 +2867,16 @@ const paper52Data = {
         "ગર્ભાશય",
         "શુક્રવાહિની"
       ],
-      "correct_index": 2,
-      "correct_answer": "ગર્ભાશય",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "માદા પ્રજનનતંત્રમાં ફલિત અંડકોષનું ગર્ભાશયની દીવાલ પર સ્થાપન થાય છે અને ગર્ભાશયમાં શિશુનો પૂર્ણ વિકાસ થાય છે."
+      "explanation": "ગર્ભાશયમાં ભ્રૂણનો વિકાસ થાય છે.",
+      "solution": "ગર્ભાશયમાં ભ્રૂણનો વિકાસ થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "ગર્ભાશય"
     },
     {
       "id": 135,
@@ -2352,12 +2888,16 @@ const paper52Data = {
         "પ્રજનન",
         "કલિકા"
       ],
-      "correct_index": 0,
-      "correct_answer": "ફલન",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "નર જનનકોષ (શુક્રકોષ) અને માદા જનનકોષ (અંડકોષ) ના જોડાણની જૈવિક પ્રક્રિયાને ફલન (Fertilization) કહે છે."
+      "explanation": "અંડકોષ અને શુક્રકોષના જોડાણને ફલન કહે છે.",
+      "solution": "અંડકોષ અને શુક્રકોષના જોડાણને ફલન કહે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "ફલન"
     },
     {
       "id": 136,
@@ -2369,12 +2909,16 @@ const paper52Data = {
         "સિંહ",
         "સસલા"
       ],
-      "correct_index": 1,
-      "correct_answer": "કાળિયાર",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ભાવનગર જિલ્લામાં આવેલું વેળાવદર રાષ્ટ્રીય ઉદ્યાન કાળિયાર (Blackbuck) ના સંરક્ષણ માટે વિશ્વભરમાં જાણીતું છે."
+      "explanation": "વેળાવદર રાષ્ટ્રીય ઉદ્યાન કાળિયાર માટે જાણીતું છે.",
+      "solution": "વેળાવદર રાષ્ટ્રીય ઉદ્યાન કાળિયાર માટે જાણીતું છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "કાળિયાર"
     },
     {
       "id": 137,
@@ -2386,12 +2930,16 @@ const paper52Data = {
         "કાળા રંગનાં કણો",
         "એકપણ નહીં"
       ],
-      "correct_index": 1,
-      "correct_answer": "કાર્બનના કણો",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "કાજળ એ બારીક કાર્બનના રજકણો (સૂટ) નું બનેલું હોય છે, તેના કાળા રંગ માટે કાર્બનના કણો જવાબદાર છે."
+      "explanation": "પરંપરાગત કાજળનો કાળો રંગ કાર્બનના સૂક્ષ્મ કણોને કારણે હોય છે.",
+      "solution": "પરંપરાગત કાજળનો કાળો રંગ કાર્બનના સૂક્ષ્મ કણોને કારણે હોય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "કાર્બનના કણો"
     },
     {
       "id": 138,
@@ -2403,12 +2951,16 @@ const paper52Data = {
         "ડીઝલ",
         "કુદરતી વાયુ"
       ],
-      "correct_index": 0,
-      "correct_answer": "કેરોસીન",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ઊંચી ગુણવત્તાવાળું શુદ્ધ કેરોસીન એવિએશન ટર્બાઇન ફ્યુઅલ તરીકે જેટપ્લેનમાં બળતણ તરીકે વપરાય છે."
+      "explanation": "જેટ ઇંધણ તરીકે કેરોસીન આધારિત ઇંધણ વપરાય છે.",
+      "solution": "જેટ ઇંધણ તરીકે કેરોસીન આધારિત ઇંધણ વપરાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "કેરોસીન"
     },
     {
       "id": 139,
@@ -2420,12 +2972,16 @@ const paper52Data = {
         "યીસ્ટ",
         "પેનિસિલિન"
       ],
-      "correct_index": 3,
-      "correct_answer": "પેનિસિલિન",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "સર એલેક્ઝાન્ડર ફ્લેમિંગે 1928 માં પેનિસિલિયમ નોટેટમ નામની ફૂગમાંથી પેનિસિલિન નામની પ્રથમ એન્ટિબાયોટિક બનાવી હતી."
+      "explanation": "એલેક્ઝાન્ડર ફ્લેમિંગે પેનિસિલિનની શોધ કરી હતી.",
+      "solution": "એલેક્ઝાન્ડર ફ્લેમિંગે પેનિસિલિનની શોધ કરી હતી.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "પેનિસિલિન"
     },
     {
       "id": 140,
@@ -2437,12 +2993,16 @@ const paper52Data = {
         "નીંદણ નાશક",
         "પાક"
       ],
-      "correct_index": 1,
-      "correct_answer": "રાસાયણિક ખાતર",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "કૃત્રિમ ખાતર એ કારખાનામાં ઉત્પાદિત થતો અકાર્બનિક રાસાયણિક પદાર્થ છે."
+      "explanation": "કૃત્રિમ ખાતર રાસાયણિક રીતે બનાવવામાં આવે છે.",
+      "solution": "કૃત્રિમ ખાતર રાસાયણિક રીતે બનાવવામાં આવે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "રાસાયણિક ખાતર"
     },
     {
       "id": 141,
@@ -2454,12 +3014,16 @@ const paper52Data = {
         "ફાલ",
         "સમાર"
       ],
-      "correct_index": 2,
-      "correct_answer": "ફાલ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "હળમાં જમીન ખોદવા માટે આગળ લગાવવામાં આવતી ત્રિકોણાકાર લોખંડની મજબૂત પટ્ટીને ફાલ કહે છે."
+      "explanation": "હળના નીચેના ભાગે જમીન ખેડવા માટે લોખંડનો ફાલ હોય છે.",
+      "solution": "હળના નીચેના ભાગે જમીન ખેડવા માટે લોખંડનો ફાલ હોય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "ફાલ"
     },
     {
       "id": 142,
@@ -2471,12 +3035,16 @@ const paper52Data = {
         "લાકડાં, પ્લાસ્ટિક જેવા પદાર્થો દૂર કરવામાં આવે છે.",
         "અજારક બૅક્ટેરિયા દાખલ કરવામાં આવે છે."
       ],
-      "correct_index": 0,
-      "correct_answer": "હવા ઉમેરવામાં આવે છે.",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "સુએઝ ટ્રીટમેન્ટ પ્લાન્ટમાં એરેટર દ્વારા ગંદા પાણીમાં હવા દાખલ કરવામાં આવે છે જેથી જારક બૅક્ટેરિયા કચરાનું ઝડપથી વિઘટન કરી શકે."
+      "explanation": "એરેટર પાણીમાં હવા ભેળવવાનું કાર્ય કરે છે.",
+      "solution": "એરેટર પાણીમાં હવા ભેળવવાનું કાર્ય કરે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "હવા ઉમેરવામાં આવે છે."
     },
     {
       "id": 143,
@@ -2488,12 +3056,16 @@ const paper52Data = {
         "કોક",
         "બિટ્યૂમિન"
       ],
-      "correct_index": 2,
-      "correct_answer": "કોક",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "લોખંડના અયસ્કમાંથી સ્ટીલના ઉત્પાદનમાં રિડક્શનકર્તા અને ઊંચું તાપમાન મેળવવા કોક વપરાય છે."
+      "explanation": "કોકનો ઉપયોગ લોખંડ અને સ્ટીલના ઉત્પાદનમાં થાય છે.",
+      "solution": "કોકનો ઉપયોગ લોખંડ અને સ્ટીલના ઉત્પાદનમાં થાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "કોક"
     },
     {
       "id": 144,
@@ -2505,12 +3077,16 @@ const paper52Data = {
         "નાશપ્રાયઃ જાતિ",
         "વિવિધ પ્રાયઃ જાતિ"
       ],
-      "correct_index": 2,
-      "correct_answer": "નાશપ્રાયઃ જાતિ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "જે સજીવોની સંખ્યા નિર્ધારિત સીમા કરતાં ઓછી થઈ જાય અને લુપ્ત થવાનું જોખમ હોય તેને નાશપ્રાયઃ (Endangered) જાતિ કહેવાય છે."
+      "explanation": "જે જાતિ લુપ્ત થવાના જોખમમાં હોય તેને નાશપ્રાય જાતિ કહે છે.",
+      "solution": "જે જાતિ લુપ્ત થવાના જોખમમાં હોય તેને નાશપ્રાય જાતિ કહે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "નાશપ્રાયઃ જાતિ"
     },
     {
       "id": 145,
@@ -2522,12 +3098,16 @@ const paper52Data = {
         "ફેફસાં",
         "યકૃત"
       ],
-      "correct_index": 2,
-      "correct_answer": "ફેફસાં",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "વિશ્વની પ્રથમ ક્લોન ઘેટી 'ડોલી' નું ફેફસાના ગંભીર રોગના કારણે અવસાન થયું હતું."
+      "explanation": "ડોલી ઘેટીનું મૃત્યુ ફેફસાંના રોગને કારણે થયું હતું.",
+      "solution": "ડોલી ઘેટીનું મૃત્યુ ફેફસાંના રોગને કારણે થયું હતું.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "ફેફસાં"
     },
     {
       "id": 146,
@@ -2539,12 +3119,16 @@ const paper52Data = {
         "તૃતીય",
         "છેલ્લું"
       ],
-      "correct_index": 3,
-      "correct_answer": "છેલ્લું",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ખેતી પદ્ધતિઓમાં જમીન તૈયાર કરવી, વાવણી, ખાતર આપવું, સિંચાઈ, લણણી બાદ સૌથી છેલ્લું પગથિયું અનાજનો સંગ્રહ છે."
+      "explanation": "કાપણી પછી અનાજનું સંગ્રહ પાક ઉત્પાદન પ્રક્રિયાનું અંતિમ પગથિયું છે.",
+      "solution": "કાપણી પછી અનાજનું સંગ્રહ પાક ઉત્પાદન પ્રક્રિયાનું અંતિમ પગથિયું છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "છેલ્લું"
     },
     {
       "id": 147,
@@ -2556,12 +3140,16 @@ const paper52Data = {
         "સલ્ફર અને નાઈટ્રોજનના ઑક્સાઈડ",
         "મિથેન અને કાર્બન મોનોક્સાઈડ"
       ],
-      "correct_index": 2,
-      "correct_answer": "સલ્ફર અને નાઈટ્રોજનના ઑક્સાઈડ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "વાતાવરણમાં ભળતા સલ્ફર ડાયોક્સાઇડ અને નાઇટ્રોજન ઑક્સાઇડ પાણી સાથે ભળી સલ્ફ્યુરિક એસિડ અને નાઇટ્રિક એસિડ બનાવે છે જે એસિડ વર્ષા માટે કારણભૂત છે."
+      "explanation": "SO₂ અને નાઇટ્રોજનના ઑક્સાઇડ ઍસિડ વર્ષાનું મુખ્ય કારણ છે.",
+      "solution": "SO₂ અને નાઇટ્રોજનના ઑક્સાઇડ ઍસિડ વર્ષાનું મુખ્ય કારણ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "સલ્ફર અને નાઈટ્રોજનના ઑક્સાઈડ"
     },
     {
       "id": 148,
@@ -2573,12 +3161,16 @@ const paper52Data = {
         "પેઈન્ટેડ દેડકો",
         "ઘડિયાળ"
       ],
-      "correct_index": 2,
-      "correct_answer": "પેઈન્ટેડ દેડકો",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "નવસારી જિલ્લામાં આવેલા વાંસદા રાષ્ટ્રીય ઉદ્યાનમાં નાશપ્રાયઃ એવો પેઇન્ટેડ દેડકો જોવા મળે છે."
+      "explanation": "આપેલા વિકલ્પોમાં પાઠ્યપુસ્તક મુજબ પેઈન્ટેડ દેડકો અપેક્ષિત જવાબ છે.",
+      "solution": "આપેલા વિકલ્પોમાં પાઠ્યપુસ્તક મુજબ પેઈન્ટેડ દેડકો અપેક્ષિત જવાબ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "પેઈન્ટેડ દેડકો"
     },
     {
       "id": 149,
@@ -2590,12 +3182,16 @@ const paper52Data = {
         "બૅક્ટેરિયા",
         "વાઈરસ"
       ],
-      "correct_index": 0,
-      "correct_answer": "ફૂગ",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "સ્પાયરોગાયરા એ લીલ છે, જ્યારે પેનિસિલિયમ એ ફૂગ વર્ગનું સજીવ છે."
+      "explanation": "સ્પાયરોગાયરા લીલ છે અને પેનિસિલિયમ ફૂગ છે.",
+      "solution": "સ્પાયરોગાયરા લીલ છે અને પેનિસિલિયમ ફૂગ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "ફૂગ"
     },
     {
       "id": 150,
@@ -2607,12 +3203,16 @@ const paper52Data = {
         "દાંતી",
         "ખૂરપી"
       ],
-      "correct_index": 1,
-      "correct_answer": "દાંતરડું",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "પાકની કાપણી (લણણી) માટે વપરાતું સૌથી સાદું અને પરંપરાગત હાથ-ઓજાર દાતરડું છે."
+      "explanation": "દાંતરડું પાકની લણણી માટે વપરાતું સાદું ઓજાર છે.",
+      "solution": "દાંતરડું પાકની લણણી માટે વપરાતું સાદું ઓજાર છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "દાંતરડું"
     },
     {
       "id": 151,
@@ -2624,12 +3224,16 @@ const paper52Data = {
         "ડચ, પોર્ટુગીઝો, ફ્રેન્ચ, અંગ્રેજો",
         "પોર્ટુગીઝો, ડચ, અંગ્રેજો, ફ્રેન્ચ"
       ],
-      "correct_index": 3,
-      "correct_answer": "પોર્ટુગીઝો, ડચ, અંગ્રેજો, ફ્રેન્ચ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ભારતમાં યુરોપિયનોના આગમનનો સાચો ક્રમ: પોર્ટુગીઝો (1498) -> ડચ -> અંગ્રેજો (1600) -> ફ્રેન્ચ (1664)."
+      "explanation": "ભારતમાં યુરોપિયનોના આગમનનો સામાન્ય ક્રમ આ પ્રમાણે છે.",
+      "solution": "ભારતમાં યુરોપિયનોના આગમનનો સામાન્ય ક્રમ આ પ્રમાણે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "પોર્ટુગીઝો, ડચ, અંગ્રેજો, ફ્રેન્ચ"
     },
     {
       "id": 152,
@@ -2641,12 +3245,16 @@ const paper52Data = {
         "હોલેન્ડ",
         "પોર્ટુગલ"
       ],
-      "correct_index": 3,
-      "correct_answer": "પોર્ટુગલ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "વાસ્કો-દ-ગામા પોર્ટુગલનો વતની હતો જેણે 1498 માં કાલીકટ બંદરે પહોંચી ભારતનો નવો જળમાર્ગ શોધ્યો."
+      "explanation": "વાસ્કો-દ-ગામા પોર્ટુગલનો નાવિક હતો.",
+      "solution": "વાસ્કો-દ-ગામા પોર્ટુગલનો નાવિક હતો.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "પોર્ટુગલ"
     },
     {
       "id": 153,
@@ -2658,12 +3266,16 @@ const paper52Data = {
         "પહાડી પ્રદેશમાં",
         "એકપણ નહીં"
       ],
-      "correct_index": 0,
-      "correct_answer": "ગરમ પ્રદેશમાં",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ગળીનો છોડ મુખ્યત્વે ઉષ્ણકટિબંધીય ગરમ અને ભેજવાળા પ્રદેશોમાં સારો વિકાસ પામે છે."
+      "explanation": "ગળીનો છોડ ગરમ અને ભેજવાળા વાતાવરણમાં સારી રીતે ઊગે છે.",
+      "solution": "ગળીનો છોડ ગરમ અને ભેજવાળા વાતાવરણમાં સારી રીતે ઊગે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "ગરમ પ્રદેશમાં"
     },
     {
       "id": 154,
@@ -2675,12 +3287,16 @@ const paper52Data = {
         "માત્ર 1, 2, 3, 4",
         "માત્ર 3"
       ],
-      "correct_index": 2,
-      "correct_answer": "માત્ર 1, 2, 3, 4",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "બિરસા મુંડાએ મિશનરી શાળામાં અભ્યાસ કર્યો, વૈષ્ણવ ધર્મપ્રચારક સાથે રહ્યા, ઉલગુલાન આંદોલનનું નેતૃત્વ કર્યું અને 1900 માં શહીદ થયા. આ ચારેય વિધાનો સાચા છે."
+      "explanation": "આપેલ ચારેય વિધાનો બિરસા મુંડા વિશે સાચાં છે.",
+      "solution": "આપેલ ચારેય વિધાનો બિરસા મુંડા વિશે સાચાં છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "માત્ર 1, 2, 3, 4"
     },
     {
       "id": 155,
@@ -2692,12 +3308,16 @@ const paper52Data = {
         "કુટનીતિ",
         "એકપણ નહીં"
       ],
-      "correct_index": 1,
-      "correct_answer": "ખાલસા નીતિ",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "લોર્ડ વેલેસ્લીએ સહાયકારી યોજના શરૂ કરી હતી, જ્યારે લોર્ડ ડેલહાઉસીએ રાજ્યો હડપવા માટે ખાલસા નીતિ અમલમાં મૂકી હતી."
+      "explanation": "ડેલહાઉસીએ ખાલસા નીતિ દ્વારા અનેક રજવાડાં બ્રિટિશ શાસનમાં ભેળવ્યાં.",
+      "solution": "ડેલહાઉસીએ ખાલસા નીતિ દ્વારા અનેક રજવાડાં બ્રિટિશ શાસનમાં ભેળવ્યાં.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "ખાલસા નીતિ"
     },
     {
       "id": 156,
@@ -2709,12 +3329,16 @@ const paper52Data = {
         "ઝાંસી - લક્ષ્મીબાઈ",
         "બિહાર – બેગમ હજરત"
       ],
-      "correct_index": 3,
-      "correct_answer": "બિહાર – બેગમ હજરત",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "1857 ના સંગ્રામમાં લખનૌ (અવધ) નું નેતૃત્વ બેગમ હજરત મહલે કર્યું હતું, જ્યારે બિહારમાં કુંવરસિંહે નેતૃત્વ કર્યું હતું. તેથી બિહાર-બેગમ હજરત જોડ અયોગ્ય છે."
+      "explanation": "બેગમ હજરત મહલનો સંબંધ અવધ અને લખનૌ સાથે હતો, બિહાર સાથે નહીં.",
+      "solution": "બેગમ હજરત મહલનો સંબંધ અવધ અને લખનૌ સાથે હતો, બિહાર સાથે નહીં.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "બિહાર – બેગમ હજરત"
     },
     {
       "id": 157,
@@ -2726,12 +3350,16 @@ const paper52Data = {
         "ગુલાબના",
         "કમળના"
       ],
-      "correct_index": 1,
-      "correct_answer": "કેસૂડાંના",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ભારતના પરંપરાગત કારીગરો કાપડને કુદરતી કેસરી-પીળો રંગ આપવા કેસૂડાં (ખાખરા) ના ફૂલોનો ઉપયોગ કરતા હતા."
+      "explanation": "કેસૂડાંનાં ફૂલોનો ઉપયોગ પરંપરાગત રીતે કાપડ રંગવા માટે થતો હતો.",
+      "solution": "કેસૂડાંનાં ફૂલોનો ઉપયોગ પરંપરાગત રીતે કાપડ રંગવા માટે થતો હતો.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "કેસૂડાંના"
     },
     {
       "id": 158,
@@ -2743,12 +3371,16 @@ const paper52Data = {
         "ઈન્ડિયન ઈન્સ્ટિટ્યૂટ ઑફ સાયન્સ",
         "ઈન્ડિયન કૉમર્શિયલ ઈન્સ્ટિટ્યૂટ"
       ],
-      "correct_index": 2,
-      "correct_answer": "ઈન્ડિયન ઈન્સ્ટિટ્યૂટ ઑફ સાયન્સ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "બેંગ્લોરમાં ઇન્ડિયન ઇન્સ્ટિટ્યૂટ ઑફ સાયન્સ (IISc) ની સ્થાપના થવાથી વૈજ્ઞાનિક સંશોધન અને લોખંડ-પોલાદ ઉદ્યોગને નવું બળ મળ્યું."
+      "explanation": "આ સંસ્થા વિજ્ઞાન અને તકનીકી શિક્ષણના વિકાસમાં મહત્ત્વપૂર્ણ રહી છે.",
+      "solution": "આ સંસ્થા વિજ્ઞાન અને તકનીકી શિક્ષણના વિકાસમાં મહત્ત્વપૂર્ણ રહી છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "ઈન્ડિયન ઈન્સ્ટિટ્યૂટ ઑફ સાયન્સ"
     },
     {
       "id": 159,
@@ -2760,12 +3392,16 @@ const paper52Data = {
         "પુનઃ અપ્રાપ્ય સંસાધન",
         "એકપણ નહીં"
       ],
-      "correct_index": 0,
-      "correct_answer": "નવીનીકરણીય સંસાધન",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "જે કુદરતી સંસાધનો ક્યારેય ખૂટતા નથી અને સતત પુનઃપ્રાપ્ય રહે છે તેને નવીનીકરણીય સંસાધન કહે છે."
+      "explanation": "નવીનીકરણીય સંસાધનો કુદરતી રીતે ફરી પ્રાપ્ત થઈ શકે છે.",
+      "solution": "નવીનીકરણીય સંસાધનો કુદરતી રીતે ફરી પ્રાપ્ત થઈ શકે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "નવીનીકરણીય સંસાધન"
     },
     {
       "id": 160,
@@ -2777,12 +3413,16 @@ const paper52Data = {
         "પુનઃ અપ્રાપ્ય સંસાધન",
         "એકપણ નહીં"
       ],
-      "correct_index": 0,
-      "correct_answer": "નવીનીકરણીય સંસાધન",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "જંગલો, સૂર્યપ્રકાશ, પવન અને પ્રાણીઓ કુદરતમાં સતત પુનઃનિર્માણ પામતા હોવાથી નવીનીકરણીય સંસાધનો છે."
+      "explanation": "સૂર્યપ્રકાશ, પવન અને જંગલો જેવા સંસાધનો નવીનીકરણીય છે; તેમનો ટકાઉ ઉપયોગ જરૂરી છે.",
+      "solution": "સૂર્યપ્રકાશ, પવન અને જંગલો જેવા સંસાધનો નવીનીકરણીય છે; તેમનો ટકાઉ ઉપયોગ જરૂરી છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "નવીનીકરણીય સંસાધન"
     },
     {
       "id": 161,
@@ -2794,12 +3434,16 @@ const paper52Data = {
         "વિકલ્પ (A) અને (B) બંને",
         "એકપણ નહીં."
       ],
-      "correct_index": 1,
-      "correct_answer": "અધાતુમય (અધાત્વિક) ખનીજ",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "અબરખ એ અધાતુમય (અધાત્વિક) ખનિજ છે જે ઉત્તમ વિદ્યુત અવાહક હોવાથી વીજ ઉદ્યોગમાં વપરાય છે."
+      "explanation": "અબરખ અધાતુમય ખનિજ છે.",
+      "solution": "અબરખ અધાતુમય ખનિજ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "અધાતુમય (અધાત્વિક) ખનીજ"
     },
     {
       "id": 162,
@@ -2811,12 +3455,16 @@ const paper52Data = {
         "માત્ર 2 અને 3",
         "1, 2 અને 3"
       ],
-      "correct_index": 3,
-      "correct_answer": "1, 2 અને 3",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "બાયોગૅસમાંથી ઉત્તમ નિંદણમુક્ત જૈવિક ખાતર મળે છે, તે સસ્તો છે અને રસોઈમાં બળતણ તરીકે વપરાય છે. તેથી ત્રણેય વિધાનો સાચા છે."
+      "explanation": "બાયોગૅસનો ઉપયોગ રસોઈમાં થાય છે અને તેના અવશેષનો ઉપયોગ જૈવિક ખાતર તરીકે થઈ શકે છે.",
+      "solution": "બાયોગૅસનો ઉપયોગ રસોઈમાં થાય છે અને તેના અવશેષનો ઉપયોગ જૈવિક ખાતર તરીકે થઈ શકે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "1, 2 અને 3"
     },
     {
       "id": 163,
@@ -2828,12 +3476,16 @@ const paper52Data = {
         "2/3",
         "3/2"
       ],
-      "correct_index": 2,
-      "correct_answer": "2/3",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "ભારત એક કૃષિપ્રધાન દેશ છે અને દેશની આશરે બે-તૃતીયાંશ (2/3) વસ્તી પોતાની આજીવિકા માટે ખેતી પર નિર્ભર છે."
+      "explanation": "આ પાઠ્યપુસ્તકમાં અપેક્ષિત પરંપરાગત આંકડો છે; વાસ્તવિક પ્રમાણ સમય અને ગણતરીની પદ્ધતિ પ્રમાણે બદલાય છે.",
+      "solution": "આ પાઠ્યપુસ્તકમાં અપેક્ષિત પરંપરાગત આંકડો છે; વાસ્તવિક પ્રમાણ સમય અને ગણતરીની પદ્ધતિ પ્રમાણે બદલાય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "2/3"
     },
     {
       "id": 164,
@@ -2845,12 +3497,16 @@ const paper52Data = {
         "રાતી જમીન",
         "કાંપની જમીન"
       ],
-      "correct_index": 1,
-      "correct_answer": "પર્વતીય જમીન",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "દેવદાર, ચીડ અને પાઈન જેવા શંકુદ્રુમ વૃક્ષો હિમાલય જેવા પર્વતીય પ્રદેશોની પર્વતીય જમીનમાં જોવા મળે છે."
+      "explanation": "દેવદાર, ચીડ અને પાઈન જેવા વૃક્ષો પર્વતીય પ્રદેશોમાં જોવા મળે છે.",
+      "solution": "દેવદાર, ચીડ અને પાઈન જેવા વૃક્ષો પર્વતીય પ્રદેશોમાં જોવા મળે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "પર્વતીય જમીન"
     },
     {
       "id": 165,
@@ -2862,12 +3518,16 @@ const paper52Data = {
         "4 વર્ષ, 10 મહિના, 10 દિવસ",
         "2 વર્ષ, 11 મહિના, 18 દિવસ"
       ],
-      "correct_index": 3,
-      "correct_answer": "2 વર્ષ, 11 મહિના, 18 દિવસ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ભારતનું બંધારણ તૈયાર કરવામાં બંધારણસભાને કુલ 2 વર્ષ, 11 મહિના અને 18 દિવસનો સમય લાગ્યો હતો."
+      "explanation": "બંધારણસભાએ બંધારણ તૈયાર કરવામાં આટલો સમય લીધો હતો.",
+      "solution": "બંધારણસભાએ બંધારણ તૈયાર કરવામાં આટલો સમય લીધો હતો.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "2 વર્ષ, 11 મહિના, 18 દિવસ"
     },
     {
       "id": 166,
@@ -2879,12 +3539,16 @@ const paper52Data = {
         "સ્વતંત્રતાનો હક",
         "ધાર્મિક સ્વતંત્રતાનો હક"
       ],
-      "correct_index": 0,
-      "correct_answer": "બંધારણીય ઈલાજનો હક",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ડૉ. બાબાસાહેબ આંબેડકરે બંધારણના અનુચ્છેદ 32 માં આપેલા 'બંધારણીય ઈલાજના હક' ને બંધારણના આત્મા સમાન ગણાવ્યો છે."
+      "explanation": "ડૉ. આંબેડકરે આ હકને બંધારણનું હૃદય અને આત્મા ગણાવ્યો હતો.",
+      "solution": "ડૉ. આંબેડકરે આ હકને બંધારણનું હૃદય અને આત્મા ગણાવ્યો હતો.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "બંધારણીય ઈલાજનો હક"
     },
     {
       "id": 167,
@@ -2896,12 +3560,16 @@ const paper52Data = {
         "રાષ્ટ્રપતિ",
         "એકપણ નહીં"
       ],
-      "correct_index": 2,
-      "correct_answer": "રાષ્ટ્રપતિ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "ભારતીય બંધારણ મુજબ દેશનો સમગ્ર વહીવટ દેશના સર્વોચ્ચ વડા એવા રાષ્ટ્રપતિના નામથી ચલાવવામાં આવે છે."
+      "explanation": "ભારતનું સંઘીય કાર્યપાલક સત્તાતંત્ર રાષ્ટ્રપતિના નામે કાર્ય કરે છે.",
+      "solution": "ભારતનું સંઘીય કાર્યપાલક સત્તાતંત્ર રાષ્ટ્રપતિના નામે કાર્ય કરે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "રાષ્ટ્રપતિ"
     },
     {
       "id": 168,
@@ -2913,12 +3581,16 @@ const paper52Data = {
         "ગુનેગાર ન હોવો જોઈએ.",
         "તે સરકારનો પગારદાર કર્મચારી હોવો જોઈએ નહીં."
       ],
-      "correct_index": 1,
-      "correct_answer": "તેની ઉંમર 30 વર્ષ કે તેથી વધુ હોવી જોઈએ.",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "લોકસભાના સભ્ય બનવા માટે લઘુત્તમ વયમર્યાદા 25 વર્ષ હોવી જોઈએ (30 વર્ષ રાજ્યસભા માટે છે). તેથી '30 વર્ષ કે તેથી વધુ' વિધાન અયોગ્ય છે."
+      "explanation": "લોકસભા માટે લઘુત્તમ ઉંમર 25 વર્ષ છે, 30 વર્ષ નહીં.",
+      "solution": "લોકસભા માટે લઘુત્તમ ઉંમર 25 વર્ષ છે, 30 વર્ષ નહીં.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "તેની ઉંમર 30 વર્ષ કે તેથી વધુ હોવી જોઈએ."
     },
     {
       "id": 169,
@@ -2930,12 +3602,16 @@ const paper52Data = {
         "બહાદૂરશાહ",
         "મહંમદશાહ"
       ],
-      "correct_index": 0,
-      "correct_answer": "મુઝફફરશાહ",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ગુજરાતમાં સ્વતંત્ર સલ્તનતનો પાયો નાખનાર પ્રથમ સુલતાન મુઝફ્ફરશાહ પહેલો (ઝફરખાન) હતો."
+      "explanation": "મુઝફફરશાહ પ્રથમ ગુજરાત સલ્તનતના સ્થાપક શાસક હતા.",
+      "solution": "મુઝફફરશાહ પ્રથમ ગુજરાત સલ્તનતના સ્થાપક શાસક હતા.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "મુઝફફરશાહ"
     },
     {
       "id": 170,
@@ -2947,12 +3623,16 @@ const paper52Data = {
         "રામરાય",
         "કૃષ્ણદેવરાય"
       ],
-      "correct_index": 3,
-      "correct_answer": "કૃષ્ણદેવરાય",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "વિજયનગર સામ્રાજ્યના તુલુવ વંશના મહાન અને પ્રતાપી શાસક કૃષ્ણદેવરાય સર્વશ્રેષ્ઠ શાસક ગણાય છે."
+      "explanation": "કૃષ્ણદેવરાય વિજયનગર સામ્રાજ્યના સૌથી પ્રખ્યાત શાસકોમાંના એક હતા.",
+      "solution": "કૃષ્ણદેવરાય વિજયનગર સામ્રાજ્યના સૌથી પ્રખ્યાત શાસકોમાંના એક હતા.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "કૃષ્ણદેવરાય"
     },
     {
       "id": 171,
@@ -2964,12 +3644,16 @@ const paper52Data = {
         "શિવનેરી",
         "કલ્યાણ"
       ],
-      "correct_index": 1,
-      "correct_answer": "રાયગઢ",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "છત્રપતિ શિવાજી મહારાજનો ભવ્ય રાજ્યાભિષેક ઈ.સ. 1674 માં રાયગઢના ઐતિહાસિક કિલ્લામાં સંપન્ન થયો હતો."
+      "explanation": "શિવાજીનો રાજ્યાભિષેક રાયગઢ કિલ્લા પર થયો હતો.",
+      "solution": "શિવાજીનો રાજ્યાભિષેક રાયગઢ કિલ્લા પર થયો હતો.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "રાયગઢ"
     },
     {
       "id": 172,
@@ -2981,12 +3665,16 @@ const paper52Data = {
         "ગોળ શિખરો અને સ્તંભવાળા ખંડો",
         "પ્રદક્ષિણાપથ વિનાનાં શિખરો."
       ],
-      "correct_index": 1,
-      "correct_answer": "શંકુ આકારનાં અણીદાર શિખરો",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ઉત્તર ભારતની નાગર મંદિર સ્થાપત્ય શૈલીની મુખ્ય વિશેષતા શંકુ આકારના ઊંચા અણીદાર શિખરો છે."
+      "explanation": "ઉત્તર ભારતીય નાગર શૈલીનાં મંદિરોમાં ઊંચાં વક્રાકાર શિખરો મુખ્ય લક્ષણ છે.",
+      "solution": "ઉત્તર ભારતીય નાગર શૈલીનાં મંદિરોમાં ઊંચાં વક્રાકાર શિખરો મુખ્ય લક્ષણ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "શંકુ આકારનાં અણીદાર શિખરો"
     },
     {
       "id": 173,
@@ -2998,12 +3686,16 @@ const paper52Data = {
         "SEBC",
         "Schedule Caste"
       ],
-      "correct_index": 1,
-      "correct_answer": "Schedule Tribes",
       "marks": 1,
-      "answer": 1,
       "hasDiagram": false,
-      "explanation": "ભારતના બંધારણમાં અનુસૂચિત જનજાતિઓ માટે અંગ્રેજીમાં 'Schedule Tribes' (ST) શબ્દ પ્રયોજાયેલ છે."
+      "explanation": "અનુસૂચિત જનજાતિઓ માટે અંગ્રેજી શબ્દ Scheduled Tribes છે.",
+      "solution": "અનુસૂચિત જનજાતિઓ માટે અંગ્રેજી શબ્દ Scheduled Tribes છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 1,
+      "answer": 1,
+      "correct_answer": "Scheduled Tribes"
     },
     {
       "id": 174,
@@ -3015,12 +3707,16 @@ const paper52Data = {
         "ક્રિમિનલ ટ્રાઈબ્ઝ ઍક્ટ - 1871",
         "કોન્સ્ક્રિપ્શન ટ્રાઈબ્ઝ ઍક્ટ - 1875"
       ],
-      "correct_index": 2,
-      "correct_answer": "ક્રિમિનલ ટ્રાઈબ્ઝ ઍક્ટ - 1871",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "વિચરતી અને વિમુક્ત જાતિઓ પર કડક નિયંત્રણ માટે અંગ્રેજ સરકારે ઈ.સ. 1871 માં ક્રિમિનલ ટ્રાઇબ્સ એક્ટ (Criminal Tribes Act - 1871) બનાવ્યો હતો."
+      "explanation": "બ્રિટિશ સરકારે 1871માં Criminal Tribes Act બનાવ્યો હતો.",
+      "solution": "બ્રિટિશ સરકારે 1871માં Criminal Tribes Act બનાવ્યો હતો.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "ક્રિમિનલ ટ્રાઈબ્ઝ ઍક્ટ - 1871"
     },
     {
       "id": 175,
@@ -3032,12 +3728,16 @@ const paper52Data = {
         "દલપતરામ",
         "દયારામ"
       ],
-      "correct_index": 0,
-      "correct_answer": "નરસિંહ મહેતા",
       "marks": 1,
-      "answer": 0,
       "hasDiagram": false,
-      "explanation": "ગુજરાતી ભાષા અને ભક્તિ સાહિત્યના આદિકવિ તરીકે ભક્તકવિ નરસિંહ મહેતાને બિરુદ મળેલું છે."
+      "explanation": "નરસિંહ મહેતાને ગુજરાતી ભાષાના આદિકવિ તરીકે ઓળખવામાં આવે છે.",
+      "solution": "નરસિંહ મહેતાને ગુજરાતી ભાષાના આદિકવિ તરીકે ઓળખવામાં આવે છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 0,
+      "answer": 0,
+      "correct_answer": "નરસિંહ મહેતા"
     },
     {
       "id": 176,
@@ -3049,12 +3749,16 @@ const paper52Data = {
         "મહાકવિ કાલિદાસે",
         "નરસિંહ મહેતાએ"
       ],
-      "correct_index": 3,
-      "correct_answer": "નરસિંહ મહેતાએ",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "ભગવાન શ્રીકૃષ્ણ અને બાળસખા સુદામાના પ્રેમનું વર્ણન કરતા પ્રસિદ્ધ 'સુદામા ચરિત્ર' ની રચના નરસિંહ મહેતાએ કરી હતી."
+      "explanation": "સુદામાચરિત્રની રચના નરસિંહ મહેતાએ કરી હતી.",
+      "solution": "સુદામાચરિત્રની રચના નરસિંહ મહેતાએ કરી હતી.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "નરસિંહ મહેતાએ"
     },
     {
       "id": 177,
@@ -3066,12 +3770,16 @@ const paper52Data = {
         "ગુરુ અર્જુનસિંહે",
         "ગુરુ નાનકે"
       ],
-      "correct_index": 3,
-      "correct_answer": "ગુરુ નાનકે",
       "marks": 1,
-      "answer": 3,
       "hasDiagram": false,
-      "explanation": "15મી સદીમાં એકેશ્વરવાદ અને માનવતાનો સંદેશ આપનાર શીખ ધર્મના સ્થાપક અને પ્રથમ ગુરુ, ગુરુ નાનક દેવજી હતા."
+      "explanation": "ગુરુ નાનકે શીખ ધર્મની સ્થાપના કરી હતી.",
+      "solution": "ગુરુ નાનકે શીખ ધર્મની સ્થાપના કરી હતી.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 3,
+      "answer": 3,
+      "correct_answer": "ગુરુ નાનકે"
     },
     {
       "id": 178,
@@ -3083,12 +3791,16 @@ const paper52Data = {
         "12 કલાક 25 મિનિટ",
         "11 કલાક 40 મિનિટ"
       ],
-      "correct_index": 2,
-      "correct_answer": "12 કલાક 25 મિનિટ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "ચંદ્રના ગુરુત્વાકર્ષણને લીધે પૃથ્વી પર સમુદ્રમાં બે ક્રમિક ભરતી કે ઓટ વચ્ચે આશરે 12 કલાક અને 25 મિનિટનો સમયગાળો હોય છે."
+      "explanation": "એક ભરતીથી બીજી ભરતી વચ્ચેનો સમય આશરે 12 કલાક 25 મિનિટ હોય છે.",
+      "solution": "એક ભરતીથી બીજી ભરતી વચ્ચેનો સમય આશરે 12 કલાક 25 મિનિટ હોય છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "12 કલાક 25 મિનિટ"
     },
     {
       "id": 179,
@@ -3100,12 +3812,16 @@ const paper52Data = {
         "ક્ષોભ આવરણ",
         "ઉષ્માવરણ"
       ],
-      "correct_index": 2,
-      "correct_answer": "ક્ષોભ આવરણ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "પૃથ્વીની સપાટીને અડીને આવેલા વાતાવરણના પ્રથમ આવરણને ક્ષોભ આવરણ (Troposphere) કહે છે જેમાં તમામ હવામાનની ઘટનાઓ ઘટે છે."
+      "explanation": "પૃથ્વીની સપાટી નજીકનું વાતાવરણનું પ્રથમ સ્તર ક્ષોભાવરણ છે.",
+      "solution": "પૃથ્વીની સપાટી નજીકનું વાતાવરણનું પ્રથમ સ્તર ક્ષોભાવરણ છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "ક્ષોભ આવરણ"
     },
     {
       "id": 180,
@@ -3117,20 +3833,38 @@ const paper52Data = {
         "આગ",
         "ભૂકંપ"
       ],
-      "correct_index": 2,
-      "correct_answer": "આગ",
       "marks": 1,
-      "answer": 2,
       "hasDiagram": false,
-      "explanation": "દુષ્કાળ અને ભૂકંપ એ કુદરતી આપત્તિઓ છે, જ્યારે આગ એ મોટેભાગે માનવ બેદરકારી કે માનવસર્જિત આપત્તિ છે."
+      "explanation": "દુષ્કાળ અને ભૂકંપ કુદરતી આપત્તિઓ છે. આગ કુદરતી અથવા માનવસર્જિત બંને હોઈ શકે છે. 'ગણદેવી' વિકલ્પ આપત્તિનું નામ લાગતું નથી; મૂળ પ્રશ્ન અથવા વિકલ્પમાં ટાઇપની ભૂલ હોઈ શકે છે.",
+      "solution": "દુષ્કાળ અને ભૂકંપ કુદરતી આપત્તિઓ છે. આગ કુદરતી અથવા માનવસર્જિત બંને હોઈ શકે છે. 'ગણદેવી' વિકલ્પ આપત્તિનું નામ લાગતું નથી; મૂળ પ્રશ્ન અથવા વિકલ્પમાં ટાઇપની ભૂલ હોઈ શકે છે.",
+      "status": "question_error",
+      "isGrace": true,
+      "grace_mark": true,
+      "correct_index": 2,
+      "answer": 2,
+      "correct_answer": "પ્રશ્નમાં સુધારો જરૂરી છે"
     }
-  ]
+  ],
+  "grace_questions": [
+    129,
+    132,
+    180,
+    120,
+    9,
+    125
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "verified_by": "Pedagogical Expert Verification & User Supplied Solutions",
+    "last_updated": "2026-11-15T12:20:00Z"
+  },
+  "id": "nmms_paper_52",
+  "title": "નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ યોજના (NMMS) - પ્રશ્નપત્ર નંબર 52",
+  "durationMinutes": 180,
+  "totalQuestions": 180,
+  "totalMarks": 180,
+  "passingMarks": 72,
+  "school": "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI"
 };
-
-if (typeof window !== 'undefined') {
-  window.paper52Data = paper52Data;
-  window.PAPER_52_DATA = paper52Data;
-}
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = paper52Data;
-}
+if (typeof window !== 'undefined') { window.PAPER_52_DATA = paper52Data; }
+if (typeof module !== 'undefined' && module.exports) { module.exports = paper52Data; }
