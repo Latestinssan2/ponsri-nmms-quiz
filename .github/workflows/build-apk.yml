@@ -35,6 +35,12 @@ jobs:
             echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > android-keystore/release.jks
           fi
 
+      - name: Restore Google Services JSON from Secret
+        run: |
+          if [ -n "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" ]; then
+            echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 -d > android_app/app/google-services.json
+          fi
+
       - name: Install Gradle Wrapper
         working-directory: android_app
         run: |
@@ -79,5 +85,6 @@ jobs:
             - 🔔 **લાઈવ કસોટી નોટિફિકેશન (Live Quiz Push Notification)**.
             - 👑 **એડમિન કંટ્રોલ પેનલ સપોર્ટ**.
             - 🔐 **કાયમી સહી કરેલ (Permanent Signed APK)**.
+            - ☁️ **Google Services Firebase Integration**.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

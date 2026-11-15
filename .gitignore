@@ -5,5 +5,6 @@ node_modules/
 /android_app/.gradle/
 /android_app/build/
 /android_app/app/build/
-*.apk
 /android_app/local.properties
+/android_app/app/google-services.json
+*.apk
