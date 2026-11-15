@@ -24,6 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <!-- Canvas Confetti for celebration -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="paper52.js"></script>
 
     <script>
         tailwind.config = {
@@ -137,7 +138,12 @@
                             PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
                         </h1>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-indigo-200 font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી | NMMS ઓનલાઇન કસોટી</p>
+                    <div class="flex items-center gap-2">
+                        <p class="text-[11px] sm:text-xs text-indigo-200 font-medium">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</p>
+                        <span id="firebase-cloud-badge" class="hidden sm:inline-flex items-center gap-1 text-[9px] font-bold bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-400/30">
+                            <i class="fa-solid fa-cloud"></i> Firebase Cloud Connected
+                        </span>
+                    </div>
                 </div>
             </div>
             
@@ -431,9 +437,12 @@
                     <div>
                         <!-- Question Header & Bookmark -->
                         <div class="flex items-start justify-between gap-3 mb-5">
-                            <div class="flex items-start space-x-3">
+                            <div class="flex items-start space-x-2 sm:space-x-3">
                                 <span id="q-badge" class="bg-brand-700 text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl mt-0.5 shadow-sm whitespace-nowrap">
                                     પ્ર. ૧
+                                </span>
+                                <span id="q-section-badge" class="bg-indigo-100 dark:bg-indigo-950 text-brand-700 dark:text-indigo-300 text-xs font-bold px-2.5 py-1 rounded-xl mt-0.5 whitespace-nowrap">
+                                    MAT
                                 </span>
                                 <h3 id="question-text" class="text-base sm:text-lg md:text-xl font-semibold text-slate-800 dark:text-slate-100 leading-relaxed">
                                     --
@@ -504,6 +513,15 @@
                         <span class="w-3 h-3 bg-slate-200 dark:bg-slate-700 rounded-md inline-block"></span>
                         <span class="font-medium">બાકી</span>
                     </div>
+                </div>
+
+                <!-- Section Filter Tabs for 180-Question Exam -->
+                <div class="flex space-x-1 overflow-x-auto pb-1.5 mb-2 text-[11px] font-bold custom-scrollbar" id="section-filter-bar">
+                    <button onclick="setSectionFilter('ALL')" id="sec-btn-ALL" class="px-2.5 py-1 rounded-lg bg-brand-600 text-white shadow-sm shrink-0">બધા (1-180)</button>
+                    <button onclick="setSectionFilter('MAT')" id="sec-btn-MAT" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 shrink-0">🧠 MAT (1-90)</button>
+                    <button onclick="setSectionFilter('SAT-Maths')" id="sec-btn-SAT-Maths" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 shrink-0">📐 ગણિત (91-120)</button>
+                    <button onclick="setSectionFilter('SAT-Science')" id="sec-btn-SAT-Science" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 shrink-0">🔬 વિજ્ઞાન (121-150)</button>
+                    <button onclick="setSectionFilter('SAT-SocialScience')" id="sec-btn-SAT-SocialScience" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 shrink-0">🌍 સા.વિ. (151-180)</button>
                 </div>
 
                 <!-- Filter Navigator Tabs -->
@@ -579,6 +597,16 @@
                     </div>
                 </div>
             </div>
+
+                <!-- Section-wise Performance Breakdown -->
+                <div class="mt-6 mb-2">
+                    <h4 class="text-xs sm:text-sm font-extrabold uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-2.5 flex items-center justify-center sm:justify-start gap-1.5">
+                        <i class="fa-solid fa-chart-pie text-brand-600"></i> વિભાગવાર પ્રદર્શન (Section Performance)
+                    </h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="result-section-breakdown">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
 
             <!-- Review Actions & Filters -->
             <div class="mb-5 flex flex-wrap justify-between items-center gap-3">
@@ -1200,25 +1228,48 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         const LIVE_QUIZ_ID_KEY = 'nmms_live_quiz_id';
 
         function getAllQuizzes() {
+            let list = [];
             try {
                 const stored = localStorage.getItem(ALL_QUIZZES_KEY);
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                    if (Array.isArray(parsed) && parsed.length > 0) list = parsed;
                 }
             } catch(e) {}
 
-            const defaultQuiz = {
-                id: 'quiz_nmms_sat_default',
-                title: 'NMMS પરીક્ષા - SAT વિભાગ ઓનલાઇન મોક કસોટી ૧',
-                durationMinutes: 60,
-                school: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
-                createdAt: '૦૯ નવે ૨૦૨૬',
-                questions: initialQuestions
-            };
-            const list = [defaultQuiz];
+            const paper52 = (typeof window !== 'undefined' && window.PAPER_52_DATA) ? window.PAPER_52_DATA : null;
+            if (paper52) {
+                const existingIdx = list.findIndex(q => q.id === paper52.id);
+                if (existingIdx === -1) {
+                    list.unshift(paper52);
+                } else {
+                    list[existingIdx] = paper52;
+                }
+            }
+
+            if (list.length === 0) {
+                list = [
+                    paper52 || {
+                        id: 'nmms_paper_52',
+                        title: 'નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ યોજના (NMMS) - પ્રશ્નપત્ર નંબર 52',
+                        durationMinutes: 180,
+                        totalQuestions: 180,
+                        totalMarks: 180,
+                        passingMarks: 72,
+                        school: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+                        createdAt: '૧૫ નવે ૨૦૨૬',
+                        questions: initialQuestions
+                    }
+                ];
+            }
+
             localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(list));
-            localStorage.setItem(LIVE_QUIZ_ID_KEY, defaultQuiz.id);
+            
+            const currentLive = localStorage.getItem(LIVE_QUIZ_ID_KEY);
+            if (!currentLive || currentLive === 'quiz_nmms_sat_default') {
+                localStorage.setItem(LIVE_QUIZ_ID_KEY, 'nmms_paper_52');
+            }
+
             return list;
         }
 
@@ -1560,15 +1611,23 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         }
 
         function updateTimerDisplay() {
-            const mins = Math.floor(remainingSeconds / 60);
+            const hrs = Math.floor(remainingSeconds / 3600);
+            const mins = Math.floor((remainingSeconds % 3600) / 60);
             const secs = remainingSeconds % 60;
-            timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            
+            let timeStr = "";
+            if (hrs > 0) {
+                timeStr = `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            } else {
+                timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            timerDisplay.innerText = timeStr;
 
             if (remainingSeconds <= 300) {
                 timerBox.className = "bg-rose-950/80 backdrop-blur-md px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-rose-500 shadow-inner timer-warning";
                 timerDisplay.className = "font-mono text-base sm:text-lg font-black tracking-widest text-rose-300 leading-none";
                 timerIcon.className = "fa-solid fa-bell text-rose-400 mr-2 text-base animate-bounce";
-            } else if (remainingSeconds <= 600) {
+            } else if (remainingSeconds <= 900) {
                 timerBox.className = "bg-amber-950/80 backdrop-blur-md px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl flex items-center border border-amber-500 shadow-inner";
                 timerDisplay.className = "font-mono text-base sm:text-lg font-black tracking-widest text-amber-300 leading-none";
                 timerIcon.className = "fa-solid fa-stopwatch text-amber-400 mr-2 text-base";
@@ -1604,6 +1663,18 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             } else {
                 diagramContainer.classList.add('hidden');
                 diagramContainer.innerHTML = '';
+            }
+
+            // Section badge display
+            const secBadge = document.getElementById('q-section-badge');
+            if (secBadge) {
+                const secNameMap = {
+                    'MAT': '🧠 MAT (માનસિક ક્ષમતા)',
+                    'SAT-Maths': '📐 SAT (ગણિત)',
+                    'SAT-Science': '🔬 SAT (વિજ્ઞાન)',
+                    'SAT-SocialScience': '🌍 SAT (સામાજિક વિજ્ઞાન)'
+                };
+                secBadge.innerText = secNameMap[q.section] || q.section || 'NMMS';
             }
 
             const markBtn = document.getElementById('mark-review-btn');
@@ -1688,6 +1759,33 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             renderQuestion();
         };
 
+        
+        let currentSectionFilter = 'ALL';
+
+        window.setSectionFilter = function(sectionCode) {
+            currentSectionFilter = sectionCode;
+            const codes = ['ALL', 'MAT', 'SAT-Maths', 'SAT-Science', 'SAT-SocialScience'];
+            codes.forEach(c => {
+                const btn = document.getElementById(`sec-btn-${c}`);
+                if (btn) {
+                    if (c === sectionCode) {
+                        btn.className = "px-2.5 py-1 rounded-lg bg-brand-600 text-white shadow-sm shrink-0 font-bold";
+                    } else {
+                        btn.className = "px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 shrink-0";
+                    }
+                }
+            });
+
+            if (sectionCode !== 'ALL' && activeQuizConfig.questions) {
+                const firstMatchIdx = activeQuizConfig.questions.findIndex(q => q.section === sectionCode);
+                if (firstMatchIdx !== -1) {
+                    jumpToQuestion(firstMatchIdx);
+                }
+            }
+
+            updateGridHighlight();
+        };
+
         window.setGridFilter = function(filter) {
             currentGridFilter = filter;
             ['all', 'answered', 'unanswered', 'review'].forEach(f => {
@@ -1719,6 +1817,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 const isCurrent = i === currentQuestionIndex;
 
                 let isVisible = true;
+                if (currentSectionFilter !== 'ALL') {
+                    const qObj = activeQuizConfig.questions[i];
+                    if (qObj && qObj.section !== currentSectionFilter) isVisible = false;
+                }
                 if (currentGridFilter === 'answered' && !isAnswered) isVisible = false;
                 if (currentGridFilter === 'unanswered' && isAnswered) isVisible = false;
                 if (currentGridFilter === 'review' && !isMarked) isVisible = false;
@@ -1783,13 +1885,56 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             const unanswered = totalQ - answeredCount;
             const wrong = answeredCount - correct;
             
-            const totalSecs = (activeQuizConfig.durationMinutes || 60) * 60;
+            const totalSecs = (activeQuizConfig.durationMinutes || 180) * 60;
             const timeTakenSecs = totalSecs - remainingSeconds;
-            const takenMins = Math.floor(timeTakenSecs / 60);
+            const takenHours = Math.floor(timeTakenSecs / 3600);
+            const takenMins = Math.floor((timeTakenSecs % 3600) / 60);
             const takenSecs = timeTakenSecs % 60;
-            const timeStr = `${takenMins} મિનિટ ${takenSecs} સેકન્ડ`;
+            const timeStr = `${takenHours > 0 ? takenHours + ' કલાક ' : ''}${takenMins} મિનિટ ${takenSecs} સેકન્ડ`;
 
             const pct = Math.round((correct / totalQ) * 100);
+
+            // Calculate Section-wise Scores
+            const sectionStats = {
+                'MAT': { name: '🧠 MAT (માનસિક ક્ષમતા)', correct: 0, total: 0 },
+                'SAT-Maths': { name: '📐 SAT (ગણિત)', correct: 0, total: 0 },
+                'SAT-Science': { name: '🔬 SAT (વિજ્ઞાન)', correct: 0, total: 0 },
+                'SAT-SocialScience': { name: '🌍 SAT (સામાજિક વિજ્ઞાન)', correct: 0, total: 0 }
+            };
+
+            activeQuizConfig.questions.forEach((q, idx) => {
+                const sec = q.section || 'MAT';
+                if (!sectionStats[sec]) {
+                    sectionStats[sec] = { name: sec, correct: 0, total: 0 };
+                }
+                sectionStats[sec].total++;
+                if (userAnswers[idx] === q.answer) {
+                    sectionStats[sec].correct++;
+                }
+            });
+
+            // Populate Result Section Breakdown
+            const secBreakdownElem = document.getElementById('result-section-breakdown');
+            if (secBreakdownElem) {
+                let secHtml = '';
+                Object.keys(sectionStats).forEach(key => {
+                    const s = sectionStats[key];
+                    if (s.total > 0) {
+                        const sPct = Math.round((s.correct / s.total) * 100);
+                        secHtml += `
+                            <div class="p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
+                                <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 truncate block">${s.name}</span>
+                                <p class="text-lg font-black text-brand-700 dark:text-brand-300 mt-0.5">${s.correct}/${s.total}</p>
+                                <span class="text-[10px] font-bold text-slate-400 font-mono">${sPct}% ગુણ</span>
+                            </div>
+                        `;
+                    }
+                });
+                secBreakdownElem.innerHTML = secHtml;
+            }
+
+            const passingMarks = activeQuizConfig.passingMarks || 72;
+            const isPassed = (correct >= passingMarks);
 
             if (pct >= 50 && typeof confetti === 'function') {
                 confetti({
@@ -1807,15 +1952,12 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             document.getElementById('score-text').innerText = `${correct}/${totalQ}`;
             document.getElementById('score-pct-text').innerText = `${pct}% ગુણ`;
 
-            if (pct >= 80) {
+            if (isPassed) {
                 scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border-emerald-500";
-                document.getElementById('result-title').innerText = "અદ્ભુત પ્રદર્શન! ઉત્કૃષ્ટ પરિણામ 🏆";
-            } else if (pct >= 50) {
-                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border-amber-500";
-                document.getElementById('result-title').innerText = "ખૂબ સરસ પ્રયાસ! સારો સ્કોર 👍";
+                document.getElementById('result-title').innerText = `પરીક્ષા પાસ! ઉત્કૃષ્ટ પરિણામ 🏆 (NMMS ક્વોલિફાય)`;
             } else {
-                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border-rose-400";
-                document.getElementById('result-title').innerText = "વધુ મહાવરાની જરૂર છે! ફરી પ્રયાસ કરો 📚";
+                scoreBadge.className = "w-28 h-28 sm:w-32 sm:h-32 rounded-full flex flex-col items-center justify-center mx-auto text-2xl sm:text-3xl font-extrabold shadow-lg border-4 transition-all bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border-amber-500";
+                document.getElementById('result-title').innerText = `કસોટી પૂર્ણ! વધુ તૈયારી જરૂરી 📚 (પાસિંગ માર્ક્સ: ${passingMarks})`;
             }
 
             document.getElementById('student-info-display').innerText = `વિદ્યાર્થી: ${studentName}  |  રોલ નંબર: ${studentRoll}`;
@@ -1856,9 +1998,61 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 incrementStudentTestCount(currentUser.email);
             }
 
+            // FIREBASE FIRESTORE DATA SAVING
             if (db) {
                 try {
-                    addDoc(collection(db, "quiz_submissions"), newEntry).catch(() => {});
+                    addDoc(collection(db, "submissions"), {
+                        quizId: activeQuizConfig.id,
+                        quizTitle: activeQuizConfig.title,
+                        studentUid: currentUser ? currentUser.uid : "anon",
+                        studentName: studentName,
+                        studentEmail: currentUser ? currentUser.email : "",
+                        studentPhoto: currentUser ? currentUser.photoURL : "logo.png",
+                        studentRoll: studentRoll,
+                        studentSchool: studentSchool,
+                        score: correct,
+                        totalMarks: totalQ,
+                        percentage: pct,
+                        isPassed: isPassed,
+                        sectionScores: sectionStats,
+                        timeTakenSecs: timeTakenSecs,
+                        timeFormatted: timeStr,
+                        submittedAt: new Date().toISOString(),
+                        dateFormatted: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                        answers: userAnswers
+                    }).catch(e => console.warn("Firebase submission error:", e));
+
+                    const studentKey = currentUser ? currentUser.uid : ('guest_' + encodeURIComponent(studentName + '_' + studentRoll));
+                    const leaderRef = doc(db, "leaderboard", studentKey);
+                    
+                    getDoc(leaderRef).then(snap => {
+                        let shouldUpdate = true;
+                        if (snap.exists()) {
+                            const data = snap.data();
+                            if (data.score > correct) shouldUpdate = false;
+                            else if (data.score === correct && data.timeSeconds <= timeTakenSecs) shouldUpdate = false;
+                        }
+                        if (shouldUpdate) {
+                            setDoc(leaderRef, {
+                                id: studentKey,
+                                uid: currentUser ? currentUser.uid : null,
+                                name: studentName,
+                                email: currentUser ? currentUser.email : null,
+                                photoURL: currentUser ? currentUser.photoURL : "logo.png",
+                                roll: studentRoll,
+                                school: studentSchool,
+                                score: correct,
+                                total: totalQ,
+                                pct: pct,
+                                timeSeconds: timeTakenSecs,
+                                timeFormatted: `${takenHours > 0 ? takenHours + ':' : ''}${takenMins}:${takenSecs.toString().padStart(2, '0')}`,
+                                date: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short' }),
+                                timestamp: Date.now()
+                            }, { merge: true }).then(() => {
+                                syncLeaderboardFromFirebase();
+                            }).catch(() => {});
+                        }
+                    }).catch(() => {});
                 } catch(e) {}
             }
         };
@@ -1973,6 +2167,34 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(list));
             } catch (e) {}
             return list;
+        }
+
+        
+        // Real-Time Firebase Firestore Sync
+        async function syncLeaderboardFromFirebase() {
+            if (!db) return;
+            try {
+                const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), orderBy("timeSeconds", "asc"), limit(60));
+                const snap = await getDocs(q);
+                if (!snap.empty) {
+                    const cloudList = [];
+                    snap.forEach(docSnap => {
+                        const item = docSnap.data();
+                        if (item && !String(item.id).startsWith('def_')) {
+                            cloudList.push(item);
+                        }
+                    });
+                    if (cloudList.length > 0) {
+                        localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(cloudList));
+                        renderLeaderboard();
+                        renderAdminLeaderboardTable();
+                        const badge = document.getElementById('firebase-cloud-badge');
+                        if (badge) badge.classList.remove('hidden');
+                    }
+                }
+            } catch(e) {
+                console.warn("Firebase sync note:", e);
+            }
         }
 
         function renderLeaderboard(highlightId = null) {
@@ -2753,6 +2975,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 initTheme();
         refreshQuizUI();
         renderLeaderboard();
+        syncLeaderboardFromFirebase();
     </script>
 </body>
 </html>
