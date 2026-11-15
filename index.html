@@ -881,9 +881,14 @@
                         </h4>
                         <p class="text-xs text-slate-500 dark:text-slate-400">અહીંથી તમે કોઈપણ કસોટીને ૧-ક્લિકમાં વિદ્યાર્થીઓ માટે લાઈવ કરી શકો છો.</p>
                     </div>
-                    <button onclick="setAdminTab('json')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
-                        <i class="fa-solid fa-plus"></i> નવી કસોટી બનાવો
-                    </button>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="exportAllQuizzesAsJson()" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold text-xs px-3 py-2 rounded-xl transition flex items-center gap-1 border border-slate-300 dark:border-slate-700">
+                            <i class="fa-solid fa-file-arrow-down text-blue-500"></i> બધી કસોટીઓ JSON બેકઅપ
+                        </button>
+                        <button onclick="setAdminTab('json')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-plus"></i> નવી કસોટી બનાવો
+                        </button>
+                    </div>
                 </div>
 
                 <div id="adm-quizzes-list-container" class="space-y-3">
@@ -2865,6 +2870,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                                 <i class="fa-solid fa-file-pdf text-rose-500"></i> PDF
                             </button>
 
+                            <button onclick="exportQuizAsJson('${q.id}')" title="આ કસોટીનું JSON ડાઉનલોડ કરો" class="bg-amber-50 dark:bg-amber-950/80 hover:bg-amber-100 text-amber-900 dark:text-amber-300 font-bold text-xs px-3 py-2 rounded-xl border border-amber-300 dark:border-amber-800 transition flex items-center gap-1">
+                                <i class="fa-solid fa-file-code text-amber-600"></i> JSON ડાઉનલોડ
+                            </button>
+
                             ${!isLive && list.length > 1 ? `
                                 <button onclick="deleteQuiz('${q.id}')" title="કસોટી ડિલીટ કરો" class="text-rose-600 hover:text-rose-800 p-2 text-sm rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950">
                                     <i class="fa-solid fa-trash-can"></i>
@@ -2905,13 +2914,73 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             showToast("કસોટી સફળતાપૂર્વક લાઈવ થઈ ગઈ! 🎉");
         };
 
-        window.deleteQuiz = function(quizId) {
+        window.deleteQuiz = async function(quizId) {
             if (confirm("શું તમે આ કસોટી ડિલીટ કરવા માંગો છો?")) {
                 let list = getAllQuizzes().filter(q => q.id !== quizId);
                 localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(list));
                 renderAdminQuizzesList();
+                if (db) {
+                    try {
+                        await deleteDoc(doc(db, "quizzes", quizId));
+                    } catch(e) {
+                        console.warn("Delete quiz from Firestore error:", e);
+                    }
+                }
                 showToast("કસોટી ડિલીટ થઈ ગઈ.");
             }
+        };
+
+        // Export Specific Quiz as JSON file
+        window.exportQuizAsJson = function(quizId) {
+            const list = getAllQuizzes();
+            const quiz = list.find(q => q.id === quizId) || activeQuizConfig;
+            if (!quiz) {
+                alert("કસોટી મળી નથી.");
+                return;
+            }
+            const exportData = {
+                id: quiz.id,
+                title: quiz.title,
+                durationMinutes: quiz.durationMinutes || 60,
+                school: quiz.school || "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
+                totalQuestions: (quiz.questions || []).length,
+                totalMarks: quiz.totalMarks || (quiz.questions || []).length,
+                passingMarks: quiz.passingMarks || Math.round((quiz.questions || []).length * 0.4),
+                createdAt: quiz.createdAt || new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                sections: quiz.sections || [],
+                questions: quiz.questions || []
+            };
+
+            const jsonStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const link = document.createElement("a");
+            const cleanTitle = (quiz.title || 'NMMS_Quiz').replace(/[^a-zA-Z0-9_ઠ-૟]/g, '_').substring(0, 30);
+            link.href = URL.createObjectURL(blob);
+            link.download = `${cleanTitle}_${quiz.id}.json`;
+            link.click();
+            showToast("કસોટીનું JSON ડાઉનલોડ થઈ ગયું! 📄");
+        };
+
+        // Export All Quizzes Repository as a single backup JSON file
+        window.exportAllQuizzesAsJson = function() {
+            const list = getAllQuizzes();
+            if (list.length === 0) {
+                alert("કોઈ કસોટી ઉપલબ્ધ નથી.");
+                return;
+            }
+            const jsonStr = JSON.stringify({
+                school: "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
+                exportedAt: new Date().toISOString(),
+                totalQuizzes: list.length,
+                quizzes: list
+            }, null, 2);
+
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `NMMS_All_Quizzes_Backup_${Date.now()}.json`;
+            link.click();
+            showToast("તમામ કસોટીઓનું સંપૂર્ણ JSON બેકઅપ ડાઉનલોડ થઈ ગયું! 📦");
         };
 
         window.printSpecificQuizPaper = function(quizId, includeAnswers = false) {
@@ -3077,6 +3146,13 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             let all = getAllQuizzes();
             all.unshift(newQuizObj);
             localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(all));
+
+            // Save Quiz JSON to Firestore 'quizzes' collection
+            if (db) {
+                setDoc(doc(db, "quizzes", newQuizObj.id), newQuizObj, { merge: true })
+                    .then(() => console.log("Quiz saved to Firestore 'quizzes':", newQuizObj.id))
+                    .catch(err => console.warn("Firestore quiz save error:", err));
+            }
 
             if (setLiveImmediately) {
                 localStorage.setItem(LIVE_QUIZ_ID_KEY, newQuizObj.id);
