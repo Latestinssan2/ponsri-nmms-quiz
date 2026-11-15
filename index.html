@@ -258,6 +258,27 @@
                 </div>
             </div>
             
+            <!-- Limited-Time Quiz Closed / Landing State Notice (Visible when quiz is not in active window) -->
+            <div id="quiz-closed-banner" class="hidden mt-6 bg-gradient-to-r from-slate-100 to-indigo-50 dark:from-slate-800 dark:to-slate-800/80 p-5 rounded-3xl border-2 border-indigo-200 dark:border-indigo-900 text-center space-y-3">
+                <div class="w-12 h-12 bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-xl shadow-sm">
+                    <i class="fa-solid fa-hourglass-end"></i>
+                </div>
+                <div>
+                    <h3 class="text-base sm:text-lg font-extrabold text-slate-800 dark:text-white">કસોટીનો સમય હાલમાં પૂર્ણ થયેલ છે</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto" id="quiz-closed-msg">
+                        આ કસોટી નિર્ધારિત સમય મર્યાદા માટે જ લાઈવ હતી. આગામી કસોટીની તારીખ શાળા દ્વારા જાહેર કરવામાં આવશે.
+                    </p>
+                </div>
+                <div class="flex justify-center gap-2 pt-1">
+                    <button onclick="openPastQuizzesModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-open"></i> અગાઉની કસોટીઓ આપો
+                    </button>
+                    <button onclick="openLeaderboardModal()" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-trophy text-amber-500"></i> લીડરબોર્ડ જુઓ
+                    </button>
+                </div>
+            </div>
+
             <!-- Mandatory Google Sign In Warning Banner (Visible if NOT signed in) -->
             <div id="google-required-banner" class="mt-6 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/50 dark:to-orange-950/40 p-4 sm:p-5 rounded-2xl border-2 border-amber-300 dark:border-amber-700/60 text-center space-y-3">
                 <div class="flex items-center justify-center space-x-2 text-amber-800 dark:text-amber-300 font-bold text-sm sm:text-base">
@@ -381,6 +402,33 @@
                 <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1.5 transition-transform"></i>
             </button>
 
+            <!-- App Download & Mobile Experience Section -->
+            <div class="mt-7 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-900/90 via-slate-900 to-indigo-950 text-white shadow-xl border border-indigo-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3.5 text-left">
+                    <div class="w-12 h-12 rounded-2xl bg-white/10 p-1 flex items-center justify-center border border-white/20 shrink-0">
+                        <img src="logo.png" class="w-10 h-10 object-contain rounded-xl">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-emerald-400 text-slate-950 font-black text-[9px] px-2 py-0.5 rounded-full uppercase">Android App</span>
+                            <span class="text-xs text-indigo-200">v1.0.0</span>
+                        </div>
+                        <h4 class="text-sm sm:text-base font-extrabold text-white">NMMS Ponsri Secure Mobile App</h4>
+                        <p class="text-[11px] text-indigo-200/90">સુરક્ષિત પરીક્ષા મોડ: સ્ક્રીન જાગૃત રહે છે અને મિનિમાઇઝ કરવા પર ચેતવણી મળે છે.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+                    <a href="https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/latest" target="_blank" class="flex-1 sm:flex-initial bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 font-black px-4 py-2.5 rounded-xl transition text-xs flex items-center justify-center space-x-2 shadow-lg">
+                        <i class="fa-brands fa-android text-base"></i>
+                        <span>વિદ્યાર્થી APK</span>
+                    </a>
+                    <a href="https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/latest" target="_blank" class="flex-1 sm:flex-initial bg-white/10 hover:bg-white/20 text-white font-bold px-3.5 py-2.5 rounded-xl transition text-xs flex items-center justify-center space-x-1.5 border border-white/20">
+                        <i class="fa-solid fa-crown text-amber-400"></i>
+                        <span>એડમિન APK</span>
+                    </a>
+                </div>
+            </div>
+
             <!-- Quick Action Options on Start -->
             <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
                 <button onclick="openLeaderboardModal()" class="text-xs sm:text-sm font-bold text-brand-700 dark:text-brand-300 hover:text-brand-800 bg-brand-50 dark:bg-brand-950/60 hover:bg-brand-100 border border-brand-200 dark:border-brand-800 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
@@ -390,6 +438,10 @@
                 <button onclick="openStudentDashboard()" class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 hover:text-slate-900 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 border border-slate-200 dark:border-slate-700 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
                     <i class="fa-solid fa-user-graduate text-brand-600"></i>
                     <span>વિદ્યાર્થી ડેશબોર્ડ</span>
+                </button>
+                <button onclick="openPastQuizzesModal()" class="text-xs sm:text-sm font-bold text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 border border-indigo-200 dark:border-indigo-800 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-clock-rotate-left text-indigo-500"></i>
+                    <span>બધી કસોટીઓ (Past Quizzes)</span>
                 </button>
                 <button onclick="printQuestionPaper()" class="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 border border-slate-200 dark:border-slate-700 px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
                     <i class="fa-solid fa-file-pdf text-rose-500"></i>
@@ -433,7 +485,7 @@
                 </div>
 
                 <!-- Question Card -->
-                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md p-5 sm:p-7 md:p-8 border border-slate-200/80 dark:border-slate-800 min-h-[390px] flex flex-col justify-between transition-all">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md p-4 sm:p-7 md:p-8 border border-slate-200/80 dark:border-slate-800 min-h-[350px] sm:min-h-[390px] flex flex-col justify-between transition-all">
                     <div>
                         <!-- Question Header & Bookmark -->
                         <div class="flex items-start justify-between gap-3 mb-5">
@@ -533,7 +585,7 @@
                 </div>
 
                 <!-- Grid Buttons -->
-                <div id="question-grid" class="grid grid-cols-5 gap-2 overflow-y-auto custom-scrollbar p-1 flex-grow content-start max-h-[260px] lg:max-h-none">
+                <div id="question-grid" class="grid grid-cols-6 sm:grid-cols-5 gap-1.5 sm:gap-2 overflow-y-auto custom-scrollbar p-1 flex-grow content-start max-h-[220px] sm:max-h-[280px] lg:max-h-none">
                     <!-- Populated dynamically -->
                 </div>
 
@@ -760,6 +812,38 @@
                     <span>લીડરબોર્ડ PDF ડાઉનલોડ</span>
                 </button>
                 <button onclick="closeLeaderboardModal()" class="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold rounded-xl text-xs sm:text-sm transition">
+                    બંધ કરો
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ALL / PAST QUIZZES FOR STUDENTS & TEACHERS -->
+    <div id="past-quizzes-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center border-b dark:border-slate-800 pb-3.5 mb-3.5">
+                <div class="flex items-center space-x-3">
+                    <div class="w-11 h-11 bg-indigo-100 dark:bg-indigo-950 text-brand-600 dark:text-indigo-300 rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-extrabold text-slate-800 dark:text-white leading-tight">બધી કસોટીઓનો સંગ્રહ (NMMS Quiz Archive)</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">તમે અગાઉની કોઈપણ કસોટી પસંદ કરીને આપી શકો છો અથવા પ્રશ્નોનો મહાવરો કરી શકો છો.</p>
+                    </div>
+                </div>
+                <button onclick="closePastQuizzesModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-2 text-2xl transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- List of Past Quizzes -->
+            <div id="past-quizzes-list-container" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-1">
+                <!-- Dynamically populated -->
+            </div>
+
+            <div class="pt-4 border-t dark:border-slate-800 mt-4 flex justify-between items-center">
+                <span class="text-xs text-slate-400">પી.એમ.શ્રી. પ્રાથમિક વિદ્યામંદિર પોંસરી</span>
+                <button onclick="closePastQuizzesModal()" class="px-5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold rounded-xl text-xs transition">
                     બંધ કરો
                 </button>
             </div>
@@ -1124,8 +1208,36 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                         <div>
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">હાલના પ્રશ્નોની સંખ્યા</label>
                             <div class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm font-bold text-brand-600 dark:text-brand-400 flex items-center justify-between">
-                                <span id="adm-active-q-count">10 પ્રશ્નો</span>
+                                <span id="adm-active-q-count">180 પ્રશ્નો</span>
                                 <span class="text-xs bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 px-2 py-0.5 rounded-full">સક્રિય</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Window / Schedule Settings -->
+                    <div class="p-4 bg-indigo-50/60 dark:bg-indigo-950/30 rounded-2xl border border-indigo-200 dark:border-indigo-800 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h5 class="text-xs font-bold text-indigo-900 dark:text-indigo-200 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-business-time text-brand-600"></i>
+                                    <span>સમય મર્યાદિત લાઈવ કસોટી (Limited-Time Live Window)</span>
+                                </h5>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">જ્યારે સમય પૂરો થાય ત્યારે વિદ્યાર્થીઓને કસોટી બંધ દેખાશે અને માત્ર લેન્ડિંગ પેજ દેખાશે.</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="adm-toggle-timelimit" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
+                            </label>
+                        </div>
+
+                        <div id="adm-timelimit-inputs" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">શરૂ થવાનો સમય (Start Date & Time)</label>
+                                <input type="datetime-local" id="adm-input-live-start" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">પૂર્ણ થવાનો સમય (End Date & Time)</label>
+                                <input type="datetime-local" id="adm-input-live-end" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                             </div>
                         </div>
                     </div>
@@ -1266,6 +1378,129 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
         ];
 
+        // ANTI-CHEAT & PHONE MINIMIZE / SCREEN TURN-OFF DETECTION (3-Strike System)
+        let tabSwitchCount = 0;
+        const MAX_TAB_SWITCH_STRIKES = 3;
+        let isQuizRunning = false;
+        let wakeLock = null;
+
+        async function requestScreenWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Screen Wake Lock is active - keeping screen awake');
+                }
+            } catch (err) {
+                console.warn('Wake Lock error:', err);
+            }
+        }
+
+        function releaseScreenWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release().then(() => { wakeLock = null; });
+            }
+        }
+
+        // Visibility Change Listener (Triggers when app minimizes, phone screen locks, or tab switches)
+        document.addEventListener('visibilitychange', () => {
+            if (!isQuizRunning) return;
+
+            if (document.hidden) {
+                tabSwitchCount++;
+                const remaining = MAX_TAB_SWITCH_STRIKES - tabSwitchCount;
+                
+                if (tabSwitchCount >= MAX_TAB_SWITCH_STRIKES) {
+                    alert(`🚨 ચેતવણી: તમે ૩ વખત એપ/સ્ક્રીન મિનિમાઇઝ અથવા બંધ કરી છે!
+
+પરીક્ષાના નિયમો મુજબ તમારી કસોટી આપમેળે જમા (Auto-Submitted) થઈ ગઈ છે.`);
+                    submitQuiz(true); // force submit
+                } else {
+                    alert(`⚠️ સાવધાન (ચેતવણી ${tabSwitchCount}/${MAX_TAB_SWITCH_STRIKES})!
+
+કસોટી ચાલુ હોય ત્યારે એપ મિનિમાઇઝ કરવી, બીજી એપ ખોલવી કે ફોનની સ્ક્રીન બંધ કરવી પ્રતિબંધિત છે.
+જો તમે વધુ ${remaining} વખત આવું કરશો તો કસોટી આપમેળે જમા થઈ જશે.`);
+                }
+            } else {
+                // When coming back, re-acquire wake lock if available
+                requestScreenWakeLock();
+            }
+        });
+
+        // Window Blur (e.g. split screen or switching apps)
+        window.addEventListener('blur', () => {
+            if (!isQuizRunning) return;
+            // Let visibilitychange handle main counts, or handle in app wrapper
+        });
+
+        // PAST QUIZZES ARCHIVE MODAL (For Students & Admins)
+        window.openPastQuizzesModal = function() {
+            renderPastQuizzesList();
+            document.getElementById('past-quizzes-modal').classList.remove('hidden');
+        };
+
+        window.closePastQuizzesModal = function() {
+            document.getElementById('past-quizzes-modal').classList.add('hidden');
+        };
+
+        function renderPastQuizzesList() {
+            const container = document.getElementById('past-quizzes-list-container');
+            if (!container) return;
+
+            const list = getAllQuizzes();
+            const liveId = localStorage.getItem(LIVE_QUIZ_ID_KEY) || list[0].id;
+            container.innerHTML = '';
+
+            list.forEach((q, idx) => {
+                const isCurrent = (q.id === activeQuizConfig.id);
+                const isLive = (q.id === liveId);
+
+                const card = document.createElement('div');
+                card.className = `p-4 sm:p-5 rounded-2xl border transition-all ${
+                    isCurrent 
+                        ? 'bg-indigo-50/70 dark:bg-indigo-950/40 border-brand-500 shadow-md ring-2 ring-brand-300' 
+                        : 'bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 hover:border-brand-300'
+                }`;
+
+                card.innerHTML = `
+                    <div class="flex flex-wrap justify-between items-center gap-3">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-brand-700 dark:text-indigo-300 font-bold flex items-center justify-center text-xs">
+                                    ${idx + 1}
+                                </span>
+                                <h4 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">${q.title}</h4>
+                                ${isLive ? '<span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">🟢 લાઈવ</span>' : ''}
+                                ${isCurrent ? '<span class="bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">પસંદ કરેલ</span>' : ''}
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                                <b>${(q.questions || []).length}</b> પ્રશ્નો | સમય: <b>${q.durationMinutes || 60} મિનિટ</b> | તારીખ: ${q.createdAt || '-'}
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="selectAndLoadQuiz('${q.id}')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-play"></i> આ કસોટી આપો
+                            </button>
+                            <button onclick="printSpecificQuizPaper('${q.id}', false)" class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs px-3 py-2 rounded-xl transition flex items-center gap-1">
+                                <i class="fa-solid fa-file-pdf text-rose-500"></i> PDF
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.selectAndLoadQuiz = function(quizId) {
+            const list = getAllQuizzes();
+            const found = list.find(q => q.id === quizId);
+            if (found) {
+                activeQuizConfig = found;
+                refreshQuizUI();
+                closePastQuizzesModal();
+                showToast(`કસોટી પસંદ થઈ: ${found.title} 🎯`);
+            }
+        };
+
         // Multi-Quiz Repository
         const ALL_QUIZZES_KEY = 'nmms_all_quizzes_repo';
         const LIVE_QUIZ_ID_KEY = 'nmms_live_quiz_id';
@@ -1404,6 +1639,29 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
         });
 
+        function checkIsQuizLiveWindow() {
+            try {
+                const schedStr = localStorage.getItem('nmms_live_schedule');
+                if (!schedStr) return { isAllowed: true };
+                const sched = JSON.parse(schedStr);
+                if (!sched.isTimeLimited) return { isAllowed: true };
+
+                const now = new Date().getTime();
+                const start = sched.liveStart ? new Date(sched.liveStart).getTime() : 0;
+                const end = sched.liveEnd ? new Date(sched.liveEnd).getTime() : Infinity;
+
+                if (now < start) {
+                    return { isAllowed: false, reason: `કસોટી ${new Date(start).toLocaleString('gu-IN')} વાગ્યે શરૂ થશે.` };
+                }
+                if (now > end) {
+                    return { isAllowed: false, reason: `કસોટીનો નિર્ધારિત સમય પૂર્ણ થઈ ગયો છે.` };
+                }
+                return { isAllowed: true };
+            } catch(e) {
+                return { isAllowed: true };
+            }
+        }
+
         function refreshQuizUI() {
             activeQuizConfig = getLiveQuiz();
             const count = activeQuizConfig.questions.length;
@@ -1425,6 +1683,44 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (admTitle) admTitle.value = activeQuizConfig.title;
             const admDur = document.getElementById('adm-input-duration');
             if (admDur) admDur.value = dur;
+
+            // Check Live Window Gate
+            const gate = checkIsQuizLiveWindow();
+            const closedBanner = document.getElementById('quiz-closed-banner');
+            const studentInputs = document.getElementById('student-inputs-container');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+
+            if (!gate.isAllowed && !isUserAdmin) {
+                if (closedBanner) {
+                    closedBanner.classList.remove('hidden');
+                    document.getElementById('quiz-closed-msg').innerText = gate.reason;
+                }
+                if (studentInputs) studentInputs.classList.add('hidden');
+                if (startQuizBtn) startQuizBtn.classList.add('hidden');
+            } else {
+                if (closedBanner) closedBanner.classList.add('hidden');
+                if (studentInputs) studentInputs.classList.remove('hidden');
+                if (startQuizBtn) startQuizBtn.classList.remove('hidden');
+            }
+        }
+
+        // Realtime sync live window settings from Firestore
+        async function syncLiveWindowFromFirebase() {
+            if (!db) return;
+            try {
+                const snap = await getDoc(doc(db, "settings", "live_window"));
+                if (snap.exists()) {
+                    const data = snap.data();
+                    localStorage.setItem('nmms_live_schedule', JSON.stringify(data));
+                    const toggle = document.getElementById('adm-toggle-timelimit');
+                    const inputs = document.getElementById('adm-timelimit-inputs');
+                    if (toggle) toggle.checked = !!data.isTimeLimited;
+                    if (inputs) inputs.className = data.isTimeLimited ? 'grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2' : 'hidden';
+                    if (data.liveStart) document.getElementById('adm-input-live-start').value = data.liveStart;
+                    if (data.liveEnd) document.getElementById('adm-input-live-end').value = data.liveEnd;
+                    refreshQuizUI();
+                }
+            } catch(e) {}
         }
 
         // Quiz State
@@ -1642,6 +1938,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             currentQuestionIndex = 0;
 
             playTone(523.25, 'triangle', 0.2);
+
+            tabSwitchCount = 0;
+            isQuizRunning = true;
+            requestScreenWakeLock();
 
             startScreen.classList.add('hidden');
             quizScreen.classList.remove('hidden');
@@ -1932,7 +2232,9 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         };
 
         // SUBMIT QUIZ
-        window.submitQuiz = function() {
+        window.submitQuiz = function(isAutoSubmit = false) {
+            isQuizRunning = false;
+            releaseScreenWakeLock();
             closeModal();
             clearInterval(timerInterval);
 
@@ -3055,8 +3357,22 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 return;
             }
 
+            const isTimeLimited = document.getElementById('adm-toggle-timelimit').checked;
+            const liveStart = document.getElementById('adm-input-live-start').value;
+            const liveEnd = document.getElementById('adm-input-live-end').value;
+
             activeQuizConfig.title = newTitle;
             activeQuizConfig.durationMinutes = newDur;
+            activeQuizConfig.isTimeLimited = isTimeLimited;
+            activeQuizConfig.liveStart = liveStart;
+            activeQuizConfig.liveEnd = liveEnd;
+
+            // Also save schedule to localStorage & Firestore
+            const liveSchedule = { isTimeLimited, liveStart, liveEnd };
+            localStorage.setItem('nmms_live_schedule', JSON.stringify(liveSchedule));
+            if (db) {
+                setDoc(doc(db, "settings", "live_window"), liveSchedule, { merge: true }).catch(() => {});
+            }
 
             let all = getAllQuizzes();
             const idx = all.findIndex(q => q.id === activeQuizConfig.id);
