@@ -16,7 +16,8 @@ void main() async {
 // GOOGLE AUTH STATE & HELPERS
 // -------------------------------------------------------------
 final GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: ['email', 'profile'],
+  serverClientId: '310209746661-eebk35c1joor2uamf50j453lsvhskmg8.apps.googleusercontent.com',
+  scopes: ['email', 'profile', 'openid'],
 );
 
 class AppAuth {
@@ -41,6 +42,20 @@ class AppAuth {
     userDisplayName = prefs.getString('auth_user_name');
     userPhotoUrl = prefs.getString('auth_user_photo');
     userEmailNotifier.value = userEmail;
+
+    try {
+      final account = await _googleSignIn.signInSilently();
+      if (account != null) {
+        currentUser = account;
+        userEmail = account.email;
+        userDisplayName = account.displayName ?? userDisplayName;
+        userPhotoUrl = account.photoUrl ?? userPhotoUrl;
+        userEmailNotifier.value = userEmail;
+        await FirestoreService.getFirebaseToken();
+      }
+    } catch (e) {
+      debugPrint('Silent sign in error: $e');
+    }
   }
 
   static Future<bool> signIn(BuildContext context) async {
@@ -60,6 +75,8 @@ class AppAuth {
         }
         await prefs.setString('student_name', userDisplayName!);
         userEmailNotifier.value = userEmail;
+
+        await FirestoreService.getFirebaseToken();
         return true;
       }
     } catch (e) {
@@ -76,12 +93,16 @@ class AppAuth {
     userEmail = null;
     userDisplayName = null;
     userPhotoUrl = null;
+    FirestoreService.currentFirebaseUid = null;
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_user_email');
     await prefs.remove('auth_user_name');
     await prefs.remove('auth_user_photo');
     await prefs.remove('student_name');
+    await prefs.remove('firebase_auth_token');
+    await prefs.remove('firebase_auth_uid');
+    await prefs.remove('firebase_auth_expiry');
     userEmailNotifier.value = null;
   }
 }
@@ -197,17 +218,28 @@ class FirestoreService {
     return null;
   }
 
+  static String? currentFirebaseUid;
+
   static Future<String?> getFirebaseToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final cached = prefs.getString('firebase_auth_token');
+      final cachedUid = prefs.getString('firebase_auth_uid');
       final expiry = prefs.getInt('firebase_auth_expiry') ?? 0;
       if (cached != null && DateTime.now().millisecondsSinceEpoch < expiry) {
+        currentFirebaseUid = cachedUid;
         return cached;
+      }
+
+      if (AppAuth.currentUser == null) {
+        try {
+          AppAuth.currentUser = await _googleSignIn.signInSilently();
+        } catch (_) {}
       }
 
       if (AppAuth.currentUser != null) {
         final auth = await AppAuth.currentUser!.authentication;
+        debugPrint('Google Sign-In auth: idToken=${auth.idToken != null}, accessToken=${auth.accessToken != null}');
         if (auth.idToken != null) {
           final res = await http.post(
             Uri.parse('https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=$webApiKey'),
@@ -219,15 +251,23 @@ class FirestoreService {
               'returnSecureToken': true,
             }),
           );
+          debugPrint('signInWithIdp statusCode: ${res.statusCode}');
           if (res.statusCode == 200) {
             final data = jsonDecode(res.body);
             final token = data['idToken'] as String?;
+            final uid = data['localId'] as String?;
             final expiresIn = int.tryParse(data['expiresIn']?.toString() ?? '3600') ?? 3600;
             if (token != null) {
+              currentFirebaseUid = uid;
               await prefs.setString('firebase_auth_token', token);
+              if (uid != null) {
+                await prefs.setString('firebase_auth_uid', uid);
+              }
               await prefs.setInt('firebase_auth_expiry', DateTime.now().millisecondsSinceEpoch + (expiresIn - 120) * 1000);
               return token;
             }
+          } else {
+            debugPrint('signInWithIdp error: ${res.body}');
           }
         }
       }
@@ -311,12 +351,15 @@ class FirestoreService {
           ? entry.email.replaceAll(RegExp(r'[^\w]'), '_')
           : '${entry.studentName}_${entry.studentRoll}'.replaceAll(RegExp(r'[^\w]'), '_');
 
-      // Unique doc id per exam and per student: e.g. "paper52_preetpatel3736_gmail_com"
-      final docId = '${entry.quizId}_$cleanEmail';
+      final prefs = await SharedPreferences.getInstance();
+      final uid = currentFirebaseUid ?? prefs.getString('firebase_auth_uid') ?? entry.uid;
+      // In Firestore, docId must match user's Firebase UID for security rules to allow write
+      final docId = (uid.isNotEmpty) ? uid : cleanEmail;
 
       final payload = {
         'fields': {
           'id': _encodeValue(docId),
+          'uid': _encodeValue(docId),
           'quizId': _encodeValue(entry.quizId),
           'quizTitle': _encodeValue(entry.quizTitle),
           'name': _encodeValue(entry.studentName),
@@ -329,6 +372,7 @@ class FirestoreService {
           'pct': _encodeValue(entry.pct),
           'isPassed': _encodeValue(entry.isPassed),
           'timeTakenSecs': _encodeValue(entry.timeTakenSecs),
+          'timeSeconds': _encodeValue(entry.timeTakenSecs),
           'timeFormatted': _encodeValue(entry.timeFormatted),
           'date': _encodeValue(entry.date),
           'timestamp': _encodeValue(entry.timestamp),
@@ -339,14 +383,10 @@ class FirestoreService {
 
       final url = Uri.parse('$baseUrl/leaderboard/$docId');
       final res = await http.patch(url, headers: headers, body: jsonEncode(payload));
-      debugPrint('Firestore saveLeaderboardEntry response: ${res.statusCode}');
-
-      // Legacy doc sync for index.html compatibility
-      if (alsoSyncLegacy || entry.quizId == 'paper52') {
-        final legacyUrl = Uri.parse('$baseUrl/leaderboard/$cleanEmail');
-        await http.patch(legacyUrl, headers: headers, body: jsonEncode(payload));
+      debugPrint('Firestore saveLeaderboardEntry ($docId) response: ${res.statusCode}');
+      if (res.statusCode != 200 && res.statusCode != 201) {
+        debugPrint('Firestore saveLeaderboardEntry error body: ${res.body}');
       }
-
       return res.statusCode == 200 || res.statusCode == 201;
     } catch (e) {
       debugPrint('Firestore saveLeaderboardEntry error: $e');
@@ -377,6 +417,7 @@ class FirestoreService {
             final name = fields['name'] != null ? _decodeValue(fields['name'])?.toString() ?? '' : '';
             if (name.isEmpty) continue;
 
+            final uid = fields['uid'] != null ? _decodeValue(fields['uid'])?.toString() ?? '' : '';
             final score = fields['score'] != null ? _decodeValue(fields['score']) as int? ?? 0 : 0;
             final total = fields['total'] != null ? _decodeValue(fields['total']) as int? ?? 180 : 180;
             final pct = fields['pct'] != null ? _decodeValue(fields['pct']) as int? ?? 0 : 0;
@@ -398,6 +439,7 @@ class FirestoreService {
             }
 
             final newEntry = LiveLeaderboardEntry(
+              uid: uid,
               studentName: name,
               studentRoll: roll,
               studentSchool: school,
@@ -417,13 +459,15 @@ class FirestoreService {
               isLiveExam: isLiveExam,
             );
 
-            // Deduplicate by email or name (keep best score / fastest time)
-            final existingIdx = list.indexWhere((e) => (email.isNotEmpty && e.email == email) || (e.studentName == name && e.studentRoll == roll));
+            // Deduplicate by email, uid or name: always keep the latest submission by timestamp!
+            final existingIdx = list.indexWhere((e) =>
+                (email.isNotEmpty && e.email == email) ||
+                (uid.isNotEmpty && e.uid == uid) ||
+                (name.isNotEmpty && e.studentName == name && e.studentRoll == roll));
             if (existingIdx == -1) {
               list.add(newEntry);
             } else {
-              if (newEntry.score > list[existingIdx].score ||
-                  (newEntry.score == list[existingIdx].score && newEntry.timeTakenSecs < list[existingIdx].timeTakenSecs)) {
+              if (newEntry.timestamp >= list[existingIdx].timestamp) {
                 list[existingIdx] = newEntry;
               }
             }
@@ -493,12 +537,45 @@ class FirestoreService {
       return false;
     }
   }
+
+  // 5. Check if student has already attempted this Live Quiz (1 attempt enforcement)
+  static Future<bool> checkStudentLiveAttempt(String quizId, String email, {String? studentName, String? studentRoll}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userKey = email.isNotEmpty ? email : '${studentName ?? ''}_${studentRoll ?? ''}';
+      if (userKey.isNotEmpty) {
+        final localKey = 'live_attempted_${quizId}_$userKey';
+        if (prefs.getBool(localKey) == true) {
+          return true;
+        }
+      }
+
+      // Check Firestore leaderboard doc for this quiz and student
+      if (email.isNotEmpty) {
+        final cleanEmail = email.replaceAll(RegExp(r'[^\w]'), '_');
+        final docId = '${quizId}_$cleanEmail';
+        final url = Uri.parse('$baseUrl/leaderboard/$docId');
+        final res = await http.get(url);
+        if (res.statusCode == 200) {
+          if (userKey.isNotEmpty) {
+            final localKey = 'live_attempted_${quizId}_$userKey';
+            await prefs.setBool(localKey, true);
+          }
+          return true;
+        }
+      }
+    } catch (e) {
+      debugPrint('Firestore checkStudentLiveAttempt error: $e');
+    }
+    return false;
+  }
 }
 
 // -------------------------------------------------------------
 // PERMANENT LIVE LEADERBOARD MANAGER & MULTI-EXAM REPOSITORY
 // -------------------------------------------------------------
 class LiveLeaderboardEntry {
+  final String uid;
   final String studentName;
   final String studentRoll;
   final String studentSchool;
@@ -518,6 +595,7 @@ class LiveLeaderboardEntry {
   final bool isLiveExam;
 
   LiveLeaderboardEntry({
+    this.uid = '',
     required this.studentName,
     required this.studentRoll,
     this.studentSchool = 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
@@ -538,6 +616,7 @@ class LiveLeaderboardEntry {
   });
 
   Map<String, dynamic> toJson() => {
+        'uid': uid,
         'studentName': studentName,
         'studentRoll': studentRoll,
         'studentSchool': studentSchool,
@@ -559,6 +638,7 @@ class LiveLeaderboardEntry {
 
   factory LiveLeaderboardEntry.fromJson(Map<String, dynamic> json) =>
       LiveLeaderboardEntry(
+        uid: json['uid'] ?? '',
         studentName: json['studentName'] ?? json['name'] ?? '',
         studentRoll: json['studentRoll'] ?? json['roll'] ?? '-',
         studentSchool: json['studentSchool'] ?? json['school'] ?? 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
@@ -574,7 +654,7 @@ class LiveLeaderboardEntry {
         timestamp: json['timestamp'] ?? 0,
         quizId: json['quizId'] ?? 'paper52',
         quizTitle: json['quizTitle'] ?? 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
-        sectionScores: json['sectionScores'] is Map ? Map<String, dynamic>.from(json['sectionScores']) : {},
+        sectionScores: json['sectionScores'] is Map<String, dynamic> ? json['sectionScores'] : {},
         isLiveExam: json['isLiveExam'] ?? true,
       );
 }
@@ -662,7 +742,11 @@ class LiveLeaderboardManager {
     Map<String, dynamic> sectionScores = const {},
     bool isLiveExam = true,
   }) async {
+    final prefs = await SharedPreferences.getInstance();
+    final uid = FirestoreService.currentFirebaseUid ?? prefs.getString('firebase_auth_uid') ?? '';
+
     final entry = LiveLeaderboardEntry(
+      uid: uid,
       studentName: studentName,
       studentRoll: studentRoll,
       studentSchool: studentSchool,
@@ -684,20 +768,18 @@ class LiveLeaderboardManager {
 
     final currentList = await getLeaderboardForQuiz(quizId);
     final existingIndex = currentList.indexWhere(
-      (e) => (email.isNotEmpty && e.email == email) || (e.studentName == studentName && e.studentRoll == studentRoll),
+      (e) => (email.isNotEmpty && e.email == email) || (uid.isNotEmpty && e.uid == uid) || (e.studentName == studentName && e.studentRoll == studentRoll),
     );
     if (existingIndex >= 0) {
-      if (entry.score > currentList[existingIndex].score ||
-          (entry.score == currentList[existingIndex].score && entry.timeTakenSecs < currentList[existingIndex].timeTakenSecs)) {
-        currentList[existingIndex] = entry;
-      }
+      // Always update to student's latest submission!
+      currentList[existingIndex] = entry;
     } else {
       currentList.add(entry);
     }
     await saveLocalLeaderboard(quizId, currentList);
 
     try {
-      await FirestoreService.saveLeaderboardEntry(entry, alsoSyncLegacy: quizId == 'paper52');
+      await FirestoreService.saveLeaderboardEntry(entry);
     } catch (e) {
       debugPrint('Cloud sync error: $e');
     }
@@ -1401,19 +1483,62 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
   final _schoolController = TextEditingController(text: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI');
   bool _agreedToInstructions = true;
   bool _showInstructionsDetails = true;
+  bool _hasAttemptedLiveQuiz = false;
 
   @override
   void initState() {
     super.initState();
     _loadSavedStudent();
+    LiveQuizState.activeQuizId.addListener(_checkLiveAttemptStatus);
+    LiveQuizState.isLive.addListener(_checkLiveAttemptStatus);
+    AppAuth.userEmailNotifier.addListener(_checkLiveAttemptStatus);
+  }
+
+  @override
+  void dispose() {
+    LiveQuizState.activeQuizId.removeListener(_checkLiveAttemptStatus);
+    LiveQuizState.isLive.removeListener(_checkLiveAttemptStatus);
+    AppAuth.userEmailNotifier.removeListener(_checkLiveAttemptStatus);
+    _nameController.dispose();
+    _rollController.dispose();
+    _schoolController.dispose();
+    super.dispose();
   }
 
   void _loadSavedStudent() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _nameController.text = prefs.getString('student_name') ?? '';
-      _rollController.text = prefs.getString('student_roll') ?? '';
-    });
+    if (mounted) {
+      setState(() {
+        _nameController.text = prefs.getString('student_name') ?? '';
+        _rollController.text = prefs.getString('student_roll') ?? '';
+      });
+      _checkLiveAttemptStatus();
+    }
+  }
+
+  void _checkLiveAttemptStatus() async {
+    final quizId = LiveQuizState.activeQuizId.value;
+    final email = AppAuth.userEmail ?? '';
+    final name = _nameController.text.trim();
+    final roll = _rollController.text.trim();
+
+    final prefs = await SharedPreferences.getInstance();
+    final userKey = email.isNotEmpty ? email : '${name}_$roll';
+    bool attempted = false;
+    if (userKey.isNotEmpty) {
+      final localKey = 'live_attempted_${quizId}_$userKey';
+      attempted = prefs.getBool(localKey) ?? false;
+    }
+
+    if (!attempted && email.isNotEmpty) {
+      attempted = await FirestoreService.checkStudentLiveAttempt(quizId, email, studentName: name, studentRoll: roll);
+    }
+
+    if (mounted) {
+      setState(() {
+        _hasAttemptedLiveQuiz = attempted;
+      });
+    }
   }
 
   void _saveStudent() async {
@@ -1423,6 +1548,41 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
   }
 
   void _startTest() {
+    if (_hasAttemptedLiveQuiz) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Row(
+            children: [
+              Icon(Icons.check_circle, color: Color(0xFF10B981)),
+              SizedBox(width: 8),
+              Text('કસોટી જમા થઈ ચૂકી છે', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          content: const Text(
+            'લાઈવ કસોટીમાં પ્રતિ વિદ્યાર્થી માત્ર ૧ જ પ્રયાસ માન્ય છે.\n\nતમે આ કસોટી સફળતાપૂર્વક પૂર્ણ કરી દીધી છે અને તમારું પરિણામ લીડરબોર્ડમાં નોંધાયેલ છે.\n\nજો તમે ફરીથી મહાવરો / પ્રેક્ટિસ કરવા માંગતા હોવ, તો "જૂની કસોટીઓ" વિભાગમાંથી ગમે તેટલી વાર પ્રેક્ટિસ આપી શકો છો!',
+            style: TextStyle(fontSize: 12, height: 1.4),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('સમજાઈ ગયું'),
+            ),
+            FilledButton.icon(
+              onPressed: () {
+                Navigator.pop(ctx);
+                widget.onOpenResults();
+              },
+              icon: const Icon(Icons.leaderboard, size: 16),
+              label: const Text('પરિણામ જુઓ'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
     if (_nameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('કૃપા કરીને વિદ્યાર્થીનું પૂરું નામ દાખલ કરો.')),
@@ -1496,8 +1656,8 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
     );
   }
 
-  void _proceedToExam() {
-    Navigator.push(
+  void _proceedToExam() async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => ExamScreen(
@@ -1508,6 +1668,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
         ),
       ),
     );
+    _checkLiveAttemptStatus();
   }
 
   @override
@@ -1720,6 +1881,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                               setState(() {
                                 _nameController.clear();
                               });
+                              _checkLiveAttemptStatus();
                             },
                             child: const Text('બદલો', style: TextStyle(fontSize: 11)),
                           ),
@@ -1764,6 +1926,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                                 setState(() {
                                   _nameController.text = AppAuth.userDisplayName ?? '';
                                 });
+                                _checkLiveAttemptStatus();
                               }
                             },
                             style: FilledButton.styleFrom(
@@ -2060,25 +2223,76 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                 ),
               ),
 
+              // LIVE ATTEMPT COMPLETED NOTICE CARD (Strictly 1 attempt per live test)
+              if (isLive && _hasAttemptedLiveQuiz) ...[
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF064E3B).withValues(alpha: 0.5) : const Color(0xFFECFDF5),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.6)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        children: [
+                          Icon(Icons.check_circle, color: Color(0xFF10B981), size: 24),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'તમે આ લાઈવ કસોટી પૂર્ણ કરી દીધી છે! ✓',
+                              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13, color: Color(0xFF047857)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'લાઈવ કસોટીમાં પ્રતિ વિદ્યાર્થી માત્ર ૧ જ પ્રયાસ માન્ય છે જેથી લીડરબોર્ડ પરિણામ વિશ્વસનીય રહે. તમારું પરિણામ લીડરબોર્ડમાં નોંધાઈ ગયું છે.\n\nજો તમે ફરીથી મહાવરો / પ્રેક્ટિસ કરવા માંગતા હોવ, તો "જૂની કસોટીઓ" (Past Quizzes) વિભાગમાંથી ગમે તેટલી વાર પ્રેક્ટિસ આપી શકો છો!',
+                        style: TextStyle(fontSize: 11, height: 1.4, color: isDark ? Colors.white70 : const Color(0xFF065F46)),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+
               const SizedBox(height: 20),
 
-              // START EXAM BUTTON (Active only when Quiz is Live)
-              FilledButton.icon(
-                onPressed: isLive ? _startTest : null,
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  backgroundColor: isLive ? primary : Colors.grey.shade400,
+              // START EXAM BUTTON / COMPLETED BUTTON
+              if (isLive && _hasAttemptedLiveQuiz)
+                FilledButton.icon(
+                  onPressed: widget.onOpenResults,
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    backgroundColor: const Color(0xFF10B981),
+                  ),
+                  icon: const Icon(Icons.leaderboard),
+                  label: const Text(
+                    'કસોટી જમા થયેલ છે (પરિણામ જુઓ)',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                  ),
+                )
+              else
+                FilledButton.icon(
+                  onPressed: isLive ? _startTest : null,
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    backgroundColor: isLive ? primary : Colors.grey.shade400,
+                  ),
+                  icon: Icon(isLive ? Icons.play_arrow : Icons.lock_clock),
+                  label: Text(
+                    isLive
+                        ? 'કસોટી શરૂ કરો: $activeTitle'
+                        : 'લાઈવ કસોટી હાલમાં બંધ છે',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                  ),
                 ),
-                icon: Icon(isLive ? Icons.play_arrow : Icons.lock_clock),
-                label: Text(
-                  isLive
-                      ? 'કસોટી શરૂ કરો: $activeTitle'
-                      : 'લાઈવ કસોટી હાલમાં બંધ છે',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                ),
-              ),
             ],
           ),
         ),
@@ -2497,6 +2711,37 @@ class _PastResultsScreenState extends State<PastResultsScreen> {
         parsed.add(Map<String, dynamic>.from(jsonDecode(item)));
       } catch (_) {}
     }
+
+    // Sync cloud exam attempts from Firestore if signed in (fixes web/mobile history mismatch)
+    if (AppAuth.isSignedIn) {
+      try {
+        final email = AppAuth.userEmail ?? '';
+        final cloudEntries = await FirestoreService.fetchLeaderboard(_selectedQuizId);
+        for (final entry in cloudEntries) {
+          if (entry.email.isNotEmpty && entry.email.toLowerCase() == email.toLowerCase()) {
+            final alreadyExists = parsed.any((p) => p['title'] == entry.quizTitle);
+            if (!alreadyExists && parsed.isEmpty) {
+              parsed.add({
+                'score': entry.score,
+                'total': entry.total,
+                'pct': entry.pct,
+                'date': entry.date.isNotEmpty ? entry.date : LiveLeaderboardManager.formatDateNow(),
+                'title': entry.quizTitle,
+                'isLive': entry.isLiveExam,
+                'autoSubmitted': false,
+                'sectionScores': entry.sectionScores,
+              });
+              // Cache in local history so it stays in sync
+              final updatedRaw = parsed.map((e) => jsonEncode(e)).toList();
+              await prefs.setStringList('exam_history', updatedRaw);
+            }
+          }
+        }
+      } catch (e) {
+        debugPrint('Cloud myResults sync error: $e');
+      }
+    }
+
     if (mounted) {
       setState(() {
         _myResults = parsed.reversed.toList(); // Newest first
@@ -2509,6 +2754,38 @@ class _PastResultsScreenState extends State<PastResultsScreen> {
     setState(() {
       _isLoadingLb = true;
     });
+
+    final prefs = await SharedPreferences.getInstance();
+    final rawHistory = prefs.getStringList('exam_history') ?? [];
+
+    // If student has a recent exam result in local history, sync it to cloud leaderboard
+    if (AppAuth.isSignedIn && rawHistory.isNotEmpty) {
+      try {
+        final latest = jsonDecode(rawHistory.last) as Map<String, dynamic>;
+        final studentScore = latest['score'] is int ? latest['score'] as int : int.tryParse(latest['score']?.toString() ?? '0') ?? 0;
+        final studentTotal = latest['total'] is int ? latest['total'] as int : int.tryParse(latest['total']?.toString() ?? '180') ?? 180;
+        final studentPct = latest['pct'] is int ? latest['pct'] as int : int.tryParse(latest['pct']?.toString() ?? '0') ?? 0;
+
+        await LiveLeaderboardManager.recordLiveSubmission(
+          quizId: _selectedQuizId,
+          quizTitle: LiveLeaderboardManager.getQuizTitle(_selectedQuizId),
+          studentName: AppAuth.userDisplayName ?? 'વિદ્યાર્થી',
+          studentRoll: '01',
+          email: AppAuth.userEmail ?? '',
+          photoURL: AppAuth.userPhotoUrl ?? '',
+          score: studentScore,
+          total: studentTotal,
+          pct: studentPct,
+          isPassed: studentScore >= 72,
+          timeTakenSecs: 30,
+          timeFormatted: '0:30',
+          isLiveExam: true,
+        );
+      } catch (e) {
+        debugPrint('Sync history to leaderboard error: $e');
+      }
+    }
+
     final lb = await FirestoreService.fetchLeaderboard(_selectedQuizId);
     if (mounted) {
       setState(() {
@@ -4027,6 +4304,13 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         sectionScores: sectionScores,
         isLiveExam: true,
       );
+
+      // Lock live quiz to strictly 1 attempt for this student
+      final userKey = (AppAuth.userEmail?.isNotEmpty ?? false)
+          ? AppAuth.userEmail!
+          : '${widget.studentName}_${widget.studentRoll}';
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('live_attempted_${quizId}_$userKey', true);
     }
 
     // Save locally to SharedPreferences for personal history
