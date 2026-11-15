@@ -1538,6 +1538,24 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 // Record student in registered list
                 registerOrUpdateStudent(user);
 
+                // Instantly save signed-in user/student to Firestore 'students' collection
+                if (db && user) {
+                    const studentRef = doc(db, "students", user.uid);
+                    setDoc(studentRef, {
+                        uid: user.uid,
+                        name: user.displayName || 'વિદ્યાર્થી',
+                        email: user.email,
+                        photoURL: user.photoURL || 'logo.png',
+                        lastLogin: new Date().toISOString(),
+                        lastActive: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                        timestamp: Date.now()
+                    }, { merge: true }).then(() => {
+                        console.log("Student successfully saved to Firestore on login:", user.email);
+                    }).catch(err => {
+                        console.error("Firestore student save error on login:", err);
+                    });
+                }
+
             } else {
                 loginBtn.classList.remove('hidden');
                 profilePill.classList.add('hidden');
