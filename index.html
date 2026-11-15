@@ -159,7 +159,7 @@
                 <!-- Normal Mode Navigation (Visible when not taking quiz) -->
                 <div id="nav-actions-normal" class="flex items-center space-x-2">
                     
-                    <!-- Admin Panel Button (Exclusive to patelsandip288@gmail.com) -->
+                    <!-- Admin Panel Button (Exclusive to authorized admins) -->
                     <button id="admin-badge-btn" onclick="openAdminModal()" class="hidden bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-slate-950 font-black px-3 py-1.5 sm:py-2 rounded-xl transition shadow-md flex items-center space-x-1.5 text-xs sm:text-sm animate-pulse border border-amber-300">
                         <i class="fa-solid fa-crown text-amber-900"></i>
                         <span>એડમિન પેનલ</span>
@@ -825,7 +825,7 @@
         </div>
     </div>
 
-    <!-- MODAL 4: ADMIN CONTROL PANEL (Exclusive to patelsandip288@gmail.com) -->
+    <!-- MODAL 4: ADMIN CONTROL PANEL (Exclusive to Authorized Admins) -->
     <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5">
         <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-5xl w-full p-5 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col max-h-[93vh]">
             
@@ -839,7 +839,7 @@
                         <div class="flex items-center gap-2">
                             <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">એડમિન કંટ્રોલ પેનલ</h3>
                             <span class="bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border border-amber-300 dark:border-amber-700">
-                                patelsandip288@gmail.com
+                                Authorized Admins
                             </span>
                         </div>
                         <p class="text-xs text-slate-500 dark:text-slate-400">કસોટી મેનેજમેન્ટ, લાઈવ ટેસ્ટ સ્વિચિંગ, નોંધાયેલા વિદ્યાર્થીઓ અને AI પ્રોમ્પ્ટ</p>
@@ -1131,7 +1131,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        const ADMIN_EMAIL = "patelsandip288@gmail.com";
+        const ADMIN_EMAILS = [
+            "patelsandip288@gmail.com",
+            "ponsri.big.gan.nav@gmail.com"
+        ];
 
         // Current session state
         let currentUser = null;
@@ -1468,13 +1471,13 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 userAvatar.src = user.photoURL || 'logo.png';
                 userDisplayName.innerText = user.displayName || user.email;
 
-                isUserAdmin = (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+                isUserAdmin = (user.email && ADMIN_EMAILS.some(em => em.toLowerCase() === user.email.toLowerCase()));
 
                 if (isUserAdmin) {
                     userRoleBadge.innerText = "Admin 👑";
                     userRoleBadge.className = "text-[9px] text-amber-300 font-black uppercase";
                     adminBadgeBtn.classList.remove('hidden');
-                    showToast(`સ્વાગત છે એડમિન Sandip Patel! 👑`);
+                    showToast(`સ્વાગત છે એડમિન (${user.displayName || user.email})! 👑`);
                 } else {
                     userRoleBadge.innerText = "Student";
                     userRoleBadge.className = "text-[9px] text-slate-300 font-semibold uppercase";
@@ -2511,7 +2514,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         // ADMIN CONTROL PANEL
         window.openAdminModal = function() {
             if (!isUserAdmin) {
-                alert("માત્ર એડમિન (patelsandip288@gmail.com) જ એડમિન પેનલ ઍક્સેસ કરી શકે છે.");
+                alert("માત્ર અધિકૃત એડમિન (Admins) જ એડમિન પેનલ ઍક્સેસ કરી શકે છે.");
                 return;
             }
             refreshQuizUI();
