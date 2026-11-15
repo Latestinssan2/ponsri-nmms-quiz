@@ -547,7 +547,7 @@ class _SplashScreenState extends State<SplashScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Animated Pure White Logo Container
+            // Animated Pure White Logo Container (No Border Line)
             FadeTransition(
               opacity: _fadeAnimation,
               child: ScaleTransition(
@@ -557,17 +557,12 @@ class _SplashScreenState extends State<SplashScreen>
                   height: 120,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white, // Crisp pure white background requested
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(32),
                     boxShadow: [
                       BoxShadow(
-                        color: primary.withValues(alpha: 0.25),
-                        blurRadius: 30,
-                        offset: const Offset(0, 10),
-                      ),
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.08),
-                        blurRadius: 16,
+                        color: primary.withValues(alpha: 0.12),
+                        blurRadius: 24,
                         offset: const Offset(0, 4),
                       ),
                     ],
@@ -1109,7 +1104,6 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.black.withValues(alpha: 0.08)),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withValues(alpha: 0.04),
@@ -1118,11 +1112,15 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                                   ),
                                 ],
                               ),
-                              padding: const EdgeInsets.all(6),
-                              child: Image.asset(
-                                'assets/logo.png',
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Icon(Icons.school, color: primary),
+                              padding: const EdgeInsets.all(4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.asset(
+                                  'assets/logo.png',
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Icon(Icons.school, color: primary),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 14),
@@ -1136,7 +1134,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    'તા. માણસા, જી. ગાંધીનગર • NMMS તૈયારી',
+                                    'તા. ગણદેવી, જી. નવસારી • NMMS તૈયારી',
                                     style: TextStyle(fontSize: 11, color: isDark ? Colors.white60 : Colors.black54),
                                   ),
                                   const SizedBox(height: 6),
