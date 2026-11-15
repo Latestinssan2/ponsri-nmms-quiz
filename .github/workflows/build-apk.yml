@@ -55,7 +55,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'Ponsri@2026Secure' }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'ponsri-release' }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'Ponsri@2026Secure' }}
-        run: flutter build apk --release
+        run: flutter build apk --release --android-skip-build-dependency-validation
 
       - name: Copy & Rename APK for Release
         run: |
@@ -73,13 +73,14 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: release_out/NMMS_Ponsri_Secure_Exam.apk
-          tag_name: ${{ github.ref_name || 'v1.1.0' }}
-          name: NMMS Ponsri Secure Exam App ${{ github.ref_name || 'v1.1.0' }}
+          tag_name: ${{ github.ref_name || 'v1.3.0' }}
+          name: NMMS Ponsri Secure Exam App ${{ github.ref_name || 'v1.3.0' }}
           draft: false
           prerelease: false
+          make_latest: true
           body: |
             ## 📱 PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
-            ### NMMS Secure Examination Official Flutter Android App (v1.1.0)
+            ### NMMS Secure Examination Official Flutter Android App
 
             **મુખ્ય વિશેષતાઓ (Features):**
             - 🎨 **Minimal Distraction-Free UI**: 4 કસ્ટમ થીમ્સ (Modern Indigo, OLED Dark, Forest Sage, Warm Sepia).
