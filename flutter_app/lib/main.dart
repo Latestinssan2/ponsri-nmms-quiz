@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -100,6 +101,15 @@ class LiveQuizState {
     activeQuizId.value = prefs.getString('active_quiz_id') ?? 'paper52';
     activeQuizTitle.value = prefs.getString('active_quiz_title') ??
         'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52';
+
+    // Sync cloud live quiz status from Firestore
+    FirestoreService.fetchLiveQuizConfig().then((cfg) {
+      if (cfg != null) {
+        if (cfg.containsKey('isLive')) isLive.value = cfg['isLive'] as bool;
+        if (cfg.containsKey('activeQuizId')) activeQuizId.value = cfg['activeQuizId'] as String;
+        if (cfg.containsKey('activeQuizTitle')) activeQuizTitle.value = cfg['activeQuizTitle'] as String;
+      }
+    });
   }
 
   static Future<void> setLiveQuiz(String id, String title) async {
@@ -116,72 +126,488 @@ class LiveQuizState {
       ids.add(id);
       await prefs.setStringList('past_live_quiz_ids', ids);
     }
+
+    FirestoreService.saveLiveQuizConfig(true, id, title);
   }
 
   static Future<void> stopLiveQuiz() async {
     isLive.value = false;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('is_quiz_live', false);
+    FirestoreService.saveLiveQuizConfig(false, activeQuizId.value, activeQuizTitle.value);
   }
 }
 
 // -------------------------------------------------------------
-// PERMANENT LIVE LEADERBOARD MANAGER
+// FIRESTORE CLOUD DATABASE SERVICE (Multi-Quiz, Leaderboard, Submissions)
+// -------------------------------------------------------------
+class FirestoreService {
+  static const String projectId = 'nmms-ponsrischool';
+  static const String webApiKey = 'AIzaSyC-e516egy6mQlxyV9jPjl2w82kiNoILcU';
+  static const String baseUrl =
+      'https://firestore.googleapis.com/v1/projects/$projectId/databases/(default)/documents';
+
+  static Map<String, dynamic> _encodeValue(dynamic value) {
+    if (value == null) {
+      return {'nullValue': null};
+    } else if (value is bool) {
+      return {'booleanValue': value};
+    } else if (value is int) {
+      return {'integerValue': value.toString()};
+    } else if (value is double) {
+      return {'doubleValue': value};
+    } else if (value is String) {
+      return {'stringValue': value};
+    } else if (value is List) {
+      return {
+        'arrayValue': {
+          'values': value.map((v) => _encodeValue(v)).toList(),
+        }
+      };
+    } else if (value is Map) {
+      final fields = <String, dynamic>{};
+      value.forEach((k, v) {
+        fields[k.toString()] = _encodeValue(v);
+      });
+      return {'mapValue': {'fields': fields}};
+    }
+    return {'stringValue': value.toString()};
+  }
+
+  static dynamic _decodeValue(Map<String, dynamic> f) {
+    if (f.containsKey('stringValue')) return f['stringValue'];
+    if (f.containsKey('integerValue')) return int.tryParse(f['integerValue'].toString()) ?? 0;
+    if (f.containsKey('doubleValue')) return (f['doubleValue'] as num).toDouble();
+    if (f.containsKey('booleanValue')) return f['booleanValue'];
+    if (f.containsKey('nullValue')) return null;
+    if (f.containsKey('arrayValue')) {
+      final values = f['arrayValue']['values'] as List?;
+      if (values == null) return [];
+      return values.map((v) => _decodeValue(v as Map<String, dynamic>)).toList();
+    }
+    if (f.containsKey('mapValue')) {
+      final fields = f['mapValue']['fields'] as Map<String, dynamic>?;
+      if (fields == null) return {};
+      final res = <String, dynamic>{};
+      fields.forEach((k, v) {
+        res[k] = _decodeValue(v as Map<String, dynamic>);
+      });
+      return res;
+    }
+    return null;
+  }
+
+  static Future<String?> getFirebaseToken() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cached = prefs.getString('firebase_auth_token');
+      final expiry = prefs.getInt('firebase_auth_expiry') ?? 0;
+      if (cached != null && DateTime.now().millisecondsSinceEpoch < expiry) {
+        return cached;
+      }
+
+      if (AppAuth.currentUser != null) {
+        final auth = await AppAuth.currentUser!.authentication;
+        if (auth.idToken != null) {
+          final res = await http.post(
+            Uri.parse('https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=$webApiKey'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              'postBody': 'id_token=${auth.idToken}&providerId=google.com',
+              'requestUri': 'http://localhost',
+              'returnIdpCredential': true,
+              'returnSecureToken': true,
+            }),
+          );
+          if (res.statusCode == 200) {
+            final data = jsonDecode(res.body);
+            final token = data['idToken'] as String?;
+            final expiresIn = int.tryParse(data['expiresIn']?.toString() ?? '3600') ?? 3600;
+            if (token != null) {
+              await prefs.setString('firebase_auth_token', token);
+              await prefs.setInt('firebase_auth_expiry', DateTime.now().millisecondsSinceEpoch + (expiresIn - 120) * 1000);
+              return token;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Firebase token exchange error: $e');
+    }
+    return null;
+  }
+
+  // 1. Submit Full Exam to Firestore 'submissions' collection
+  static Future<bool> saveSubmission({
+    required String quizId,
+    required String quizTitle,
+    required String studentName,
+    required String studentRoll,
+    required String studentSchool,
+    required String email,
+    required String? photoURL,
+    required int score,
+    required int total,
+    required int percentage,
+    required bool isPassed,
+    required int timeTakenSecs,
+    required String timeFormatted,
+    required Map<String, dynamic> sectionScores,
+    required List<Map<String, dynamic>> questionAnalysis,
+    required int strikeCount,
+    required bool isLiveExam,
+  }) async {
+    try {
+      final token = await getFirebaseToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+
+      final payload = {
+        'fields': {
+          'quizId': _encodeValue(quizId),
+          'quizTitle': _encodeValue(quizTitle),
+          'studentName': _encodeValue(studentName),
+          'studentRoll': _encodeValue(studentRoll),
+          'studentSchool': _encodeValue(studentSchool),
+          'email': _encodeValue(email),
+          'photoURL': _encodeValue(photoURL ?? ''),
+          'score': _encodeValue(score),
+          'total': _encodeValue(total),
+          'percentage': _encodeValue(percentage),
+          'isPassed': _encodeValue(isPassed),
+          'timeTakenSecs': _encodeValue(timeTakenSecs),
+          'timeFormatted': _encodeValue(timeFormatted),
+          'submittedAt': _encodeValue(DateTime.now().toIso8601String()),
+          'dateFormatted': _encodeValue(LiveLeaderboardManager.formatDateNow()),
+          'device': _encodeValue('Android Secure App'),
+          'strikeCount': _encodeValue(strikeCount),
+          'isLiveExam': _encodeValue(isLiveExam),
+          'sectionScores': _encodeValue(sectionScores),
+        }
+      };
+
+      final url = Uri.parse('$baseUrl/submissions');
+      final res = await http.post(url, headers: headers, body: jsonEncode(payload));
+      debugPrint('Firestore saveSubmission response: ${res.statusCode}');
+      return res.statusCode == 200 || res.statusCode == 201;
+    } catch (e) {
+      debugPrint('Firestore saveSubmission error: $e');
+      return false;
+    }
+  }
+
+  // 2. Save / Update Leaderboard in Firestore 'leaderboard' collection
+  static Future<bool> saveLeaderboardEntry(LiveLeaderboardEntry entry, {bool alsoSyncLegacy = false}) async {
+    try {
+      final token = await getFirebaseToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+
+      final cleanEmail = entry.email.isNotEmpty
+          ? entry.email.replaceAll(RegExp(r'[^\w]'), '_')
+          : '${entry.studentName}_${entry.studentRoll}'.replaceAll(RegExp(r'[^\w]'), '_');
+
+      // Unique doc id per exam and per student: e.g. "paper52_preetpatel3736_gmail_com"
+      final docId = '${entry.quizId}_$cleanEmail';
+
+      final payload = {
+        'fields': {
+          'id': _encodeValue(docId),
+          'quizId': _encodeValue(entry.quizId),
+          'quizTitle': _encodeValue(entry.quizTitle),
+          'name': _encodeValue(entry.studentName),
+          'roll': _encodeValue(entry.studentRoll),
+          'school': _encodeValue(entry.studentSchool),
+          'email': _encodeValue(entry.email),
+          'photoURL': _encodeValue(entry.photoURL),
+          'score': _encodeValue(entry.score),
+          'total': _encodeValue(entry.total),
+          'pct': _encodeValue(entry.pct),
+          'isPassed': _encodeValue(entry.isPassed),
+          'timeTakenSecs': _encodeValue(entry.timeTakenSecs),
+          'timeFormatted': _encodeValue(entry.timeFormatted),
+          'date': _encodeValue(entry.date),
+          'timestamp': _encodeValue(entry.timestamp),
+          'sectionScores': _encodeValue(entry.sectionScores),
+          'examType': _encodeValue(entry.isLiveExam ? 'LIVE' : 'PRACTICE'),
+        }
+      };
+
+      final url = Uri.parse('$baseUrl/leaderboard/$docId');
+      final res = await http.patch(url, headers: headers, body: jsonEncode(payload));
+      debugPrint('Firestore saveLeaderboardEntry response: ${res.statusCode}');
+
+      // Legacy doc sync for index.html compatibility
+      if (alsoSyncLegacy || entry.quizId == 'paper52') {
+        final legacyUrl = Uri.parse('$baseUrl/leaderboard/$cleanEmail');
+        await http.patch(legacyUrl, headers: headers, body: jsonEncode(payload));
+      }
+
+      return res.statusCode == 200 || res.statusCode == 201;
+    } catch (e) {
+      debugPrint('Firestore saveLeaderboardEntry error: $e');
+      return false;
+    }
+  }
+
+  // 3. Fetch Leaderboard from Firestore for a specific quiz (Paper 52, Paper 51, MAT, SAT, etc.)
+  static Future<List<LiveLeaderboardEntry>> fetchLeaderboard(String quizId) async {
+    try {
+      final url = Uri.parse('$baseUrl/leaderboard?pageSize=100');
+      final res = await http.get(url);
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final docs = data['documents'] as List?;
+        if (docs != null) {
+          final List<LiveLeaderboardEntry> list = [];
+          for (final doc in docs) {
+            final fields = doc['fields'] as Map<String, dynamic>?;
+            if (fields == null) continue;
+
+            final itemQuizId = fields['quizId'] != null ? _decodeValue(fields['quizId'])?.toString() : null;
+
+            // Match quizId or fallback legacy docs to paper52
+            final matchesQuiz = (itemQuizId == quizId) || (itemQuizId == null && quizId == 'paper52');
+            if (!matchesQuiz) continue;
+
+            final name = fields['name'] != null ? _decodeValue(fields['name'])?.toString() ?? '' : '';
+            if (name.isEmpty) continue;
+
+            final score = fields['score'] != null ? _decodeValue(fields['score']) as int? ?? 0 : 0;
+            final total = fields['total'] != null ? _decodeValue(fields['total']) as int? ?? 180 : 180;
+            final pct = fields['pct'] != null ? _decodeValue(fields['pct']) as int? ?? 0 : 0;
+            final roll = fields['roll'] != null ? _decodeValue(fields['roll'])?.toString() ?? '-' : '-';
+            final school = fields['school'] != null ? _decodeValue(fields['school'])?.toString() ?? 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI' : 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI';
+            final email = fields['email'] != null ? _decodeValue(fields['email'])?.toString() ?? '' : '';
+            final photoURL = fields['photoURL'] != null ? _decodeValue(fields['photoURL'])?.toString() ?? '' : '';
+            final timeTakenSecs = fields['timeTakenSecs'] != null ? _decodeValue(fields['timeTakenSecs']) as int? ?? 0 : 0;
+            final timeFormatted = fields['timeFormatted'] != null ? _decodeValue(fields['timeFormatted'])?.toString() ?? '0:00' : '0:00';
+            final date = fields['date'] != null ? _decodeValue(fields['date'])?.toString() ?? '' : '';
+            final timestamp = fields['timestamp'] != null ? _decodeValue(fields['timestamp']) as int? ?? 0 : 0;
+            final isPassed = fields['isPassed'] != null ? _decodeValue(fields['isPassed']) as bool? ?? false : false;
+            final isLiveExam = fields['examType'] != null ? (_decodeValue(fields['examType'])?.toString() == 'LIVE') : true;
+
+            Map<String, dynamic> sectionScores = {};
+            if (fields['sectionScores'] != null) {
+              final secVal = _decodeValue(fields['sectionScores']);
+              if (secVal is Map<String, dynamic>) sectionScores = secVal;
+            }
+
+            final newEntry = LiveLeaderboardEntry(
+              studentName: name,
+              studentRoll: roll,
+              studentSchool: school,
+              email: email,
+              photoURL: photoURL,
+              score: score,
+              total: total,
+              pct: pct,
+              isPassed: isPassed,
+              timeTakenSecs: timeTakenSecs,
+              timeFormatted: timeFormatted,
+              date: date,
+              timestamp: timestamp,
+              quizId: quizId,
+              quizTitle: LiveLeaderboardManager.getQuizTitle(quizId),
+              sectionScores: sectionScores,
+              isLiveExam: isLiveExam,
+            );
+
+            // Deduplicate by email or name (keep best score / fastest time)
+            final existingIdx = list.indexWhere((e) => (email.isNotEmpty && e.email == email) || (e.studentName == name && e.studentRoll == roll));
+            if (existingIdx == -1) {
+              list.add(newEntry);
+            } else {
+              if (newEntry.score > list[existingIdx].score ||
+                  (newEntry.score == list[existingIdx].score && newEntry.timeTakenSecs < list[existingIdx].timeTakenSecs)) {
+                list[existingIdx] = newEntry;
+              }
+            }
+          }
+
+          list.sort((a, b) {
+            final c = b.score.compareTo(a.score);
+            if (c != 0) return c;
+            return a.timeTakenSecs.compareTo(b.timeTakenSecs);
+          });
+
+          await LiveLeaderboardManager.saveLocalLeaderboard(quizId, list);
+          return list;
+        }
+      }
+    } catch (e) {
+      debugPrint('Firestore fetchLeaderboard error: $e');
+    }
+    return await LiveLeaderboardManager.getLeaderboardForQuiz(quizId);
+  }
+
+  // 4. Live Quiz Config in Firestore (Sync Admin Control between Web & APK)
+  static Future<Map<String, dynamic>?> fetchLiveQuizConfig() async {
+    try {
+      final url = Uri.parse('$baseUrl/app_config/live_quiz');
+      final res = await http.get(url);
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final fields = data['fields'] as Map<String, dynamic>?;
+        if (fields != null) {
+          return {
+            'isLive': fields['isLive'] != null ? _decodeValue(fields['isLive']) as bool? ?? true : true,
+            'activeQuizId': fields['activeQuizId'] != null ? _decodeValue(fields['activeQuizId'])?.toString() ?? 'paper52' : 'paper52',
+            'activeQuizTitle': fields['activeQuizTitle'] != null ? _decodeValue(fields['activeQuizTitle'])?.toString() ?? 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52' : 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
+          };
+        }
+      }
+    } catch (e) {
+      debugPrint('Firestore fetchLiveQuizConfig error: $e');
+    }
+    return null;
+  }
+
+  static Future<bool> saveLiveQuizConfig(bool isLive, String activeQuizId, String activeQuizTitle) async {
+    try {
+      final token = await getFirebaseToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+
+      final payload = {
+        'fields': {
+          'isLive': _encodeValue(isLive),
+          'activeQuizId': _encodeValue(activeQuizId),
+          'activeQuizTitle': _encodeValue(activeQuizTitle),
+          'updatedAt': _encodeValue(DateTime.now().toIso8601String()),
+          'updatedBy': _encodeValue(AppAuth.userEmail ?? 'admin'),
+        }
+      };
+
+      final url = Uri.parse('$baseUrl/app_config/live_quiz');
+      final res = await http.patch(url, headers: headers, body: jsonEncode(payload));
+      return res.statusCode == 200 || res.statusCode == 201;
+    } catch (e) {
+      debugPrint('Firestore saveLiveQuizConfig error: $e');
+      return false;
+    }
+  }
+}
+
+// -------------------------------------------------------------
+// PERMANENT LIVE LEADERBOARD MANAGER & MULTI-EXAM REPOSITORY
 // -------------------------------------------------------------
 class LiveLeaderboardEntry {
   final String studentName;
   final String studentRoll;
+  final String studentSchool;
+  final String email;
+  final String photoURL;
   final int score;
   final int total;
   final int pct;
+  final bool isPassed;
+  final int timeTakenSecs;
+  final String timeFormatted;
   final String date;
+  final int timestamp;
   final String quizId;
   final String quizTitle;
+  final Map<String, dynamic> sectionScores;
+  final bool isLiveExam;
 
   LiveLeaderboardEntry({
     required this.studentName,
     required this.studentRoll,
+    this.studentSchool = 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+    this.email = '',
+    this.photoURL = '',
     required this.score,
     required this.total,
     required this.pct,
+    this.isPassed = false,
+    this.timeTakenSecs = 0,
+    this.timeFormatted = '0:00',
     required this.date,
+    this.timestamp = 0,
     required this.quizId,
     required this.quizTitle,
+    this.sectionScores = const {},
+    this.isLiveExam = true,
   });
 
   Map<String, dynamic> toJson() => {
         'studentName': studentName,
         'studentRoll': studentRoll,
+        'studentSchool': studentSchool,
+        'email': email,
+        'photoURL': photoURL,
         'score': score,
         'total': total,
         'pct': pct,
+        'isPassed': isPassed,
+        'timeTakenSecs': timeTakenSecs,
+        'timeFormatted': timeFormatted,
         'date': date,
+        'timestamp': timestamp,
         'quizId': quizId,
         'quizTitle': quizTitle,
+        'sectionScores': sectionScores,
+        'isLiveExam': isLiveExam,
       };
 
   factory LiveLeaderboardEntry.fromJson(Map<String, dynamic> json) =>
       LiveLeaderboardEntry(
-        studentName: json['studentName'] ?? '',
-        studentRoll: json['studentRoll'] ?? '-',
+        studentName: json['studentName'] ?? json['name'] ?? '',
+        studentRoll: json['studentRoll'] ?? json['roll'] ?? '-',
+        studentSchool: json['studentSchool'] ?? json['school'] ?? 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+        email: json['email'] ?? '',
+        photoURL: json['photoURL'] ?? '',
         score: json['score'] ?? 0,
         total: json['total'] ?? 180,
         pct: json['pct'] ?? 0,
+        isPassed: json['isPassed'] ?? ((json['score'] ?? 0) >= 72),
+        timeTakenSecs: json['timeTakenSecs'] ?? 0,
+        timeFormatted: json['timeFormatted'] ?? '0:00',
         date: json['date'] ?? '',
-        quizId: json['quizId'] ?? '',
-        quizTitle: json['quizTitle'] ?? '',
+        timestamp: json['timestamp'] ?? 0,
+        quizId: json['quizId'] ?? 'paper52',
+        quizTitle: json['quizTitle'] ?? 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
+        sectionScores: json['sectionScores'] is Map ? Map<String, dynamic>.from(json['sectionScores']) : {},
+        isLiveExam: json['isLiveExam'] ?? true,
       );
 }
 
 class LiveLeaderboardManager {
-  static Future<List<LiveLeaderboardEntry>> getLeaderboardForQuiz(
-      String quizId) async {
+  static String formatDateNow() {
+    final now = DateTime.now();
+    const months = ['જાન્યુ', 'ફેબ્રુ', 'માર્ચ', 'એપ્રિલ', 'મે', 'જૂન', 'જુલાઈ', 'ઓગસ્ટ', 'સપ્ટે', 'ઓક્ટો', 'નવે', 'ડિસે'];
+    return '${now.day} ${months[now.month - 1]}';
+  }
+
+  static String getQuizTitle(String quizId) {
+    final list = getAllAvailableQuizzes();
+    final found = list.firstWhere((q) => q['id'] == quizId, orElse: () => {'title': quizId});
+    return found['title'] ?? quizId;
+  }
+
+  static Future<List<LiveLeaderboardEntry>> getLeaderboardForQuiz(String quizId) async {
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getStringList('live_lb_$quizId') ?? [];
-    final list =
-        raw.map((s) => LiveLeaderboardEntry.fromJson(jsonDecode(s))).toList();
-    list.sort((a, b) => b.score.compareTo(a.score));
+    final list = raw.map((s) => LiveLeaderboardEntry.fromJson(jsonDecode(s))).toList();
+    list.sort((a, b) {
+      final c = b.score.compareTo(a.score);
+      if (c != 0) return c;
+      return a.timeTakenSecs.compareTo(b.timeTakenSecs);
+    });
     return list;
+  }
+
+  static Future<void> saveLocalLeaderboard(String quizId, List<LiveLeaderboardEntry> list) async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = list.map((e) => jsonEncode(e.toJson())).toList();
+    await prefs.setStringList('live_lb_$quizId', raw);
   }
 
   static List<Map<String, String>> getAllAvailableQuizzes() {
@@ -195,6 +621,12 @@ class LiveLeaderboardManager {
       {
         'id': 'paper51',
         'title': 'NMMS પરીક્ષા 2023-24 પ્રશ્નપત્ર - 51',
+        'desc': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
+        'total': '180',
+      },
+      {
+        'id': 'paper50',
+        'title': 'NMMS પરીક્ષા 2022-23 પ્રશ્નપત્ર - 50',
         'desc': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
         'total': '180',
       },
@@ -218,33 +650,56 @@ class LiveLeaderboardManager {
     required String quizTitle,
     required String studentName,
     required String studentRoll,
+    String studentSchool = 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+    String email = '',
+    String photoURL = '',
     required int score,
     required int total,
     required int pct,
+    bool isPassed = false,
+    int timeTakenSecs = 0,
+    String timeFormatted = '0:00',
+    Map<String, dynamic> sectionScores = const {},
+    bool isLiveExam = true,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    final now = DateTime.now();
-    final dateStr =
-        '${now.day}/${now.month}/${now.year} ${now.hour}:${now.minute.toString().padLeft(2, '0')}';
     final entry = LiveLeaderboardEntry(
       studentName: studentName,
       studentRoll: studentRoll,
+      studentSchool: studentSchool,
+      email: email,
+      photoURL: photoURL,
       score: score,
       total: total,
       pct: pct,
-      date: dateStr,
+      isPassed: isPassed,
+      timeTakenSecs: timeTakenSecs,
+      timeFormatted: timeFormatted,
+      date: formatDateNow(),
+      timestamp: DateTime.now().millisecondsSinceEpoch,
       quizId: quizId,
       quizTitle: quizTitle,
+      sectionScores: sectionScores,
+      isLiveExam: isLiveExam,
     );
 
-    final raw = prefs.getStringList('live_lb_$quizId') ?? [];
-    raw.add(jsonEncode(entry.toJson()));
-    await prefs.setStringList('live_lb_$quizId', raw);
+    final currentList = await getLeaderboardForQuiz(quizId);
+    final existingIndex = currentList.indexWhere(
+      (e) => (email.isNotEmpty && e.email == email) || (e.studentName == studentName && e.studentRoll == studentRoll),
+    );
+    if (existingIndex >= 0) {
+      if (entry.score > currentList[existingIndex].score ||
+          (entry.score == currentList[existingIndex].score && entry.timeTakenSecs < currentList[existingIndex].timeTakenSecs)) {
+        currentList[existingIndex] = entry;
+      }
+    } else {
+      currentList.add(entry);
+    }
+    await saveLocalLeaderboard(quizId, currentList);
 
-    final ids = prefs.getStringList('past_live_quiz_ids') ?? [];
-    if (!ids.contains(quizId)) {
-      ids.add(quizId);
-      await prefs.setStringList('past_live_quiz_ids', ids);
+    try {
+      await FirestoreService.saveLeaderboardEntry(entry, alsoSyncLegacy: quizId == 'paper52');
+    } catch (e) {
+      debugPrint('Cloud sync error: $e');
     }
   }
 }
@@ -1624,18 +2079,6 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                 ),
               ),
-
-              const SizedBox(height: 12),
-
-              OutlinedButton.icon(
-                onPressed: widget.onOpenPastQuizzes,
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                ),
-                icon: const Icon(Icons.history, size: 18),
-                label: const Text('જૂની કસોટીઓ જુઓ (Past Quizzes Archive)'),
-              ),
             ],
           ),
         ),
@@ -1700,145 +2143,324 @@ class PastQuizzesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = Theme.of(context).colorScheme.primary;
 
-    final pastPapers = [
+    final allArchivePapers = [
       {
-        'title': 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
-        'subtitle': 'સંપૂર્ણ મોક ટેસ્ટ • MAT (90) + SAT (90)',
-        'questions': 180,
-        'duration': '180 મિનિટ',
-        'badge': 'સત્તાવાર',
-        'isCurrent': true,
-      },
-      {
-        'title': 'NMMS પરીક્ષા 2023-24 પ્રશ્નપત્ર - 51',
+        'id': 'paper51',
+        'title': 'NMMS વાર્ષિક પરીક્ષા 2023-24 પ્રશ્નપત્ર - 51',
         'subtitle': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
         'questions': 180,
         'duration': '180 મિનિટ',
         'badge': 'વાર્ષિક પેપર',
-        'isCurrent': false,
       },
       {
+        'id': 'paper50',
+        'title': 'NMMS વાર્ષિક પરીક્ષા 2022-23 પ્રશ્નપત્ર - 50',
+        'subtitle': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
+        'questions': 180,
+        'duration': '180 મિનિટ',
+        'badge': 'વાર્ષિક પેપર',
+      },
+      {
+        'id': 'mat_special',
         'title': 'NMMS માનસિક ક્ષમતા કસોટી (MAT) સ્પેશિયલ',
         'subtitle': 'તાર્કિક વિચારણા, શ્રેણી, કોડિંગ-ડીકોડિંગ',
         'questions': 90,
         'duration': '90 મિનિટ',
-        'badge': 'MAT વિભાગ',
-        'isCurrent': false,
+        'badge': 'MAT પ્રેક્ટિસ',
       },
       {
+        'id': 'sat_special',
         'title': 'NMMS શૈક્ષણિક યોગ્યતા કસોટી (SAT) સ્પેશિયલ',
         'subtitle': 'ધોરણ ૭-૮ વિજ્ઞાન, ગણિત, સામાજિક વિજ્ઞાન',
         'questions': 90,
         'duration': '90 મિનિટ',
-        'badge': 'SAT વિભાગ',
-        'isCurrent': false,
+        'badge': 'SAT પ્રેક્ટિસ',
       },
+      if (LiveQuizState.activeQuizId.value != 'paper52')
+        {
+          'id': 'paper52',
+          'title': 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
+          'subtitle': 'સંપૂર્ણ મોક ટેસ્ટ • MAT (90) + SAT (90)',
+          'questions': 180,
+          'duration': '180 મિનિટ',
+          'badge': 'આદર્શ મોક',
+        },
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('જૂની કસોટીઓ (Past Quizzes)'),
+        title: const Text('જૂની કસોટીઓ (Past Quizzes Archive)'),
       ),
-      body: ListView.builder(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        itemCount: pastPapers.length,
-        itemBuilder: (context, index) {
-          final paper = pastPapers[index];
-          final isCurrent = paper['isCurrent'] as bool;
-
-          return Card(
-            elevation: 0,
-            margin: const EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
+        children: [
+          // Info banner clarifying difference from Live Test
+          Container(
+            padding: const EdgeInsets.all(14),
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: primary.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(16),
-              side: BorderSide(
-                color: isCurrent
-                    ? Theme.of(context).colorScheme.primary
-                    : (isDark ? Colors.white12 : Colors.black12),
-                width: isCurrent ? 1.5 : 1.0,
-              ),
+              border: Border.all(color: primary.withValues(alpha: 0.2)),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: isCurrent
-                              ? const Color(0xFF10B981).withValues(alpha: 0.15)
-                              : Colors.grey.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          paper['badge'] as String,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: isCurrent ? const Color(0xFF10B981) : Colors.grey,
+            child: Row(
+              children: [
+                Icon(Icons.info_outline, color: primary, size: 22),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'સક્રિય લાઈવ કસોટી "${LiveQuizState.activeQuizTitle.value}" હોમ પેજ પર ઉપલબ્ધ છે. નીચેના તમામ પેપર્સ જૂની કસોટીઓ તરીકે પ્રેક્ટિસ માટે છે.',
+                    style: TextStyle(fontSize: 11, height: 1.4, color: isDark ? Colors.white70 : Colors.black87),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          ...allArchivePapers.map((paper) {
+            return Card(
+              elevation: 0,
+              margin: const EdgeInsets.only(bottom: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(
+                  color: isDark ? Colors.white12 : Colors.black12,
+                  width: 1.0,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: primary.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            paper['badge'] as String,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: primary,
+                            ),
                           ),
                         ),
+                        const Spacer(),
+                        Text(
+                          '${paper['questions']} પ્રશ્નો • ${paper['duration']}',
+                          style: const TextStyle(fontSize: 11, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      paper['title'] as String,
+                      style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      paper['subtitle'] as String,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: isDark ? Colors.white60 : Colors.black54,
                       ),
-                      const Spacer(),
-                      Text(
-                        '${paper['questions']} પ્રશ્નો • ${paper['duration']}',
-                        style: const TextStyle(fontSize: 11, color: Colors.grey),
-                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        FilledButton.tonal(
+                          onPressed: () {
+                            onSelectQuiz(paper['title'] as String, null);
+                          },
+                          style: FilledButton.styleFrom(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          ),
+                          child: const Text('પ્રેક્ટિસ શરૂ કરો', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}
+
+void _showStudentLeaderboardDetail(BuildContext context, LiveLeaderboardEntry entry, int rank) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+  final primary = Theme.of(context).colorScheme.primary;
+
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      title: Row(
+        children: [
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: primary.withValues(alpha: 0.15),
+            backgroundImage: entry.photoURL.isNotEmpty ? NetworkImage(entry.photoURL) : null,
+            child: entry.photoURL.isEmpty ? Icon(Icons.person, color: primary) : null,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  entry.studentName,
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  entry.email.isNotEmpty ? entry.email : 'રોલ નં: ${entry.studentRoll}',
+                  style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.amber.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              '#$rank',
+              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Colors.amber),
+            ),
+          ),
+        ],
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: isDark
+                      ? [const Color(0xFF1E1B4B), const Color(0xFF1E293B)]
+                      : [const Color(0xFFEEF2FF), const Color(0xFFF1F5F9)],
+                ),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    children: [
+                      const Text('કુલ ગુણ', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                      const SizedBox(height: 2),
+                      Text('${entry.score}/${entry.total}',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: primary)),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    paper['title'] as String,
-                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    paper['subtitle'] as String,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: isDark ? Colors.white60 : Colors.black54,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
+                  Column(
                     children: [
-                      FilledButton.tonal(
-                        onPressed: () {
-                          onSelectQuiz(paper['title'] as String, null);
-                        },
-                        style: FilledButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                        ),
-                        child: const Text('કસોટી શરૂ કરો', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                      ),
-                      const SizedBox(width: 8),
-                      OutlinedButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('પ્રશ્નો પ્રેક્ટિસ મોડમાં ઉપલબ્ધ છે.')),
-                          );
-                        },
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                        ),
-                        child: const Text('વિશ્લેષણ જુઓ', style: TextStyle(fontSize: 12)),
-                      ),
+                      const Text('ટકાવારી', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                      const SizedBox(height: 2),
+                      Text('${entry.pct}%',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: primary)),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text('સમય', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                      const SizedBox(height: 2),
+                      Text(entry.timeFormatted,
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: primary)),
                     ],
                   ),
                 ],
               ),
             ),
-          );
-        },
+            const SizedBox(height: 14),
+            Row(
+              children: [
+                const Icon(Icons.school, size: 16, color: Colors.grey),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    entry.studentSchool,
+                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Row(
+              children: [
+                const Icon(Icons.badge_outlined, size: 16, color: Colors.grey),
+                const SizedBox(width: 8),
+                Text('રોલ નંબર: ${entry.studentRoll}', style: const TextStyle(fontSize: 11)),
+                const Spacer(),
+                const Icon(Icons.event, size: 16, color: Colors.grey),
+                const SizedBox(width: 4),
+                Text(entry.date, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+              ],
+            ),
+            const Divider(height: 24),
+            const Text(
+              'વિભાગવાર ગુણ (Section Breakdown):',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            if (entry.sectionScores.isEmpty)
+              const Text('વિભાગવાર વિગત ઉપલબ્ધ નથી.', style: TextStyle(fontSize: 11, color: Colors.grey))
+            else
+              ...entry.sectionScores.entries.map((e) {
+                final sec = e.value is Map ? e.value as Map : {};
+                final sName = sec['name']?.toString() ?? e.key;
+                final sCorrect = sec['correct'] ?? 0;
+                final sTotal = sec['total'] ?? 0;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(sName, style: const TextStyle(fontSize: 12)),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          '$sCorrect / $sTotal',
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: primary),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+          ],
+        ),
       ),
-    );
-  }
+      actions: [
+        FilledButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: const Text('બંધ કરો'),
+        ),
+      ],
+    ),
+  );
 }
 
 // -------------------------------------------------------------
@@ -1887,7 +2509,7 @@ class _PastResultsScreenState extends State<PastResultsScreen> {
     setState(() {
       _isLoadingLb = true;
     });
-    final lb = await LiveLeaderboardManager.getLeaderboardForQuiz(_selectedQuizId);
+    final lb = await FirestoreService.fetchLeaderboard(_selectedQuizId);
     if (mounted) {
       setState(() {
         _liveLeaderboard = lb;
@@ -2182,8 +2804,11 @@ class _PastResultsScreenState extends State<PastResultsScreen> {
                                       width: rank <= 3 ? 1.5 : 1.0,
                                     ),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(16),
+                                    onTap: () => _showStudentLeaderboardDetail(context, entry, rank),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                     child: Row(
                                       children: [
                                         Container(
@@ -2242,7 +2867,8 @@ class _PastResultsScreenState extends State<PastResultsScreen> {
                                       ],
                                     ),
                                   ),
-                                );
+                                ),
+                              );
                               },
                             ),
                 ),
@@ -2524,7 +3150,7 @@ class _AdminScreenState extends State<AdminScreen> {
 
   void _loadAdminLeaderboard() async {
     setState(() => _isLoadingLb = true);
-    final lb = await LiveLeaderboardManager.getLeaderboardForQuiz(_selectedAdminQuizId);
+    final lb = await FirestoreService.fetchLeaderboard(_selectedAdminQuizId);
     if (mounted) {
       setState(() {
         _adminLeaderboard = lb;
@@ -3010,6 +3636,7 @@ class _AdminScreenState extends State<AdminScreen> {
                               Text('${item.pct}%', style: const TextStyle(fontSize: 10, color: Colors.grey)),
                             ],
                           ),
+                          onTap: () => _showStudentLeaderboardDetail(context, item, rank),
                         ),
                       );
                     }),
@@ -3306,16 +3933,99 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       });
     }
 
+    final timeTakenSecs = (180 * 60) - _remainingSeconds;
+    final takenMins = timeTakenSecs ~/ 60;
+    final takenSecs = timeTakenSecs % 60;
+    final timeFormatted = '$takenMins:${takenSecs.toString().padLeft(2, '0')}';
+
+    int matScore = 0;
+    int satMathsScore = 0;
+    int satScienceScore = 0;
+    int satSocialScore = 0;
+
+    for (int i = 0; i < _questions.length; i++) {
+      final q = _questions[i];
+      final correct = q['answer'] ?? 0;
+      final isCorrect = _answers[i] == correct;
+      if (isCorrect) {
+        if (i < 90) {
+          matScore++;
+        } else if (i < 120) {
+          satMathsScore++;
+        } else if (i < 150) {
+          satScienceScore++;
+        } else {
+          satSocialScore++;
+        }
+      }
+    }
+
+    final sectionScores = {
+      'MAT': {
+        'name': '🧠 MAT (માનસિક ક્ષમતા)',
+        'correct': matScore,
+        'total': total >= 90 ? 90 : total,
+      },
+      'SAT-Maths': {
+        'name': '📐 SAT (ગણિત)',
+        'correct': satMathsScore,
+        'total': total >= 120 ? 30 : (total > 90 ? total - 90 : 0),
+      },
+      'SAT-Science': {
+        'name': '🔬 SAT (વિજ્ઞાન)',
+        'correct': satScienceScore,
+        'total': total >= 150 ? 30 : (total > 120 ? total - 120 : 0),
+      },
+      'SAT-SocialScience': {
+        'name': '🌍 SAT (સામાજિક વિજ્ઞાન)',
+        'correct': satSocialScore,
+        'total': total >= 180 ? 30 : (total > 150 ? total - 150 : 0),
+      },
+    };
+
+    final isPassed = score >= 72;
+    final quizId = widget.isLiveExam ? LiveQuizState.activeQuizId.value : 'past_practice';
+    final quizTitle = widget.customQuizTitle ?? LiveQuizState.activeQuizTitle.value;
+
+    // Send complete exam submission to Firestore Cloud Database 'submissions' collection
+    FirestoreService.saveSubmission(
+      quizId: quizId,
+      quizTitle: quizTitle,
+      studentName: widget.studentName,
+      studentRoll: widget.studentRoll,
+      studentSchool: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+      email: AppAuth.userEmail ?? '',
+      photoURL: AppAuth.userPhotoUrl,
+      score: score,
+      total: total,
+      percentage: pct,
+      isPassed: isPassed,
+      timeTakenSecs: timeTakenSecs,
+      timeFormatted: timeFormatted,
+      sectionScores: sectionScores,
+      questionAnalysis: questionAnalysis,
+      strikeCount: _strikeCount,
+      isLiveExam: widget.isLiveExam,
+    );
+
     // Record to permanent live leaderboard ONLY if this is an official Live Exam
     if (widget.isLiveExam) {
       await LiveLeaderboardManager.recordLiveSubmission(
-        quizId: LiveQuizState.activeQuizId.value,
-        quizTitle: widget.customQuizTitle ?? LiveQuizState.activeQuizTitle.value,
+        quizId: quizId,
+        quizTitle: quizTitle,
         studentName: widget.studentName,
         studentRoll: widget.studentRoll,
+        studentSchool: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+        email: AppAuth.userEmail ?? '',
+        photoURL: AppAuth.userPhotoUrl ?? '',
         score: score,
         total: total,
         pct: pct,
+        isPassed: isPassed,
+        timeTakenSecs: timeTakenSecs,
+        timeFormatted: timeFormatted,
+        sectionScores: sectionScores,
+        isLiveExam: true,
       );
     }
 
