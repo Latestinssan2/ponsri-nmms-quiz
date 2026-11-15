@@ -418,9 +418,9 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">
-                    <a href="https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/download/v1.0.0/NMMS_Ponsri_Secure_Exam.apk" class="flex-1 sm:flex-initial bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-slate-950 font-black px-5 py-3 rounded-2xl transition text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xl hover:scale-105">
+                    <a id="apk-download-btn" href="https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/latest/download/NMMS_Ponsri_Secure_Exam.apk" class="flex-1 sm:flex-initial bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-slate-950 font-black px-5 py-3 rounded-2xl transition text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xl hover:scale-105">
                         <i class="fa-brands fa-android text-lg"></i>
-                        <span>સત્તાવાર Android APK ડાઉનલોડ (v1.0.0)</span>
+                        <span id="apk-download-text">સત્તાવાર Android APK ડાઉનલોડ</span>
                     </a>
                 </div>
             </div>
@@ -1262,7 +1262,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, limit, deleteDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, limit, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-e516egy6mQlxyV9jPjl2w82kiNoILcU",
@@ -2562,29 +2562,83 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         }
 
         
-        // Real-Time Firebase Firestore Sync for Leaderboard
-        async function syncLeaderboardFromFirebase() {
+        // Real-Time Firebase Firestore Listener & Sync for Leaderboard
+        let leaderboardUnsubscribe = null;
+
+        function initLeaderboardRealtimeListener() {
             if (!db) return;
             try {
-                const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), orderBy("timeSeconds", "asc"), limit(100));
-                const snap = await getDocs(q);
-                const cloudList = [];
-                if (!snap.empty) {
-                    snap.forEach(docSnap => {
+                // Fetch without order constraints first in case composite indexes are pending
+                const leaderCol = collection(db, "leaderboard");
+                
+                onSnapshot(leaderCol, (snapshot) => {
+                    const cloudList = [];
+                    snapshot.forEach(docSnap => {
                         const item = docSnap.data();
                         if (item && !String(item.id).startsWith('def_')) {
                             cloudList.push(item);
                         }
                     });
-                }
+
+                    // Sort in memory by score desc, then timeSeconds asc
+                    cloudList.sort((a, b) => {
+                        const scoreA = Number(a.score) || 0;
+                        const scoreB = Number(b.score) || 0;
+                        if (scoreB !== scoreA) return scoreB - scoreA;
+                        const timeA = Number(a.timeSeconds) || 999999;
+                        const timeB = Number(b.timeSeconds) || 999999;
+                        return timeA - timeB;
+                    });
+
+                    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(cloudList));
+                    renderLeaderboard();
+                    renderModalLeaderboard();
+                    renderAdminLeaderboardTable();
+
+                    const badge = document.getElementById('firebase-cloud-badge');
+                    if (badge) badge.classList.remove('hidden');
+                    console.log("Real-time leaderboard updated from Firestore:", cloudList.length, "entries");
+                }, (error) => {
+                    console.warn("Real-time leaderboard listener error:", error);
+                    // Fallback to one-time fetch
+                    fallbackFetchLeaderboard();
+                });
+            } catch(err) {
+                console.warn("Error setting up leaderboard snapshot listener:", err);
+                fallbackFetchLeaderboard();
+            }
+        }
+
+        async function fallbackFetchLeaderboard() {
+            if (!db) return;
+            try {
+                const snap = await getDocs(collection(db, "leaderboard"));
+                const cloudList = [];
+                snap.forEach(docSnap => {
+                    const item = docSnap.data();
+                    if (item && !String(item.id).startsWith('def_')) {
+                        cloudList.push(item);
+                    }
+                });
+                cloudList.sort((a, b) => {
+                    const scoreA = Number(a.score) || 0;
+                    const scoreB = Number(b.score) || 0;
+                    if (scoreB !== scoreA) return scoreB - scoreA;
+                    const timeA = Number(a.timeSeconds) || 999999;
+                    const timeB = Number(b.timeSeconds) || 999999;
+                    return timeA - timeB;
+                });
                 localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(cloudList));
                 renderLeaderboard();
+                renderModalLeaderboard();
                 renderAdminLeaderboardTable();
-                const badge = document.getElementById('firebase-cloud-badge');
-                if (badge) badge.classList.remove('hidden');
             } catch(e) {
-                console.warn("Firebase sync note:", e);
+                console.warn("Fallback leaderboard fetch error:", e);
             }
+        }
+
+        async function syncLeaderboardFromFirebase() {
+            fallbackFetchLeaderboard();
         }
 
         // Real-Time Firebase Firestore Sync for Registered Students
@@ -2856,6 +2910,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
         window.openLeaderboardModal = function() {
             renderModalLeaderboard();
+            syncLeaderboardFromFirebase();
             document.getElementById('leaderboard-modal').classList.remove('hidden');
         };
 
@@ -3651,7 +3706,28 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 initTheme();
         refreshQuizUI();
         renderLeaderboard();
-        syncLeaderboardFromFirebase();
+        // Auto-fetch Latest GitHub Release APK URL & Version
+        async function fetchLatestGitHubReleaseApk() {
+            try {
+                const res = await fetch('https://api.github.com/repos/Latestinssan2/ponsri-nmms-quiz/releases/latest');
+                if (res.ok) {
+                    const data = await res.json();
+                    const tagName = data.tag_name || 'v1.0.0';
+                    const apkAsset = (data.assets || []).find(a => a.name.endsWith('.apk'));
+                    const downloadUrl = apkAsset ? apkAsset.browser_download_url : `https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/download/${tagName}/NMMS_Ponsri_Secure_Exam.apk`;
+                    
+                    const btn = document.getElementById('apk-download-btn');
+                    const txt = document.getElementById('apk-download-text');
+                    if (btn) btn.href = downloadUrl;
+                    if (txt) txt.innerText = `સત્તાવાર Android APK ડાઉનલોડ (${tagName})`;
+                    console.log("Updated APK link to latest release:", tagName, downloadUrl);
+                }
+            } catch(e) {
+                console.warn("Could not fetch latest release info:", e);
+            }
+        }
+        fetchLatestGitHubReleaseApk();
+                initLeaderboardRealtimeListener();
         syncStudentsFromFirebase();
     </script>
 </body>
