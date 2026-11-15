@@ -395,6 +395,60 @@
                 </div>
             </div>
 
+            <!-- Exam Structure & Instructions Card -->
+            <div class="mt-6 text-left rounded-2xl border border-indigo-200 dark:border-indigo-900/60 bg-gradient-to-br from-indigo-50/70 via-white to-blue-50/50 dark:from-slate-900 dark:via-indigo-950/40 dark:to-slate-900 p-4 sm:p-5 shadow-sm">
+                <div class="flex items-center justify-between cursor-pointer" onclick="toggleExamInstructions()">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-sm shadow">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                        </span>
+                        <div>
+                            <h4 class="text-sm font-extrabold text-slate-800 dark:text-white">કસોટીનું માળખું અને અગત્યની સૂચનાઓ (Instructions)</h4>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400">કસોટી શરૂ કરતા પહેલા ધ્યાનપૂર્વક વાંચો</p>
+                        </div>
+                    </div>
+                    <button type="button" id="instructions-toggle-btn" class="text-indigo-600 dark:text-indigo-400 text-xs font-bold px-2 py-1 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-950">
+                        <i id="instructions-toggle-icon" class="fa-solid fa-chevron-up transition-transform"></i>
+                    </button>
+                </div>
+
+                <div id="instructions-content" class="mt-4 pt-4 border-t border-indigo-100 dark:border-indigo-900/50 text-xs space-y-3.5 text-slate-700 dark:text-slate-300">
+                    <div>
+                        <h5 class="font-extrabold text-indigo-700 dark:text-indigo-300 text-xs uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                            <i class="fa-solid fa-clock"></i> Structure & Duration
+                        </h5>
+                        <div class="space-y-1.5 pl-2.5 border-l-2 border-indigo-400 dark:border-indigo-600">
+                            <p><strong class="text-slate-900 dark:text-white">Two Main Tests:</strong></p>
+                            <p>• <strong>MAT (Mental Ability Test):</strong> 90 multiple-choice questions testing verbal and non-verbal reasoning, analysis, and critical thinking (90 minutes).</p>
+                            <p>• <strong>SAT (Scholastic Aptitude Test):</strong> 90 multiple-choice questions covering Science, Mathematics, and Social Science from Classes 7 and 8 (90 minutes).</p>
+                            <p>• <strong>Total Questions & Marks:</strong> 180 questions / 180 marks (1 mark per question).</p>
+                            <p>• <strong>Negative Marking:</strong> There is no negative marking.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h5 class="font-extrabold text-amber-700 dark:text-amber-400 text-xs uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Common Exam Room Instructions
+                        </h5>
+                        <ul class="space-y-1.5 pl-2.5 border-l-2 border-amber-400 dark:border-amber-600">
+                            <li>• <strong>Camera & AI Proctoring:</strong> કસોટી દરમિયાન સતત કેમેરા નિરીક્ષણ સક્રિય રહેશે. કસોટી આપતી વખતે તમારો ચહેરો સતત કેમેરામાં દેખાવો જોઈએ.</li>
+                            <li>• <strong>OMR Sheet Usage:</strong> All answers must be indicated by shading the correct circle on a separate OMR answer sheet using the prescribed pen/pencil.</li>
+                            <li>• <strong>Question Booklet Series:</strong> You must carefully write and shade your question booklet series code (such as A, B, C, D, or E) on the OMR sheet.</li>
+                            <li>• <strong>Rough Work:</strong> Use only the blank pages provided at the end of the question booklet for rough work. Do not write on the OMR sheet outside designated fields.</li>
+                            <li>• <strong>Time Management:</strong> Do not spend too much time on a single question if you are unsure; move on and return to it later if time permits.</li>
+                            <li>• <strong>Submission:</strong> Hand over the OMR sheet and question booklet (as required by the invigilator) before leaving the exam room.</li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-2 flex items-center gap-2">
+                        <input type="checkbox" id="instructions-agreed-chk" class="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500 cursor-pointer" checked>
+                        <label for="instructions-agreed-chk" class="text-[11px] font-semibold text-slate-800 dark:text-slate-200 cursor-pointer select-none">
+                            મેં તમામ સૂચનાઓ ધ્યાનપૂર્વક વાંચી લીધી છે અને હું સહમત છું. (I have read and agree)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <!-- Start Button (Locked until Google Sign In) -->
             <button id="start-quiz-btn" onclick="startQuiz()" class="mt-6 w-full bg-gradient-to-r from-brand-700 via-indigo-600 to-brand-800 hover:from-brand-800 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-200 text-base sm:text-lg flex items-center justify-center space-x-2 group disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                 <i class="fa-solid fa-play mr-2 text-amber-300 group-hover:scale-110 transition-transform"></i>
@@ -448,6 +502,25 @@
                     <span>AI પ્રોમ્પ્ટ કોપી કરો</span>
                 </button>
             </div>
+        </div>
+
+        <!-- Floating Live Camera Proctoring Tile -->
+        <div id="camera-proctoring-tile" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900/95 backdrop-blur-md border-2 border-rose-500/80 rounded-2xl shadow-2xl p-2.5 flex flex-col items-center max-w-[170px] text-center select-none transition-all duration-300">
+            <div class="relative w-36 h-28 bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center border border-white/10 shadow-inner">
+                <video id="proctor-video" autoplay playsinline muted class="w-full h-full object-cover transform -scale-x-100"></video>
+                <div class="absolute top-2 left-2 flex items-center gap-1.5 bg-black/75 backdrop-blur px-2 py-0.5 rounded-full text-[9px] font-bold text-rose-400">
+                    <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                    <span>REC</span>
+                </div>
+                <div class="absolute bottom-1 right-1 bg-black/70 px-1.5 py-0.5 rounded text-[8px] text-emerald-400 font-mono">
+                    AI MONITORED
+                </div>
+            </div>
+            <div class="mt-2 text-[10px] font-black text-white flex items-center gap-1">
+                <i class="fa-solid fa-video text-rose-500 text-xs"></i>
+                <span>કેમેરા નિરીક્ષણ સક્રિય</span>
+            </div>
+            <p class="text-[9px] text-slate-300 mt-0.5 leading-tight">ચહેરો કેમેરામાં રાખો</p>
         </div>
 
         <!-- SCREEN 2: QUIZ SCREEN -->
@@ -1899,11 +1972,67 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             soundIcon.className = soundEnabled ? 'fa-solid fa-volume-high text-sm' : 'fa-solid fa-volume-xmark text-sm text-rose-300';
         };
 
+        window.toggleExamInstructions = function() {
+            const content = document.getElementById('instructions-content');
+            const icon = document.getElementById('instructions-toggle-icon');
+            if (content) {
+                const isHidden = content.classList.contains('hidden');
+                if (isHidden) {
+                    content.classList.remove('hidden');
+                    if (icon) icon.className = "fa-solid fa-chevron-up transition-transform";
+                } else {
+                    content.classList.add('hidden');
+                    if (icon) icon.className = "fa-solid fa-chevron-down transition-transform";
+                }
+            }
+        };
+
+        let proctorMediaStream = null;
+
+        async function requestCameraAccess() {
+            try {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    proctorMediaStream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: { ideal: 320 }, height: { ideal: 240 }, facingMode: "user" },
+                        audio: false
+                    });
+                    const videoElem = document.getElementById('proctor-video');
+                    const tile = document.getElementById('camera-proctoring-tile');
+                    if (videoElem && proctorMediaStream) {
+                        videoElem.srcObject = proctorMediaStream;
+                    }
+                    if (tile) tile.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.warn("Camera monitoring notice:", err);
+                const tile = document.getElementById('camera-proctoring-tile');
+                if (tile) tile.classList.remove('hidden');
+            }
+        }
+
+        function stopCameraAccess() {
+            if (proctorMediaStream) {
+                try {
+                    proctorMediaStream.getTracks().forEach(track => track.stop());
+                } catch(e){}
+                proctorMediaStream = null;
+            }
+            const tile = document.getElementById('camera-proctoring-tile');
+            if (tile) tile.classList.add('hidden');
+        }
+
         // START QUIZ
         window.startQuiz = function() {
             if (!currentUser) {
                 alert("કસોટી શરૂ કરતાં પહેલાં Google સાઇન ઇન કરવું ફરજિયાત છે.");
                 loginWithGoogle();
+                return;
+            }
+
+            const agreedChk = document.getElementById('instructions-agreed-chk');
+            if (agreedChk && !agreedChk.checked) {
+                alert("કૃપા કરીને કસોટીની સૂચનાઓ વાંચી સ્વીકારો (Check the agreement box to proceed).");
+                agreedChk.focus();
                 return;
             }
 
@@ -1947,6 +2076,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             initGrid();
             renderQuestion();
             startCountdownTimer();
+            requestCameraAccess();
         };
 
         function startCountdownTimer() {
@@ -2229,6 +2359,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
         // SUBMIT QUIZ
         window.submitQuiz = function(isAutoSubmit = false) {
+            stopCameraAccess();
             isQuizRunning = false;
             releaseScreenWakeLock();
             closeModal();
@@ -2519,6 +2650,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         }
 
         window.resetQuiz = function() {
+            stopCameraAccess();
             currentQuestionIndex = 0;
             userAnswers = new Array(activeQuizConfig.questions.length).fill(null);
             markedForReview = new Array(activeQuizConfig.questions.length).fill(false);

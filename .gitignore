@@ -7,4 +7,10 @@ node_modules/
 /android_app/app/build/
 /android_app/local.properties
 /android_app/app/google-services.json
+/flutter_app/.gradle/
+/flutter_app/build/
+/flutter_app/android/app/build/
+/flutter_app/android/local.properties
+/flutter_app/android/app/google-services.json
+/flutter_app/.dart_tool/
 *.apk
