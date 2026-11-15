@@ -6,3 +6,4 @@ node_modules/
 /android_app/build/
 /android_app/app/build/
 *.apk
+/android_app/local.properties
