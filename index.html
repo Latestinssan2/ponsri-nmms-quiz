@@ -2152,6 +2152,10 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (q.hasDiagram && q.diagramSvg) {
                 diagramContainer.innerHTML = q.diagramSvg;
                 diagramContainer.classList.remove('hidden');
+            } else if (q.image || q.imageUrl) {
+                const img = q.image || q.imageUrl;
+                diagramContainer.innerHTML = `<img src="${img}" class="max-h-64 mx-auto rounded-xl object-contain shadow-sm" alt="Diagram" />`;
+                diagramContainer.classList.remove('hidden');
             } else {
                 diagramContainer.classList.add('hidden');
                 diagramContainer.innerHTML = '';
@@ -2620,7 +2624,12 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                         ? `<span class="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-xs font-bold px-3 py-1 rounded-full border border-amber-300 dark:border-amber-700"><i class="fa-solid fa-minus mr-1"></i> ઉત્તર નથી આપ્યો</span>`
                         : `<span class="bg-rose-100 dark:bg-rose-900 text-rose-800 dark:text-rose-200 text-xs font-bold px-3 py-1 rounded-full border border-rose-300 dark:border-rose-700"><i class="fa-solid fa-xmark mr-1"></i> ખોટો જવાબ</span>`;
 
-                let diagramHtml = (q.hasDiagram && q.diagramSvg) ? `<div class="my-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 max-w-xs">${q.diagramSvg}</div>` : '';
+                let diagramHtml = '';
+                if (q.hasDiagram && q.diagramSvg) {
+                    diagramHtml = `<div class="my-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 max-w-xs">${q.diagramSvg}</div>`;
+                } else if (q.image || q.imageUrl) {
+                    diagramHtml = `<div class="my-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 max-w-xs"><img src="${q.image || q.imageUrl}" class="max-h-48 rounded object-contain mx-auto" /></div>`;
+                }
 
                 card.innerHTML = `
                     <div class="flex flex-wrap justify-between items-start gap-2 mb-2">

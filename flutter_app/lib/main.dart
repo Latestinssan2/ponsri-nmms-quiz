@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -3928,6 +3929,228 @@ class _AdminScreenState extends State<AdminScreen> {
 }
 
 // -------------------------------------------------------------
+// QUESTION DIAGRAM WIDGET (SVG, Image, Zoom & Vector Support)
+// -------------------------------------------------------------
+class QuestionDiagramView extends StatelessWidget {
+  final Map<String, dynamic> question;
+  final bool isReview;
+
+  const QuestionDiagramView({
+    super.key,
+    required this.question,
+    this.isReview = false,
+  });
+
+  void _showZoomDialog(BuildContext context, Widget child) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.all(16),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.zoom_in, size: 20, color: Colors.blue),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'આકૃતિ ઝૂમ (Pinch to Zoom)',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(ctx),
+                      tooltip: 'બંધ કરો',
+                    ),
+                  ],
+                ),
+                const Divider(),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.65,
+                    maxWidth: MediaQuery.of(context).size.width * 0.9,
+                  ),
+                  child: InteractiveViewer(
+                    panEnabled: true,
+                    minScale: 0.8,
+                    maxScale: 4.0,
+                    child: Center(child: child),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hasDiagram = question['hasDiagram'] == true;
+    final svgString = question['diagramSvg'] as String?;
+    final imageUrl = question['image'] as String? ?? question['imageUrl'] as String?;
+
+    if (!hasDiagram &&
+        (svgString == null || svgString.trim().isEmpty) &&
+        (imageUrl == null || imageUrl.trim().isEmpty)) {
+      return const SizedBox.shrink();
+    }
+
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    Widget diagramContent;
+    if (svgString != null && svgString.trim().isNotEmpty) {
+      diagramContent = SvgPicture.string(
+        svgString,
+        fit: BoxFit.contain,
+        placeholderBuilder: (_) => const SizedBox(
+          height: 120,
+          child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        ),
+      );
+    } else if (imageUrl != null && imageUrl.trim().isNotEmpty) {
+      if (imageUrl.startsWith('data:image')) {
+        try {
+          final base64Str = imageUrl.split(',').last;
+          diagramContent = Image.memory(
+            base64Decode(base64Str),
+            fit: BoxFit.contain,
+          );
+        } catch (_) {
+          diagramContent = const Text('ઇમેજ લોડ થઈ શકી નથી');
+        }
+      } else if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+        diagramContent = Image.network(
+          imageUrl,
+          fit: BoxFit.contain,
+          loadingBuilder: (context, child, progress) {
+            if (progress == null) return child;
+            return const SizedBox(
+              height: 120,
+              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+            );
+          },
+          errorBuilder: (_, __, ___) => const Center(
+            child: Text('ઇમેજ લોડ થઈ શકી નથી', style: TextStyle(color: Colors.red)),
+          ),
+        );
+      } else {
+        diagramContent = Image.asset(
+          imageUrl,
+          fit: BoxFit.contain,
+          errorBuilder: (_, __, ___) => const Center(
+            child: Text('આકૃતિ ઉપલબ્ધ નથી'),
+          ),
+        );
+      }
+    } else {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(top: 10, bottom: 16),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isDark ? Colors.white24 : const Color(0xFFE2E8F0),
+          width: 1.2,
+        ),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            decoration: BoxDecoration(
+              color: isDark ? Colors.white.withValues(alpha: 0.05) : const Color(0xFFEEF2F6),
+              border: Border(
+                bottom: BorderSide(
+                  color: isDark ? Colors.white12 : const Color(0xFFE2E8F0),
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.auto_awesome_mosaic_outlined,
+                  size: 14,
+                  color: isDark ? Colors.blue.shade300 : Colors.blue.shade700,
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  'પ્રશ્ન આકૃતિ (Diagram)',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.blue.shade300 : Colors.blue.shade700,
+                  ),
+                ),
+                const Spacer(),
+                InkWell(
+                  onTap: () => _showZoomDialog(context, diagramContent),
+                  borderRadius: BorderRadius.circular(6),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.fullscreen,
+                          size: 15,
+                          color: isDark ? Colors.blue.shade300 : Colors.blue.shade700,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          'મોટી કરો',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? Colors.blue.shade300 : Colors.blue.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: () => _showZoomDialog(context, diagramContent),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 220),
+                child: Center(child: diagramContent),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// -------------------------------------------------------------
 // SECURE EXAM SCREEN (Anti-Cheat 3-Strike, Timer, Questions)
 // -------------------------------------------------------------
 class ExamScreen extends StatefulWidget {
@@ -4096,6 +4319,13 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
 
   void _loadQuestions() async {
     try {
+      if (widget.customQuizData != null && widget.customQuizData!.isNotEmpty) {
+        setState(() {
+          _questions = widget.customQuizData!;
+          _isLoading = false;
+        });
+        return;
+      }
       final jsonString = await rootBundle.loadString('assets/paper52.json');
       final data = jsonDecode(jsonString);
       if (data is Map && data.containsKey('questions')) {
@@ -4179,7 +4409,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     int score = 0;
     for (int i = 0; i < _questions.length; i++) {
       final q = _questions[i];
-      final correct = q['answer'] ?? 0;
+      final correct = (q['answer'] ?? q['correct_index'] ?? 0) as int;
       if (_answers[i] == correct) {
         score++;
       }
@@ -4193,7 +4423,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     for (int i = 0; i < _questions.length; i++) {
       final q = _questions[i];
       final studentAns = _answers[i];
-      final correctAns = q['answer'] ?? 0;
+      final correctAns = (q['answer'] ?? q['correct_index'] ?? 0) as int;
       final timeSpent = _timeSpentPerQuestion[i] ?? 0;
       final String status = studentAns == null
           ? 'unattempted'
@@ -4207,6 +4437,10 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         'correctAnswer': correctAns,
         'status': status,
         'timeSpentSeconds': timeSpent,
+        'hasDiagram': q['hasDiagram'] == true,
+        'diagramSvg': q['diagramSvg'],
+        'image': q['image'] ?? q['imageUrl'],
+        'explanation': q['explanation'],
       });
     }
 
@@ -4222,7 +4456,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
 
     for (int i = 0; i < _questions.length; i++) {
       final q = _questions[i];
-      final correct = q['answer'] ?? 0;
+      final correct = (q['answer'] ?? q['correct_index'] ?? 0) as int;
       final isCorrect = _answers[i] == correct;
       if (isCorrect) {
         if (i < 90) {
@@ -4622,7 +4856,12 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                           currentQ['question'] ?? 'પ્રશ્ન લોડ થઈ રહ્યો છે...',
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, height: 1.4),
                         ),
-                        const SizedBox(height: 20),
+                        QuestionDiagramView(
+                          question: currentQ is Map<String, dynamic>
+                              ? currentQ
+                              : Map<String, dynamic>.from(currentQ),
+                        ),
+                        const SizedBox(height: 12),
 
                         // Options List
                         ...List.generate(
@@ -5564,6 +5803,13 @@ class _ExamReviewScreenState extends State<ExamReviewScreen> {
                               style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, height: 1.35),
                             ),
 
+                            QuestionDiagramView(
+                              question: item is Map<String, dynamic>
+                                  ? item
+                                  : Map<String, dynamic>.from(item),
+                              isReview: true,
+                            ),
+
                             const SizedBox(height: 12),
 
                             // Options List with Visual Highlight
@@ -5679,6 +5925,26 @@ class _ExamReviewScreenState extends State<ExamReviewScreen> {
                                 ],
                               ),
                             ),
+                            if (item['explanation'] != null && (item['explanation'] as String).trim().isNotEmpty) ...[
+                              const SizedBox(height: 8),
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withValues(alpha: 0.08),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
+                                ),
+                                child: Text(
+                                  '💡 સમજૂતી: ${item['explanation']}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: isDark ? Colors.blue.shade200 : Colors.blue.shade900,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       );
