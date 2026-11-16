@@ -207,24 +207,24 @@ const paper52Data = {
     {
       "id": 9,
       "section": "MAT",
-      "question": "આકૃતિમાં પ્રશ્નાર્થ (?) ની જગ્યાએ લુપ્ત સંખ્યા મેળવો: 4, 9, 19, 39 (વર્તુળ પેટર્ન)",
+      "question": "આકૃતિમાં પ્રશ્નાર્થ (?) ની જગ્યાએ લુપ્ત સંખ્યા મેળવો: 4, 9, 19, ? (વર્તુળ પેટર્ન)",
       "options": [
         "32",
-        "42",
+        "39",
         "44",
         "48"
       ],
       "marks": 1,
       "hasDiagram": true,
       "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 140\" width=\"100%\" height=\"100%\" style=\"background:#f8fafc; border-radius:12px; font-family:sans-serif;\">\n    \n  <g transform=\"translate(115, 15)\">\n    <circle cx=\"55\" cy=\"55\" r=\"50\" fill=\"#f8fafc\" stroke=\"#475569\" stroke-width=\"2\"/>\n    <line x1=\"5\" y1=\"55\" x2=\"105\" y2=\"55\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <line x1=\"55\" y1=\"5\" x2=\"55\" y2=\"105\" stroke=\"#475569\" stroke-width=\"1.5\"/>\n    <circle cx=\"55\" cy=\"55\" r=\"16\" fill=\"#f1f5f9\" stroke=\"#475569\" stroke-width=\"1.2\"/>\n    <text x=\"32\" y=\"38\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">4</text>\n    <text x=\"78\" y=\"38\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">9</text>\n    <text x=\"78\" y=\"82\" font-size=\"14\" font-weight=\"bold\" fill=\"#1e293b\">19</text>\n    <text x=\"32\" y=\"82\" font-size=\"14\" font-weight=\"bold\" fill=\"#2563eb\">?</text>\n  </g>\n\n  </svg>",
-      "explanation": "નિયમ મુજબ દરેક પદ અગાઉના પદનું બમણું કરીને 1 ઉમેરવાથી મળે છે. 4, 9, 19, 39 પછી 79 આવે છે. આપેલા વિકલ્પોમાં 79 નથી.",
-      "solution": "નિયમ મુજબ દરેક પદ અગાઉના પદનું બમણું કરીને 1 ઉમેરવાથી મળે છે. 4, 9, 19, 39 પછી 79 આવે છે. આપેલા વિકલ્પોમાં 79 નથી.",
-      "status": "question_error",
-      "isGrace": true,
-      "grace_mark": true,
+      "explanation": "પેટર્ન: વર્તુળમાં ઘડિયાળની દિશામાં આગળ વધતાં ×2 + 1 નો સંબંધ છે:\n4 × 2 + 1 = 9\n9 × 2 + 1 = 19\n19 × 2 + 1 = 39\nતેથી લુપ્ત સંખ્યા 39 (વિકલ્પ B) છે.",
+      "solution": "પેટર્ન: વર્તુળમાં ઘડિયાળની દિશામાં આગળ વધતાં ×2 + 1 નો સંબંધ છે:\n4 × 2 + 1 = 9\n9 × 2 + 1 = 19\n19 × 2 + 1 = 39\nતેથી લુપ્ત સંખ્યા 39 (વિકલ્પ B) છે.",
+      "status": "verified",
+      "isGrace": false,
+      "grace_mark": false,
       "correct_index": 1,
       "answer": 1,
-      "correct_answer": "42"
+      "correct_answer": "39"
     },
     {
       "id": 10,
@@ -3850,7 +3850,6 @@ const paper52Data = {
     132,
     180,
     120,
-    9,
     125
   ],
   "metadata": {
