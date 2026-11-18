@@ -3863,7 +3863,11 @@ const paper52Data = {
   "totalQuestions": 180,
   "totalMarks": 180,
   "passingMarks": 72,
-  "school": "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI"
+  "school": "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
+  "classId": "std_8",
+  "std": 8,
+  "examType": "NMMS",
+  "badge": "NMMS ધોરણ ૮"
 };
 if (typeof window !== 'undefined') { window.PAPER_52_DATA = paper52Data; }
 if (typeof module !== 'undefined' && module.exports) { module.exports = paper52Data; }

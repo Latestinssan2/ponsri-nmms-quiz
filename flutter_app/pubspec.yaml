@@ -1,7 +1,7 @@
 name: nmms_ponsri_native
 description: "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI NMMS Secure Quiz Mobile App"
 publish_to: 'none'
-version: 1.4.0+5
+version: 1.5.0+6
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -28,3 +28,4 @@ flutter:
   assets:
     - assets/logo.png
     - assets/paper52.json
+    - assets/cet_test_49.json
