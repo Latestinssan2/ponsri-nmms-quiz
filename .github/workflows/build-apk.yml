@@ -74,16 +74,18 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: release_out/NMMS_Ponsri_Secure_Exam.apk
-          tag_name: ${{ github.ref_name || 'v1.4.0' }}
-          name: NMMS Ponsri Secure Exam App ${{ github.ref_name || 'v1.4.0' }}
+          tag_name: ${{ github.ref_name || 'v1.5.0' }}
+          name: NMMS & CET Ponsri Exam App ${{ github.ref_name || 'v1.5.0' }}
           draft: false
           prerelease: false
           make_latest: true
           body: |
             ## 📱 PM SHRI PRATHMIK VIDHYAMANDIR PONSRI
-            ### NMMS Secure Examination Official Flutter Android App
+            ### NMMS & CET Secure Examination Official Flutter Android App
 
             **મુખ્ય વિશેષતાઓ (Features):**
+            - 🎓 **મલ્ટી-ક્લાસ સપોર્ટ (Multi-Class Management)**: ધોરણ ૫ કોમન પ્રવેશ પરીક્ષા (CET Test 49 - 40 પ્રશ્નો, 60 મિનિટ) અને ધોરણ ૮ નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ (NMMS Paper 52 - 180 પ્રશ્નો, 180 મિનિટ) માટે એક જ એપમાં સીમલેસ સ્વિચિંગ.
+            - ☁️ **ફાયરબેઝ મલ્ટી-ક્લાસ કોન્ફિગરેશન (Firebase Multi-Class Config)**: એડમિન દ્વારા દરેક ધોરણ માટે અલગ અલગ લાઈવ કસોટી સેટ કરવાની સુવિધા (`app_config/multi_class`).
             - 🎨 **Minimal Distraction-Free UI**: 4 કસ્ટમ થીમ્સ (Modern Indigo, OLED Dark, Forest Sage, Warm Sepia).
             - 🔒 **સુરક્ષિત પરીક્ષા મોડ (Anti-Cheat 3-Strike System)**: પરીક્ષા દરમિયાન ૩ વાર એપ બહાર નીકળવા, મિનિમાઇઝ કરવા કે સ્ક્રીન બંધ થવા પર પેપર આપમેળે જમા (Auto-Submit).
             - 🔆 **સ્ક્રીન જાગૃત રહે છે (Screen Keep Awake)**: કસોટી આપતી વખતે સ્ક્રીન આપમેળે સ્લીપ થતી નથી.

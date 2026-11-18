@@ -109,53 +109,174 @@ class AppAuth {
 }
 
 // -------------------------------------------------------------
+// MULTI-CLASS CONFIG & STATE (Std 5 CET vs Std 8 NMMS)
+// -------------------------------------------------------------
+class ClassConfig {
+  final String id; // 'std_5' or 'std_8'
+  final int std; // 5 or 8
+  final String name; // 'ધોરણ ૫ (Std 5)'
+  final String shortName; // 'ધોરણ ૫ (CET)'
+  final String examName; // 'કોમન પ્રવેશ પરીક્ષા (CET)'
+  final String examType; // 'CET'
+  final String defaultQuizId; // 'cet_test_49'
+  final String defaultQuizTitle;
+  final int defaultTotalQuestions; // 40
+  final int defaultDurationMinutes; // 60
+  final int passingMarks; // 16
+  final String description;
+
+  const ClassConfig({
+    required this.id,
+    required this.std,
+    required this.name,
+    required this.shortName,
+    required this.examName,
+    required this.examType,
+    required this.defaultQuizId,
+    required this.defaultQuizTitle,
+    required this.defaultTotalQuestions,
+    required this.defaultDurationMinutes,
+    required this.passingMarks,
+    required this.description,
+  });
+}
+
+class MultiClassState {
+  static const std5 = ClassConfig(
+    id: 'std_5',
+    std: 5,
+    name: 'ધોરણ ૫ (Std 5)',
+    shortName: 'ધોરણ ૫ (CET)',
+    examName: 'કોમન પ્રવેશ પરીક્ષા (CET)',
+    examType: 'CET',
+    defaultQuizId: 'cet_test_49',
+    defaultQuizTitle: 'કોમન પ્રવેશ પરીક્ષા (CET) SAT મોક કસોટી - TEST 49',
+    defaultTotalQuestions: 40,
+    defaultDurationMinutes: 60,
+    passingMarks: 16,
+    description: 'જ્ઞાન સાધના / જ્ઞાન સેતુ કોમન એન્ટ્રન્સ ટેસ્ટ (CET)',
+  );
+
+  static const std8 = ClassConfig(
+    id: 'std_8',
+    std: 8,
+    name: 'ધોરણ ૮ (Std 8)',
+    shortName: 'ધોરણ ૮ (NMMS)',
+    examName: 'નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ (NMMS)',
+    examType: 'NMMS',
+    defaultQuizId: 'paper52',
+    defaultQuizTitle: 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
+    defaultTotalQuestions: 180,
+    defaultDurationMinutes: 180,
+    passingMarks: 72,
+    description: 'માનસિક ક્ષમતા (MAT) અને શૈક્ષણિક યોગ્યતા (SAT) કસોટી',
+  );
+
+  static const List<ClassConfig> availableClasses = [std5, std8];
+
+  static final ValueNotifier<ClassConfig> currentClass = ValueNotifier<ClassConfig>(std5);
+
+  static Future<void> load() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedId = prefs.getString('selected_class_id') ?? 'std_5';
+    final found = availableClasses.firstWhere((c) => c.id == savedId, orElse: () => std5);
+    currentClass.value = found;
+    await LiveQuizState.loadForClass(found.id);
+
+    // Sync cloud multi-class config
+    FirestoreService.fetchMultiClassConfig().then((cfg) {
+      if (cfg != null && cfg.containsKey('classes')) {
+        debugPrint('Firestore multi_class config synced');
+      }
+    });
+  }
+
+  static Future<void> switchClass(String classId) async {
+    final found = availableClasses.firstWhere((c) => c.id == classId, orElse: () => std5);
+    currentClass.value = found;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selected_class_id', found.id);
+    await LiveQuizState.loadForClass(found.id);
+  }
+}
+
+// -------------------------------------------------------------
 // LIVE QUIZ STATE (Admin Controls What is Live)
 // -------------------------------------------------------------
 class LiveQuizState {
   static final ValueNotifier<bool> isLive = ValueNotifier<bool>(true);
-  static final ValueNotifier<String> activeQuizId = ValueNotifier<String>('paper52');
+  static final ValueNotifier<String> activeQuizId = ValueNotifier<String>('cet_test_49');
   static final ValueNotifier<String> activeQuizTitle =
-      ValueNotifier<String>('NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52');
-  static final ValueNotifier<int> totalQuestions = ValueNotifier<int>(180);
-  static final ValueNotifier<int> durationMinutes = ValueNotifier<int>(180);
+      ValueNotifier<String>('કોમન પ્રવેશ પરીક્ષા (CET) SAT મોક કસોટી - TEST 49');
+  static final ValueNotifier<int> totalQuestions = ValueNotifier<int>(40);
+  static final ValueNotifier<int> durationMinutes = ValueNotifier<int>(60);
+  static final ValueNotifier<int> passingMarks = ValueNotifier<int>(16);
 
   static Future<void> load() async {
+    await MultiClassState.load();
+  }
+
+  static Future<void> loadForClass(String classId) async {
     final prefs = await SharedPreferences.getInstance();
-    isLive.value = prefs.getBool('is_quiz_live') ?? true;
-    activeQuizId.value = prefs.getString('active_quiz_id') ?? 'paper52';
-    activeQuizTitle.value = prefs.getString('active_quiz_title') ??
-        'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52';
-    totalQuestions.value = prefs.getInt('active_quiz_total_questions') ?? 180;
-    durationMinutes.value = prefs.getInt('active_quiz_duration_minutes') ?? 180;
+    final isStd5 = classId == 'std_5';
+    final defQuizId = isStd5 ? 'cet_test_49' : 'paper52';
+    final defTitle = isStd5
+        ? 'કોમન પ્રવેશ પરીક્ષા (CET) SAT મોક કસોટી - TEST 49'
+        : 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52';
+    final defTotal = isStd5 ? 40 : 180;
+    final defDuration = isStd5 ? 60 : 180;
+    final defPass = isStd5 ? 16 : 72;
+
+    isLive.value = prefs.getBool('is_quiz_live_$classId') ?? true;
+    activeQuizId.value = prefs.getString('active_quiz_id_$classId') ?? defQuizId;
+    activeQuizTitle.value = prefs.getString('active_quiz_title_$classId') ?? defTitle;
+    totalQuestions.value = prefs.getInt('active_quiz_total_questions_$classId') ?? defTotal;
+    durationMinutes.value = prefs.getInt('active_quiz_duration_minutes_$classId') ?? defDuration;
+    passingMarks.value = defPass;
 
     // Sync cloud live quiz status from Firestore
-    FirestoreService.fetchLiveQuizConfig().then((cfg) {
+    FirestoreService.fetchLiveQuizConfigForClass(classId).then((cfg) {
       if (cfg != null) {
         if (cfg.containsKey('isLive')) isLive.value = cfg['isLive'] as bool;
         if (cfg.containsKey('activeQuizId')) activeQuizId.value = cfg['activeQuizId'] as String;
         if (cfg.containsKey('activeQuizTitle')) activeQuizTitle.value = cfg['activeQuizTitle'] as String;
         if (cfg.containsKey('totalQuestions')) {
-          totalQuestions.value = cfg['totalQuestions'] as int? ?? 180;
+          totalQuestions.value = cfg['totalQuestions'] as int? ?? defTotal;
         }
         if (cfg.containsKey('durationMinutes')) {
-          durationMinutes.value = cfg['durationMinutes'] as int? ?? 180;
+          durationMinutes.value = cfg['durationMinutes'] as int? ?? defDuration;
         }
+        passingMarks.value = ((totalQuestions.value) * 0.4).round();
       }
     });
   }
 
-  static Future<void> setLiveQuiz(String id, String title, {int total = 180, int duration = 180}) async {
+  static Future<void> setLiveQuiz(String id, String title, {int? total, int? duration, String? classId}) async {
+    final targetClass = classId ?? MultiClassState.currentClass.value.id;
+    final isStd5 = targetClass == 'std_5';
+    final t = total ?? (isStd5 ? 40 : 180);
+    final d = duration ?? (isStd5 ? 60 : 180);
+
     isLive.value = true;
     activeQuizId.value = id;
     activeQuizTitle.value = title;
-    totalQuestions.value = total;
-    durationMinutes.value = duration;
+    totalQuestions.value = t;
+    durationMinutes.value = d;
+    passingMarks.value = (t * 0.4).round();
+
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('is_quiz_live_$targetClass', true);
+    await prefs.setString('active_quiz_id_$targetClass', id);
+    await prefs.setString('active_quiz_title_$targetClass', title);
+    await prefs.setInt('active_quiz_total_questions_$targetClass', t);
+    await prefs.setInt('active_quiz_duration_minutes_$targetClass', d);
+
+    // Also update legacy keys
     await prefs.setBool('is_quiz_live', true);
     await prefs.setString('active_quiz_id', id);
     await prefs.setString('active_quiz_title', title);
-    await prefs.setInt('active_quiz_total_questions', total);
-    await prefs.setInt('active_quiz_duration_minutes', duration);
+    await prefs.setInt('active_quiz_total_questions', t);
+    await prefs.setInt('active_quiz_duration_minutes', d);
 
     final ids = prefs.getStringList('past_live_quiz_ids') ?? [];
     if (!ids.contains(id)) {
@@ -163,14 +284,16 @@ class LiveQuizState {
       await prefs.setStringList('past_live_quiz_ids', ids);
     }
 
-    FirestoreService.saveLiveQuizConfig(true, id, title);
+    FirestoreService.saveLiveQuizConfigForClass(targetClass, true, id, title, total: t, duration: d);
   }
 
-  static Future<void> stopLiveQuiz() async {
+  static Future<void> stopLiveQuiz({String? classId}) async {
+    final targetClass = classId ?? MultiClassState.currentClass.value.id;
     isLive.value = false;
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('is_quiz_live_$targetClass', false);
     await prefs.setBool('is_quiz_live', false);
-    FirestoreService.saveLiveQuizConfig(false, activeQuizId.value, activeQuizTitle.value);
+    FirestoreService.saveLiveQuizConfigForClass(targetClass, false, activeQuizId.value, activeQuizTitle.value);
   }
 }
 
@@ -505,9 +628,118 @@ class FirestoreService {
   }
 
   // 4. Live Quiz Config in Firestore (Sync Admin Control between Web & APK)
+  static Future<Map<String, dynamic>?> fetchMultiClassConfig() async {
+    try {
+      final token = await getFirebaseToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+      final url = Uri.parse('$baseUrl/app_config/multi_class?key=$webApiKey');
+      final res = await http.get(url, headers: headers);
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final fields = data['fields'] as Map<String, dynamic>?;
+        if (fields != null) {
+          final decoded = <String, dynamic>{};
+          fields.forEach((k, v) {
+            decoded[k] = _decodeValue(v as Map<String, dynamic>);
+          });
+          return decoded;
+        }
+      }
+    } catch (e) {
+      debugPrint('Firestore fetchMultiClassConfig error: $e');
+    }
+    return null;
+  }
+
+  static Future<Map<String, dynamic>?> fetchLiveQuizConfigForClass(String classId) async {
+    try {
+      final multi = await fetchMultiClassConfig();
+      if (multi != null && multi['classes'] is Map) {
+        final classesMap = multi['classes'] as Map;
+        if (classesMap.containsKey(classId) && classesMap[classId] is Map) {
+          final c = classesMap[classId] as Map;
+          final isStd5 = classId == 'std_5';
+          return {
+            'isLive': c['isLive'] as bool? ?? true,
+            'activeQuizId': c['activeQuizId']?.toString() ?? (isStd5 ? 'cet_test_49' : 'paper52'),
+            'activeQuizTitle': c['activeQuizTitle']?.toString() ??
+                (isStd5
+                    ? 'કોમન પ્રવેશ પરીક્ષા (CET) SAT મોક કસોટી - TEST 49'
+                    : 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52'),
+            'totalQuestions': isStd5 ? 40 : 180,
+            'durationMinutes': isStd5 ? 60 : 180,
+          };
+        }
+      }
+    } catch (e) {
+      debugPrint('Firestore fetchLiveQuizConfigForClass error: $e');
+    }
+    return await fetchLiveQuizConfig();
+  }
+
+  static Future<bool> saveLiveQuizConfigForClass(
+    String classId,
+    bool isLive,
+    String activeQuizId,
+    String activeQuizTitle, {
+    int total = 180,
+    int duration = 180,
+  }) async {
+    try {
+      final token = await getFirebaseToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+
+      final multi = await fetchMultiClassConfig() ?? {};
+      Map<String, dynamic> classesMap = {};
+      if (multi['classes'] is Map) {
+        classesMap = Map<String, dynamic>.from(multi['classes'] as Map);
+      }
+
+      final isStd5 = classId == 'std_5';
+      final existingClassData = (classesMap[classId] is Map)
+          ? Map<String, dynamic>.from(classesMap[classId] as Map)
+          : <String, dynamic>{};
+
+      existingClassData['isLive'] = isLive;
+      existingClassData['activeQuizId'] = activeQuizId;
+      existingClassData['activeQuizTitle'] = activeQuizTitle;
+      existingClassData['id'] = classId;
+      existingClassData['std'] = isStd5 ? 5 : 8;
+      existingClassData['examType'] = isStd5 ? 'CET' : 'NMMS';
+      existingClassData['examName'] = isStd5 ? 'કોમન પ્રવેશ પરીક્ષા (CET)' : 'નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ (NMMS)';
+      classesMap[classId] = existingClassData;
+
+      final payload = {
+        'fields': {
+          'activeClasses': _encodeValue(['std_5', 'std_8']),
+          'defaultClass': _encodeValue('std_5'),
+          'classes': _encodeValue(classesMap),
+          'updatedAt': _encodeValue(DateTime.now().toIso8601String()),
+          'updatedBy': _encodeValue(AppAuth.userEmail ?? 'admin'),
+        }
+      };
+
+      final url = Uri.parse('$baseUrl/app_config/multi_class?key=$webApiKey');
+      await http.patch(url, headers: headers, body: jsonEncode(payload));
+
+      // Also update legacy live_quiz config
+      await saveLiveQuizConfig(isLive, activeQuizId, activeQuizTitle);
+      return true;
+    } catch (e) {
+      debugPrint('Firestore saveLiveQuizConfigForClass error: $e');
+      return false;
+    }
+  }
+
   static Future<Map<String, dynamic>?> fetchLiveQuizConfig() async {
     try {
-      final url = Uri.parse('$baseUrl/app_config/live_quiz');
+      final url = Uri.parse('$baseUrl/app_config/live_quiz?key=$webApiKey');
       final res = await http.get(url);
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
@@ -544,7 +776,7 @@ class FirestoreService {
         }
       };
 
-      final url = Uri.parse('$baseUrl/app_config/live_quiz');
+      final url = Uri.parse('$baseUrl/app_config/live_quiz?key=$webApiKey');
       final res = await http.patch(url, headers: headers, body: jsonEncode(payload));
       return res.statusCode == 200 || res.statusCode == 201;
     } catch (e) {
@@ -736,39 +968,79 @@ class LiveLeaderboardManager {
     await prefs.setStringList('live_lb_$quizId', raw);
   }
 
-  static List<Map<String, String>> getAllAvailableQuizzes() {
-    return const [
+  static List<Map<String, String>> getAllAvailableQuizzes({String? classId}) {
+    const list = [
+      {
+        'id': 'cet_test_49',
+        'title': 'કોમન પ્રવેશ પરીક્ષા (CET) SAT મોક કસોટી - TEST 49',
+        'desc': 'ધોરણ ૫ કોમન પ્રવેશ પરીક્ષા • ગણિત, પર્યાવરણ, ગુજરાતી, અંગ્રેજી, હિન્દી',
+        'total': '40',
+        'duration': '60',
+        'classId': 'std_5',
+        'std': '5',
+        'examType': 'CET',
+        'badge': 'CET ધોરણ ૫',
+      },
       {
         'id': 'paper52',
         'title': 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
         'desc': 'સંપૂર્ણ મોક ટેસ્ટ • MAT (90) + SAT (90)',
         'total': '180',
+        'duration': '180',
+        'classId': 'std_8',
+        'std': '8',
+        'examType': 'NMMS',
+        'badge': 'આદર્શ મોક',
       },
       {
         'id': 'paper51',
         'title': 'NMMS પરીક્ષા 2023-24 પ્રશ્નપત્ર - 51',
         'desc': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
         'total': '180',
+        'duration': '180',
+        'classId': 'std_8',
+        'std': '8',
+        'examType': 'NMMS',
+        'badge': 'વાર્ષિક પેપર',
       },
       {
         'id': 'paper50',
         'title': 'NMMS પરીક્ષા 2022-23 પ્રશ્નપત્ર - 50',
         'desc': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
         'total': '180',
+        'duration': '180',
+        'classId': 'std_8',
+        'std': '8',
+        'examType': 'NMMS',
+        'badge': 'વાર્ષિક પેપર',
       },
       {
         'id': 'mat_special',
         'title': 'NMMS માનસિક ક્ષમતા કસોટી (MAT) સ્પેશિયલ',
         'desc': 'તાર્કિક વિચારણા, શ્રેણી, કોડિંગ-ડીકોડિંગ',
         'total': '90',
+        'duration': '90',
+        'classId': 'std_8',
+        'std': '8',
+        'examType': 'NMMS',
+        'badge': 'MAT સ્પેશિયલ',
       },
       {
         'id': 'sat_special',
         'title': 'NMMS શૈક્ષણિક યોગ્યતા કસોટી (SAT) સ્પેશિયલ',
         'desc': 'ધોરણ ૭-૮ વિજ્ઞાન, ગણિત, સામાજિક વિજ્ઞાન',
         'total': '90',
+        'duration': '90',
+        'classId': 'std_8',
+        'std': '8',
+        'examType': 'NMMS',
+        'badge': 'SAT સ્પેશિયલ',
       },
     ];
+    if (classId != null && classId.isNotEmpty) {
+      return list.where((q) => q['classId'] == classId).toList();
+    }
+    return list;
   }
 
   static Future<void> recordLiveSubmission({
@@ -1248,13 +1520,14 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             onOpenAdmin: isAdmin ? () => setState(() => _selectedIndex = 4) : null,
           ),
           PastQuizzesScreen(
-            onSelectQuiz: (quizTitle, quizData, durationMinutes) {
+            onSelectQuiz: (quizTitle, quizData, durationMinutes, {quizId}) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => ExamScreen(
                     studentName: AppAuth.userDisplayName ?? 'વિદ્યાર્થી',
                     studentRoll: '01',
+                    customQuizId: quizId,
                     customQuizTitle: quizTitle,
                     customQuizData: quizData,
                     customDurationMinutes: durationMinutes,
@@ -1536,6 +1809,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
   void initState() {
     super.initState();
     _loadSavedStudent();
+    MultiClassState.currentClass.addListener(_checkLiveAttemptStatus);
     LiveQuizState.activeQuizId.addListener(_checkLiveAttemptStatus);
     LiveQuizState.isLive.addListener(_checkLiveAttemptStatus);
     AppAuth.userEmailNotifier.addListener(_checkLiveAttemptStatus);
@@ -1543,6 +1817,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
 
   @override
   void dispose() {
+    MultiClassState.currentClass.removeListener(_checkLiveAttemptStatus);
     LiveQuizState.activeQuizId.removeListener(_checkLiveAttemptStatus);
     LiveQuizState.isLive.removeListener(_checkLiveAttemptStatus);
     AppAuth.userEmailNotifier.removeListener(_checkLiveAttemptStatus);
@@ -1723,109 +1998,222 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = Theme.of(context).colorScheme.primary;
 
-    return ValueListenableBuilder<bool>(
-      valueListenable: LiveQuizState.isLive,
-      builder: (context, isLive, _) {
-        return ValueListenableBuilder<String>(
-          valueListenable: LiveQuizState.activeQuizTitle,
-          builder: (context, activeTitle, _) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'NMMS કસોટી પોર્ટલ',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
-                ),
-                actions: [
-                  IconButton(
-                    tooltip: 'પરિણામો',
-                    icon: const Icon(Icons.leaderboard),
-                    onPressed: widget.onOpenResults,
+    return ValueListenableBuilder<ClassConfig>(
+      valueListenable: MultiClassState.currentClass,
+      builder: (context, activeClass, _) {
+        return ValueListenableBuilder<bool>(
+          valueListenable: LiveQuizState.isLive,
+          builder: (context, isLive, _) {
+            return ValueListenableBuilder<String>(
+              valueListenable: LiveQuizState.activeQuizTitle,
+              builder: (context, activeTitle, _) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      '${activeClass.examType} કસોટી પોર્ટલ',
+                      style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                    ),
+                    actions: [
+                      IconButton(
+                        tooltip: 'પરિણામો',
+                        icon: const Icon(Icons.leaderboard),
+                        onPressed: widget.onOpenResults,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              body: SafeArea(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // School Banner Card
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: isDark ? const Color(0xFF131B2E) : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.06),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 54,
-                              height: 54,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.04),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              padding: const EdgeInsets.all(4),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  'assets/logo.png',
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(Icons.school, color: primary),
-                                ),
+                  body: SafeArea(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // School Banner Card
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF131B2E) : Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.06),
                               ),
                             ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'પીએમ શ્રી પ્રાથમિક વિદ્યામંદિર પોંસરી',
-                                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 54,
+                                  height: 54,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(alpha: 0.04),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    'તા. ગણદેવી, જી. નવસારી • NMMS તૈયારી',
-                                    style: TextStyle(fontSize: 11, color: isDark ? Colors.white60 : Colors.black54),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: isLive
-                                          ? const Color(0xFF10B981).withValues(alpha: 0.15)
-                                          : Colors.red.withValues(alpha: 0.15),
-                                      borderRadius: BorderRadius.circular(6),
+                                  padding: const EdgeInsets.all(4),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.asset(
+                                      'assets/logo.png',
+                                      fit: BoxFit.contain,
+                                      errorBuilder: (context, error, stackTrace) =>
+                                          Icon(Icons.school, color: primary),
                                     ),
-                                    child: Text(
-                                      isLive
-                                          ? '● કસોટી સક્રિય છે (LIVE)'
-                                          : '● લાઈવ કસોટી બંધ છે (QUIZ STOPPED)',
-                                      style: TextStyle(
-                                        color: isLive ? const Color(0xFF10B981) : Colors.red,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'પીએમ શ્રી પ્રાથમિક વિદ્યામંદિર પોંસરી',
+                                        style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'તા. ગણદેવી, જી. નવસારી • ${activeClass.examType} તૈયારી',
+                                        style: TextStyle(fontSize: 11, color: isDark ? Colors.white60 : Colors.black54),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: isLive
+                                              ? const Color(0xFF10B981).withValues(alpha: 0.15)
+                                              : Colors.red.withValues(alpha: 0.15),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        child: Text(
+                                          isLive
+                                              ? '● કસોટી સક્રિય છે (LIVE)'
+                                              : '● લાઈવ કસોટી બંધ છે (QUIZ STOPPED)',
+                                          style: TextStyle(
+                                            color: isLive ? const Color(0xFF10B981) : Colors.red,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Multi-Class Switcher Tabs (Std 5 CET vs Std 8 NMMS)
+                          Container(
+                            margin: const EdgeInsets.only(top: 12),
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: isDark ? Colors.white12 : Colors.black.withValues(alpha: 0.08),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () => MultiClassState.switchClass('std_5'),
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: AnimatedContainer(
+                                      duration: const Duration(milliseconds: 200),
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      decoration: BoxDecoration(
+                                        color: activeClass.id == 'std_5' ? primary : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: activeClass.id == 'std_5'
+                                            ? [
+                                                BoxShadow(
+                                                  color: primary.withValues(alpha: 0.3),
+                                                  blurRadius: 8,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ]
+                                            : null,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.school,
+                                            size: 16,
+                                            color: activeClass.id == 'std_5'
+                                                ? Colors.white
+                                                : (isDark ? Colors.white70 : Colors.black87),
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            'ધોરણ ૫ (CET)',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w800,
+                                              color: activeClass.id == 'std_5'
+                                                  ? Colors.white
+                                                  : (isDark ? Colors.white70 : Colors.black87),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                const SizedBox(width: 4),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () => MultiClassState.switchClass('std_8'),
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: AnimatedContainer(
+                                      duration: const Duration(milliseconds: 200),
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      decoration: BoxDecoration(
+                                        color: activeClass.id == 'std_8' ? primary : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: activeClass.id == 'std_8'
+                                            ? [
+                                                BoxShadow(
+                                                  color: primary.withValues(alpha: 0.3),
+                                                  blurRadius: 8,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ]
+                                            : null,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.emoji_events,
+                                            size: 16,
+                                            color: activeClass.id == 'std_8'
+                                                ? Colors.white
+                                                : (isDark ? Colors.white70 : Colors.black87),
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            'ધોરણ ૮ (NMMS)',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w800,
+                                              color: activeClass.id == 'std_8'
+                                                  ? Colors.white
+                                                  : (isDark ? Colors.white70 : Colors.black87),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
 
                       // If NO Quiz is currently live, show clear alert card
                       if (!isLive) ...[
@@ -2191,15 +2579,27 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
                             _buildInstructionHeader('Structure & Duration', Icons.timer_outlined, Colors.indigo),
                             const SizedBox(height: 6),
                             _buildBulletItem(
-                              'Two Main Tests:',
-                              '• MAT (Mental Ability Test): 90 multiple-choice questions testing verbal and non-verbal reasoning, analysis, and critical thinking (90 minutes).\n'
-                              '• SAT (Scholastic Aptitude Test): 90 multiple-choice questions covering Science, Mathematics, and Social Science from Classes 7 and 8 (90 minutes).',
+                              activeClass.id == 'std_5' ? 'CET Test Structure:' : 'Two Main Tests:',
+                              activeClass.id == 'std_5'
+                                  ? '• SAT (શૈક્ષણિક યોગ્યતા કસોટી): 40 બહુવિકલ્પ પ્રશ્નો (ગણિત, પર્યાવરણ/વિજ્ઞાન, ગુજરાતી, અંગ્રેજી, હિન્દી) • કુલ સમય 60 મિનિટ.'
+                                  : '• MAT (Mental Ability Test): 90 multiple-choice questions testing verbal and non-verbal reasoning, analysis, and critical thinking (90 minutes).\n'
+                                      '• SAT (Scholastic Aptitude Test): 90 multiple-choice questions covering Science, Mathematics, and Social Science from Classes 7 and 8 (90 minutes).',
                               isDark,
                             ),
                             const SizedBox(height: 4),
                             _buildBulletItem(
                               'Total Questions & Marks:',
-                              '180 questions / 180 marks (1 mark per question).',
+                              activeClass.id == 'std_5'
+                                  ? '40 questions / 40 marks (1 mark per question).'
+                                  : '180 questions / 180 marks (1 mark per question).',
+                              isDark,
+                            ),
+                            const SizedBox(height: 4),
+                            _buildBulletItem(
+                              'Passing Criteria:',
+                              activeClass.id == 'std_5'
+                                  ? 'પાસ થવા માટે ઓછામાં ઓછા 16 ગુણ (40%) જરૂરી છે.'
+                                  : 'પાસ થવા માટે ઓછામાં ઓછા 72 ગુણ (40%) જરૂરી છે.',
                               isDark,
                             ),
                             const SizedBox(height: 4),
@@ -2344,7 +2744,9 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
           ),
         ),
       ),
-    );
+                );
+              },
+            );
           },
         );
       },
@@ -2397,7 +2799,7 @@ class _ExamHomeScreenState extends State<ExamHomeScreen> {
 // TAB 2: PAST QUIZZES ARCHIVE SCREEN
 // -------------------------------------------------------------
 class PastQuizzesScreen extends StatelessWidget {
-  final Function(String title, List<dynamic>? data, int? durationMinutes) onSelectQuiz;
+  final void Function(String title, List<dynamic>? data, int? durationMinutes, {String? quizId}) onSelectQuiz;
 
   const PastQuizzesScreen({super.key, required this.onSelectQuiz});
 
@@ -2406,156 +2808,287 @@ class PastQuizzesScreen extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primary = Theme.of(context).colorScheme.primary;
 
-    final allArchivePapers = [
-      {
-        'id': 'paper51',
-        'title': 'NMMS વાર્ષિક પરીક્ષા 2023-24 પ્રશ્નપત્ર - 51',
-        'subtitle': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
-        'questions': 180,
-        'duration': '180 મિનિટ',
-        'badge': 'વાર્ષિક પેપર',
-      },
-      {
-        'id': 'paper50',
-        'title': 'NMMS વાર્ષિક પરીક્ષા 2022-23 પ્રશ્નપત્ર - 50',
-        'subtitle': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
-        'questions': 180,
-        'duration': '180 મિનિટ',
-        'badge': 'વાર્ષિક પેપર',
-      },
-      {
-        'id': 'mat_special',
-        'title': 'NMMS માનસિક ક્ષમતા કસોટી (MAT) સ્પેશિયલ',
-        'subtitle': 'તાર્કિક વિચારણા, શ્રેણી, કોડિંગ-ડીકોડિંગ',
-        'questions': 90,
-        'duration': '90 મિનિટ',
-        'badge': 'MAT પ્રેક્ટિસ',
-      },
-      {
-        'id': 'sat_special',
-        'title': 'NMMS શૈક્ષણિક યોગ્યતા કસોટી (SAT) સ્પેશિયલ',
-        'subtitle': 'ધોરણ ૭-૮ વિજ્ઞાન, ગણિત, સામાજિક વિજ્ઞાન',
-        'questions': 90,
-        'duration': '90 મિનિટ',
-        'badge': 'SAT પ્રેક્ટિસ',
-      },
-      if (LiveQuizState.activeQuizId.value != 'paper52')
-        {
-          'id': 'paper52',
-          'title': 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
-          'subtitle': 'સંપૂર્ણ મોક ટેસ્ટ • MAT (90) + SAT (90)',
-          'questions': 180,
-          'duration': '180 મિનિટ',
-          'badge': 'આદર્શ મોક',
-        },
-    ];
+    return ValueListenableBuilder<ClassConfig>(
+      valueListenable: MultiClassState.currentClass,
+      builder: (context, activeClass, _) {
+        final List<Map<String, dynamic>> allArchivePapers = activeClass.id == 'std_5'
+            ? [
+                {
+                  'id': 'cet_test_49',
+                  'title': 'કોમન પ્રવેશ પરીક્ષા (CET) SAT મોક કસોટી - TEST 49',
+                  'subtitle': 'ધોરણ ૫ કોમન પ્રવેશ પરીક્ષા • ગણિત, પર્યાવરણ, ગુજરાતી, અંગ્રેજી, હિન્દી',
+                  'questions': 40,
+                  'duration': '60 મિનિટ',
+                  'badge': 'CET મોક ટેસ્ટ',
+                },
+              ]
+            : [
+                {
+                  'id': 'paper51',
+                  'title': 'NMMS વાર્ષિક પરીક્ષા 2023-24 પ્રશ્નપત્ર - 51',
+                  'subtitle': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
+                  'questions': 180,
+                  'duration': '180 મિનિટ',
+                  'badge': 'વાર્ષિક પેપર',
+                },
+                {
+                  'id': 'paper50',
+                  'title': 'NMMS વાર્ષિક પરીક્ષા 2022-23 પ્રશ્નપત્ર - 50',
+                  'subtitle': 'પાછલા વર્ષનું વાર્ષિક પેપર • MAT & SAT',
+                  'questions': 180,
+                  'duration': '180 મિનિટ',
+                  'badge': 'વાર્ષિક પેપર',
+                },
+                {
+                  'id': 'mat_special',
+                  'title': 'NMMS માનસિક ક્ષમતા કસોટી (MAT) સ્પેશિયલ',
+                  'subtitle': 'તાર્કિક વિચારણા, શ્રેણી, કોડિંગ-ડીકોડિંગ',
+                  'questions': 90,
+                  'duration': '90 મિનિટ',
+                  'badge': 'MAT પ્રેક્ટિસ',
+                },
+                {
+                  'id': 'sat_special',
+                  'title': 'NMMS શૈક્ષણિક યોગ્યતા કસોટી (SAT) સ્પેશિયલ',
+                  'subtitle': 'ધોરણ ૭-૮ વિજ્ઞાન, ગણિત, સામાજિક વિજ્ઞાન',
+                  'questions': 90,
+                  'duration': '90 મિનિટ',
+                  'badge': 'SAT પ્રેક્ટિસ',
+                },
+                if (LiveQuizState.activeQuizId.value != 'paper52')
+                  {
+                    'id': 'paper52',
+                    'title': 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
+                    'subtitle': 'સંપૂર્ણ મોક ટેસ્ટ • MAT (90) + SAT (90)',
+                    'questions': 180,
+                    'duration': '180 મિનિટ',
+                    'badge': 'આદર્શ મોક',
+                  },
+              ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('જૂની કસોટીઓ (Past Quizzes Archive)'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          // Info banner clarifying difference from Live Test
-          Container(
-            padding: const EdgeInsets.all(14),
-            margin: const EdgeInsets.only(bottom: 16),
-            decoration: BoxDecoration(
-              color: primary.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: primary.withValues(alpha: 0.2)),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.info_outline, color: primary, size: 22),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    'સક્રિય લાઈવ કસોટી "${LiveQuizState.activeQuizTitle.value}" હોમ પેજ પર ઉપલબ્ધ છે. નીચેના તમામ પેપર્સ જૂની કસોટીઓ તરીકે પ્રેક્ટિસ માટે છે.',
-                    style: TextStyle(fontSize: 11, height: 1.4, color: isDark ? Colors.white70 : Colors.black87),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('જૂની કસોટીઓ (${activeClass.shortName})'),
+          ),
+          body: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              // Class Switcher Filter Tabs
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: isDark ? Colors.white12 : Colors.black.withValues(alpha: 0.08),
                   ),
                 ),
-              ],
-            ),
-          ),
-
-          ...allArchivePapers.map((paper) {
-            return Card(
-              elevation: 0,
-              margin: const EdgeInsets.only(bottom: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: BorderSide(
-                  color: isDark ? Colors.white12 : Colors.black12,
-                  width: 1.0,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () => MultiClassState.switchClass('std_5'),
+                        borderRadius: BorderRadius.circular(12),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                            color: primary.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(6),
+                            color: activeClass.id == 'std_5' ? primary : Colors.transparent,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: activeClass.id == 'std_5'
+                                ? [
+                                    BoxShadow(
+                                      color: primary.withValues(alpha: 0.3),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ]
+                                : null,
                           ),
-                          child: Text(
-                            paper['badge'] as String,
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: primary,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.school,
+                                size: 16,
+                                color: activeClass.id == 'std_5'
+                                    ? Colors.white
+                                    : (isDark ? Colors.white70 : Colors.black87),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                'ધોરણ ૫ (CET)',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                  color: activeClass.id == 'std_5'
+                                      ? Colors.white
+                                      : (isDark ? Colors.white70 : Colors.black87),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const Spacer(),
-                        Text(
-                          '${paper['questions']} પ્રશ્નો • ${paper['duration']}',
-                          style: const TextStyle(fontSize: 11, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      paper['title'] as String,
-                      style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      paper['subtitle'] as String,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: isDark ? Colors.white60 : Colors.black54,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        FilledButton.tonal(
-                          onPressed: () {
-                            final dur = paper['questions'] as int? ?? 180;
-                            onSelectQuiz(paper['title'] as String, null, dur);
-                          },
-                          style: FilledButton.styleFrom(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () => MultiClassState.switchClass('std_8'),
+                        borderRadius: BorderRadius.circular(12),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: activeClass.id == 'std_8' ? primary : Colors.transparent,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: activeClass.id == 'std_8'
+                                ? [
+                                    BoxShadow(
+                                      color: primary.withValues(alpha: 0.3),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ]
+                                : null,
                           ),
-                          child: const Text('પ્રેક્ટિસ શરૂ કરો', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.emoji_events,
+                                size: 16,
+                                color: activeClass.id == 'std_8'
+                                    ? Colors.white
+                                    : (isDark ? Colors.white70 : Colors.black87),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                'ધોરણ ૮ (NMMS)',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                  color: activeClass.id == 'std_8'
+                                      ? Colors.white
+                                      : (isDark ? Colors.white70 : Colors.black87),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            );
-          }),
-        ],
-      ),
+
+              // Info banner clarifying difference from Live Test
+              Container(
+                padding: const EdgeInsets.all(14),
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: primary.withValues(alpha: 0.2)),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, color: primary, size: 22),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'સક્રિય લાઈવ કસોટી "${LiveQuizState.activeQuizTitle.value}" હોમ પેજ પર ઉપલબ્ધ છે. નીચેના તમામ પેપર્સ જૂની કસોટીઓ તરીકે પ્રેક્ટિસ માટે છે.',
+                        style: TextStyle(fontSize: 11, height: 1.4, color: isDark ? Colors.white70 : Colors.black87),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              ...allArchivePapers.map((paper) {
+                return Card(
+                  elevation: 0,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(
+                      color: isDark ? Colors.white12 : Colors.black12,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: primary.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                paper['badge'] as String,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: primary,
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              '${paper['questions']} પ્રશ્નો • ${paper['duration']}',
+                              style: const TextStyle(fontSize: 11, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          paper['title'] as String,
+                          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          paper['subtitle'] as String,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: isDark ? Colors.white60 : Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            FilledButton.tonal(
+                              onPressed: () {
+                                final dur = paper['questions'] as int? ?? 180;
+                                onSelectQuiz(
+                                  paper['title'] as String,
+                                  null,
+                                  dur,
+                                  quizId: paper['id'] as String?,
+                                );
+                              },
+                              style: FilledButton.styleFrom(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                              ),
+                              child: const Text('પ્રેક્ટિસ શરૂ કરો', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -3554,90 +4087,203 @@ class _AdminScreenState extends State<AdminScreen> {
     }
 
     // 2. Admin Control Dashboard (Authorized)
-    return ValueListenableBuilder<bool>(
-      valueListenable: LiveQuizState.isLive,
-      builder: (context, isLive, _) {
-        return ValueListenableBuilder<String>(
-          valueListenable: LiveQuizState.activeQuizTitle,
-          builder: (context, activeTitle, _) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('એડમિન કંટ્રોલ પેનલ 👑'),
-                actions: [
-                  IconButton(
-                    tooltip: 'લૉગઆઉટ',
-                    icon: const Icon(Icons.logout),
-                    onPressed: () async {
-                      await AppAuth.signOut();
-                      if (mounted) setState(() {});
-                    },
-                  ),
-                ],
-              ),
-              body: ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  // Admin Identity Banner
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: isDark
-                            ? [const Color(0xFF1E1B4B), const Color(0xFF311042)]
-                            : [const Color(0xFFEEF2FF), const Color(0xFFFAF5FF)],
+    return ValueListenableBuilder<ClassConfig>(
+      valueListenable: MultiClassState.currentClass,
+      builder: (context, activeClass, _) {
+        return ValueListenableBuilder<bool>(
+          valueListenable: LiveQuizState.isLive,
+          builder: (context, isLive, _) {
+            return ValueListenableBuilder<String>(
+              valueListenable: LiveQuizState.activeQuizTitle,
+              builder: (context, activeTitle, _) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('એડમિન પેનલ (${activeClass.shortName}) 👑'),
+                    actions: [
+                      IconButton(
+                        tooltip: 'લૉગઆઉટ',
+                        icon: const Icon(Icons.logout),
+                        onPressed: () async {
+                          await AppAuth.signOut();
+                          if (mounted) setState(() {});
+                        },
                       ),
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: Colors.indigo.withValues(alpha: 0.3)),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 24,
-                          backgroundColor: Colors.indigo.withValues(alpha: 0.2),
-                          backgroundImage: AppAuth.userPhotoUrl != null
-                              ? NetworkImage(AppAuth.userPhotoUrl!)
-                              : null,
-                          child: AppAuth.userPhotoUrl == null
-                              ? const Icon(Icons.shield, color: Colors.indigo, size: 28)
-                              : null,
+                    ],
+                  ),
+                  body: ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      // Admin Identity Banner
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: isDark
+                                ? [const Color(0xFF1E1B4B), const Color(0xFF311042)]
+                                : [const Color(0xFFEEF2FF), const Color(0xFFFAF5FF)],
+                          ),
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(color: Colors.indigo.withValues(alpha: 0.3)),
                         ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Colors.indigo.withValues(alpha: 0.2),
+                              backgroundImage: AppAuth.userPhotoUrl != null
+                                  ? NetworkImage(AppAuth.userPhotoUrl!)
+                                  : null,
+                              child: AppAuth.userPhotoUrl == null
+                                  ? const Icon(Icons.shield, color: Colors.indigo, size: 28)
+                                  : null,
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    AppAuth.userDisplayName ?? 'પટેલ સંદીપ',
-                                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        AppAuth.userDisplayName ?? 'પટેલ સંદીપ',
+                                        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      const Icon(Icons.verified, color: Colors.indigo, size: 16),
+                                    ],
                                   ),
-                                  const SizedBox(width: 6),
-                                  const Icon(Icons.verified, color: Colors.indigo, size: 16),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    AppAuth.userEmail ?? '',
+                                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  const Text(
+                                    'પીએમ શ્રી શાળા પોંસરી • મુખ્ય એડમિનિસ્ટ્રેટર',
+                                    style: TextStyle(fontSize: 10, color: Colors.indigo, fontWeight: FontWeight.bold),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(height: 2),
-                              Text(
-                                AppAuth.userEmail ?? '',
-                                style: const TextStyle(fontSize: 11, color: Colors.grey),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'પીએમ શ્રી શાળા પોંસરી • મુખ્ય એડમિનિસ્ટ્રેટર',
-                                style: TextStyle(fontSize: 10, color: Colors.indigo, fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Multi-Class Switcher Tabs for Admin
+                      Container(
+                        margin: const EdgeInsets.only(top: 14),
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: isDark ? Colors.white12 : Colors.black.withValues(alpha: 0.08),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () => MultiClassState.switchClass('std_5'),
+                                borderRadius: BorderRadius.circular(12),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: activeClass.id == 'std_5' ? primary : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: activeClass.id == 'std_5'
+                                        ? [
+                                            BoxShadow(
+                                              color: primary.withValues(alpha: 0.3),
+                                              blurRadius: 8,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ]
+                                        : null,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.school,
+                                        size: 16,
+                                        color: activeClass.id == 'std_5'
+                                            ? Colors.white
+                                            : (isDark ? Colors.white70 : Colors.black87),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'ધોરણ ૫ (CET)',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w800,
+                                          color: activeClass.id == 'std_5'
+                                              ? Colors.white
+                                              : (isDark ? Colors.white70 : Colors.black87),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () => MultiClassState.switchClass('std_8'),
+                                borderRadius: BorderRadius.circular(12),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: activeClass.id == 'std_8' ? primary : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: activeClass.id == 'std_8'
+                                        ? [
+                                            BoxShadow(
+                                              color: primary.withValues(alpha: 0.3),
+                                              blurRadius: 8,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ]
+                                        : null,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.emoji_events,
+                                        size: 16,
+                                        color: activeClass.id == 'std_8'
+                                            ? Colors.white
+                                            : (isDark ? Colors.white70 : Colors.black87),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'ધોરણ ૮ (NMMS)',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w800,
+                                          color: activeClass.id == 'std_8'
+                                              ? Colors.white
+                                              : (isDark ? Colors.white70 : Colors.black87),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
-                  const SizedBox(height: 18),
+                      const SizedBox(height: 18),
 
-                  // LIVE QUIZ CONTROLLER CARD
-                  Container(
-                    padding: const EdgeInsets.all(18),
+                      // LIVE QUIZ CONTROLLER CARD
+                      Container(
+                        padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
                       color: isDark ? const Color(0xFF131B2E) : Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -3972,6 +4618,8 @@ class _AdminScreenState extends State<AdminScreen> {
         );
       },
     );
+  },
+);
   }
 }
 
@@ -4203,6 +4851,7 @@ class QuestionDiagramView extends StatelessWidget {
 class ExamScreen extends StatefulWidget {
   final String studentName;
   final String studentRoll;
+  final String? customQuizId;
   final String? customQuizTitle;
   final List<dynamic>? customQuizData;
   final int? customDurationMinutes;
@@ -4212,6 +4861,7 @@ class ExamScreen extends StatefulWidget {
     super.key,
     required this.studentName,
     required this.studentRoll,
+    this.customQuizId,
     this.customQuizTitle,
     this.customQuizData,
     this.customDurationMinutes,
@@ -4375,13 +5025,16 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         loadedQuestions = widget.customQuizData!;
       } else {
         // 1. Try to load live quiz from Firestore first!
-        final activeId = widget.isLiveExam ? LiveQuizState.activeQuizId.value : 'paper52';
+        final activeId = widget.isLiveExam
+            ? LiveQuizState.activeQuizId.value
+            : (widget.customQuizId ?? 'paper52');
         final remoteQuestions = await FirestoreService.fetchQuizData(activeId);
         if (remoteQuestions != null && remoteQuestions.isNotEmpty) {
           loadedQuestions = remoteQuestions;
         } else {
           // 2. Fallback to local asset
-          final jsonString = await rootBundle.loadString('assets/paper52.json');
+          final assetPath = activeId.contains('cet') ? 'assets/cet_test_49.json' : 'assets/paper52.json';
+          final jsonString = await rootBundle.loadString(assetPath);
           final data = jsonDecode(jsonString);
           if (data is Map) {
             if (data.containsKey('durationMinutes')) {
@@ -4588,7 +5241,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     };
 
     final isPassed = score >= ((total * 0.40).round());
-    final quizId = widget.isLiveExam ? LiveQuizState.activeQuizId.value : 'past_practice';
+    final quizId = widget.isLiveExam ? LiveQuizState.activeQuizId.value : (widget.customQuizId ?? 'past_practice');
     final quizTitle = widget.customQuizTitle ?? LiveQuizState.activeQuizTitle.value;
 
     // Send complete exam submission to Firestore Cloud Database 'submissions' collection

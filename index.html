@@ -25,6 +25,7 @@
     <!-- Canvas Confetti for celebration -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="paper52.js"></script>
+    <script src="cet_test_49.js"></script>
 
     <script>
         tailwind.config = {
@@ -236,6 +237,18 @@
 
         <!-- SCREEN 1: START SCREEN -->
         <div id="start-screen" class="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 max-w-3xl mx-auto border border-slate-200/80 dark:border-slate-800 transition-all duration-300">
+            <!-- Class Selection Tabs (Std 5 CET vs Std 8 NMMS) -->
+            <div id="class-selector-bar" class="mb-6 p-1.5 bg-slate-100 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/80 flex items-center justify-center gap-2 max-w-sm mx-auto shadow-inner">
+                <button id="btn-class-std-5" onclick="switchClass('std_5')" class="flex-1 py-2 sm:py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-sm bg-brand-600 text-white shadow-brand-500/30">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>ધોરણ ૫ (CET)</span>
+                </button>
+                <button id="btn-class-std-8" onclick="switchClass('std_8')" class="flex-1 py-2 sm:py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>ધોરણ ૮ (NMMS)</span>
+                </button>
+            </div>
+
             <!-- Hero School & Logo Header -->
             <div class="text-center">
                 <div class="relative inline-block mb-3">
@@ -905,6 +918,19 @@
                 </button>
             </div>
 
+            <!-- Class Tabs inside Past Quizzes Modal -->
+            <div class="flex items-center gap-2 mb-3">
+                <button id="past-tab-all" onclick="filterPastQuizzesByClass('all')" class="px-3 py-1.5 rounded-xl font-bold text-xs bg-brand-600 text-white shadow-sm">
+                    બધી કસોટીઓ
+                </button>
+                <button id="past-tab-std-5" onclick="filterPastQuizzesByClass('std_5')" class="px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                    🎓 ધોરણ ૫ (CET)
+                </button>
+                <button id="past-tab-std-8" onclick="filterPastQuizzesByClass('std_8')" class="px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                    🏆 ધોરણ ૮ (NMMS)
+                </button>
+            </div>
+
             <!-- List of Past Quizzes -->
             <div id="past-quizzes-list-container" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-1">
                 <!-- Dynamically populated -->
@@ -1112,7 +1138,16 @@
                     <div id="adm-json-validation-msg" class="hidden text-xs p-3 rounded-xl"></div>
 
                     <div class="flex flex-wrap justify-between items-center gap-2 pt-2">
-                        <span id="adm-json-detected-count" class="text-xs font-bold text-slate-600 dark:text-slate-400"></span>
+                        <div class="flex items-center gap-2">
+                            <span id="adm-json-detected-count" class="text-xs font-bold text-slate-600 dark:text-slate-400"></span>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <label class="text-xs font-bold text-slate-700 dark:text-slate-300">કસોટીનો વર્ગ:</label>
+                                <select id="adm-json-class-select" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-xl px-2.5 py-1 text-slate-800 dark:text-white focus:ring-2 focus:ring-brand-500">
+                                    <option value="std_5">ધોરણ ૫ (Std 5 - CET)</option>
+                                    <option value="std_8" selected>ધોરણ ૮ (Std 8 - NMMS)</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="flex items-center space-x-2">
                             <button onclick="importAdminQuizJson(false)" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2.5 px-4 rounded-xl transition text-xs sm:text-sm flex items-center space-x-1.5">
                                 <i class="fa-solid fa-floppy-disk"></i>
@@ -1511,13 +1546,35 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             document.getElementById('past-quizzes-modal').classList.add('hidden');
         };
 
-        function renderPastQuizzesList() {
+        let currentPastFilter = 'all';
+
+        window.filterPastQuizzesByClass = function(classId) {
+            currentPastFilter = classId;
+            ['all', 'std_5', 'std_8'].forEach(id => {
+                const btn = document.getElementById(`past-tab-${id.replace('_', '-')}`);
+                if (btn) {
+                    if (id === classId) {
+                        btn.className = "px-3 py-1.5 rounded-xl font-bold text-xs bg-brand-600 text-white shadow-sm";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300";
+                    }
+                }
+            });
+            renderPastQuizzesList(classId);
+        };
+
+        function renderPastQuizzesList(filterClass = currentPastFilter) {
             const container = document.getElementById('past-quizzes-list-container');
             if (!container) return;
 
-            const list = getAllQuizzes();
+            const list = getAllQuizzes(filterClass);
             const liveId = localStorage.getItem(LIVE_QUIZ_ID_KEY) || list[0].id;
             container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-slate-400">આ વર્ગ માટે કોઈ કસોટી ઉપલબ્ધ નથી.</div>`;
+                return;
+            }
 
             list.forEach((q, idx) => {
                 const isCurrent = (q.id === activeQuizConfig.id);
@@ -1530,6 +1587,8 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                         : 'bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 hover:border-brand-300'
                 }`;
 
+                const badgeText = q.badge || (q.classId === 'std_5' ? 'CET ધોરણ ૫' : 'NMMS ધોરણ ૮');
+
                 card.innerHTML = `
                     <div class="flex flex-wrap justify-between items-center gap-3">
                         <div class="space-y-1">
@@ -1538,6 +1597,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                                     ${idx + 1}
                                 </span>
                                 <h4 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">${q.title}</h4>
+                                <span class="bg-indigo-100 dark:bg-indigo-900 text-brand-800 dark:text-indigo-200 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${badgeText}</span>
                                 ${isLive ? '<span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">🟢 લાઈવ</span>' : ''}
                                 ${isCurrent ? '<span class="bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">પસંદ કરેલ</span>' : ''}
                             </div>
@@ -1570,11 +1630,70 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
         };
 
+        // Multi-Class Management (Std 5 CET vs Std 8 NMMS)
+        const CLASS_STORAGE_KEY = 'nmms_selected_class_id';
+        const AVAILABLE_CLASSES = {
+            'std_5': {
+                id: 'std_5',
+                std: 5,
+                name: 'ધોરણ ૫ (Std 5)',
+                shortName: 'ધોરણ ૫ (CET)',
+                examName: 'કોમન પ્રવેશ પરીક્ષા (CET)',
+                examType: 'CET',
+                defaultLiveId: 'cet_test_49',
+                badge: 'CET ધોરણ ૫'
+            },
+            'std_8': {
+                id: 'std_8',
+                std: 8,
+                name: 'ધોરણ ૮ (Std 8)',
+                shortName: 'ધોરણ ૮ (NMMS)',
+                examName: 'નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ (NMMS)',
+                examType: 'NMMS',
+                defaultLiveId: 'nmms_paper_52',
+                badge: 'NMMS ધોરણ ૮'
+            }
+        };
+
+        function getSelectedClassId() {
+            return localStorage.getItem(CLASS_STORAGE_KEY) || 'std_5';
+        }
+
+        function getSelectedClass() {
+            const id = getSelectedClassId();
+            return AVAILABLE_CLASSES[id] || AVAILABLE_CLASSES['std_5'];
+        }
+
+        function switchClass(classId) {
+            const targetClass = AVAILABLE_CLASSES[classId] || AVAILABLE_CLASSES['std_5'];
+            localStorage.setItem(CLASS_STORAGE_KEY, targetClass.id);
+            
+            // Update button styles
+            const btn5 = document.getElementById('btn-class-std-5');
+            const btn8 = document.getElementById('btn-class-std-8');
+            if (btn5 && btn8) {
+                if (targetClass.id === 'std_5') {
+                    btn5.className = 'flex-1 py-2 sm:py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-sm bg-brand-600 text-white shadow-brand-500/30';
+                    btn8.className = 'flex-1 py-2 sm:py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
+                } else {
+                    btn8.className = 'flex-1 py-2 sm:py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-sm bg-brand-600 text-white shadow-brand-500/30';
+                    btn5.className = 'flex-1 py-2 sm:py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
+                }
+            }
+
+            // Set active quiz for the selected class
+            activeQuizConfig = getLiveQuiz();
+            refreshQuizUI();
+            if (typeof renderPastQuizzesList === 'function') renderPastQuizzesList();
+            if (typeof loadFirebaseLeaderboard === 'function') loadFirebaseLeaderboard(activeQuizConfig.id);
+            showToast(`${targetClass.name} - ${targetClass.examType} કસોટી સક્રિય થઈ! 🎯`);
+        }
+
         // Multi-Quiz Repository
         const ALL_QUIZZES_KEY = 'nmms_all_quizzes_repo';
         const LIVE_QUIZ_ID_KEY = 'nmms_live_quiz_id';
 
-        function getAllQuizzes() {
+        function getAllQuizzes(filterClassId = null) {
             let list = [];
             try {
                 const stored = localStorage.getItem(ALL_QUIZZES_KEY);
@@ -1584,11 +1703,23 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                 }
             } catch(e) {}
 
+            // 1. Std 5 CET Test 49
+            const cet49 = (typeof window !== 'undefined' && window.CET_TEST_49_DATA) ? window.CET_TEST_49_DATA : null;
+            if (cet49) {
+                const existingIdx = list.findIndex(q => q.id === cet49.id);
+                if (existingIdx === -1) {
+                    list.unshift(cet49);
+                } else {
+                    list[existingIdx] = cet49;
+                }
+            }
+
+            // 2. Std 8 Paper 52
             const paper52 = (typeof window !== 'undefined' && window.PAPER_52_DATA) ? window.PAPER_52_DATA : null;
             if (paper52) {
                 const existingIdx = list.findIndex(q => q.id === paper52.id);
                 if (existingIdx === -1) {
-                    list.unshift(paper52);
+                    list.push(paper52);
                 } else {
                     list[existingIdx] = paper52;
                 }
@@ -1596,6 +1727,20 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
             if (list.length === 0) {
                 list = [
+                    cet49 || {
+                        id: 'cet_test_49',
+                        title: 'કોમન પ્રવેશ પરીક્ષા (CET) SAT મોક કસોટી - TEST 49',
+                        durationMinutes: 60,
+                        totalQuestions: 40,
+                        totalMarks: 40,
+                        passingMarks: 16,
+                        classId: 'std_5',
+                        std: 5,
+                        examType: 'CET',
+                        school: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+                        createdAt: '૧૮ નવે ૨૦૨૬',
+                        questions: []
+                    },
                     paper52 || {
                         id: 'nmms_paper_52',
                         title: 'નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ યોજના (NMMS) - પ્રશ્નપત્ર નંબર 52',
@@ -1603,6 +1748,9 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                         totalQuestions: 180,
                         totalMarks: 180,
                         passingMarks: 72,
+                        classId: 'std_8',
+                        std: 8,
+                        examType: 'NMMS',
                         school: 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
                         createdAt: '૧૫ નવે ૨૦૨૬',
                         questions: initialQuestions
@@ -1611,20 +1759,21 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
 
             localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(list));
-            
-            const currentLive = localStorage.getItem(LIVE_QUIZ_ID_KEY);
-            if (!currentLive || currentLive === 'quiz_nmms_sat_default') {
-                localStorage.setItem(LIVE_QUIZ_ID_KEY, 'nmms_paper_52');
-            }
 
+            if (filterClassId && filterClassId !== 'all') {
+                return list.filter(q => (q.classId === filterClassId) || (!q.classId && filterClassId === 'std_8'));
+            }
             return list;
         }
 
         function getLiveQuiz() {
+            const currentClass = getSelectedClass();
+            const classId = currentClass.id;
+            const classLiveKey = `nmms_live_quiz_id_${classId}`;
+            const liveId = localStorage.getItem(classLiveKey) || localStorage.getItem(LIVE_QUIZ_ID_KEY) || currentClass.defaultLiveId;
             const list = getAllQuizzes();
-            const liveId = localStorage.getItem(LIVE_QUIZ_ID_KEY) || list[0].id;
             const found = list.find(q => q.id === liveId);
-            return found || list[0];
+            return found || list.find(q => q.classId === classId) || list[0];
         }
 
         let activeQuizConfig = getLiveQuiz();
@@ -3336,6 +3485,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                                     ${idx + 1}
                                 </span>
                                 <h4 class="text-base font-extrabold text-slate-900 dark:text-white">${q.title}</h4>
+                                <span class="bg-indigo-100 dark:bg-indigo-900 text-brand-800 dark:text-indigo-200 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${q.badge || (q.classId === 'std_5' ? 'CET ધોરણ ૫' : 'NMMS ધોરણ ૮')}</span>
                                 ${isLive ? '<span class="bg-emerald-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase shadow-sm animate-pulse">🟢 લાઈવ ટેસ્ટ (LIVE)</span>' : '<span class="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-full">સાચવેલ</span>'}
                             </div>
                             <p class="text-xs text-slate-500 dark:text-slate-400">
@@ -3402,10 +3552,33 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         };
 
         window.makeQuizLive = function(quizId) {
+            const list = getAllQuizzes();
+            const quiz = list.find(q => q.id === quizId);
+            const classId = quiz?.classId || 'std_8';
             localStorage.setItem(LIVE_QUIZ_ID_KEY, quizId);
+            localStorage.setItem(`nmms_live_quiz_id_${classId}`, quizId);
+
+            // Sync with Firestore app_config/multi_class
+            if (db) {
+                const multiRef = doc(db, "app_config", "multi_class");
+                getDoc(multiRef).then(snap => {
+                    const data = snap.exists() ? snap.data() : { classes: {} };
+                    if (!data.classes) data.classes = {};
+                    data.classes[classId] = Object.assign({}, data.classes[classId] || {}, {
+                        activeQuizId: quizId,
+                        activeQuizTitle: quiz?.title || quizId,
+                        isLive: true,
+                        id: classId,
+                        std: classId === 'std_5' ? 5 : 8,
+                        examType: classId === 'std_5' ? 'CET' : 'NMMS'
+                    });
+                    setDoc(multiRef, data, { merge: true });
+                }).catch(e => console.warn("Firestore multi_class sync error:", e));
+            }
+
             refreshQuizUI();
             renderAdminQuizzesList();
-            showToast("કસોટી સફળતાપૂર્વક લાઈવ થઈ ગઈ! 🎉");
+            showToast(`કસોટી સફળતાપૂર્વક લાઈવ થઈ ગઈ (${classId === 'std_5' ? 'ધોરણ ૫' : 'ધોરણ ૮'})! 🎉`);
         };
 
         window.deleteQuiz = async function(quizId) {
@@ -3642,10 +3815,20 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (Array.isArray(parsed)) newQuestions = parsed;
             else if (parsed.questions) newQuestions = parsed.questions;
 
+            const selectedClassId = document.getElementById('adm-json-class-select')?.value || parsed.classId || 'std_8';
+            const isStd5 = selectedClassId === 'std_5';
+
             const newQuizObj = {
                 id: 'quiz_' + Date.now(),
-                title: parsed.title || `NMMS મોક કસોટી ${getAllQuizzes().length + 1}`,
-                durationMinutes: parsed.durationMinutes || 60,
+                title: parsed.title || `${isStd5 ? 'CET' : 'NMMS'} મોક કસોટી ${getAllQuizzes().length + 1}`,
+                durationMinutes: parsed.durationMinutes || (isStd5 ? 60 : 180),
+                totalQuestions: newQuestions.length,
+                totalMarks: newQuestions.length,
+                passingMarks: parsed.passingMarks || Math.round(newQuestions.length * 0.4),
+                classId: selectedClassId,
+                std: isStd5 ? 5 : 8,
+                examType: isStd5 ? 'CET' : 'NMMS',
+                badge: isStd5 ? 'CET ધોરણ ૫' : 'NMMS ધોરણ ૮',
                 school: parsed.school || "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
                 createdAt: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
                 questions: newQuestions
@@ -3664,6 +3847,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
             if (setLiveImmediately) {
                 localStorage.setItem(LIVE_QUIZ_ID_KEY, newQuizObj.id);
+                localStorage.setItem(`nmms_live_quiz_id_${selectedClassId}`, newQuizObj.id);
                 refreshQuizUI();
                 showToast(`નવી કસોટી સફળતાપૂર્વક સાચવીને લાઈવ કરી દેવાઈ! 🎉`);
             } else {
@@ -3845,6 +4029,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         } catch(e) {}
 
                 initTheme();
+        switchClass(getSelectedClassId());
         refreshQuizUI();
         renderLeaderboard();
         // Auto-fetch Latest GitHub Release APK URL & Version

@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // એડમિન ચકાસણી ફંક્શન
+    function isAdmin() {
+      return request.auth != null && 
+        (request.auth.token.email.lower() == 'patelsandip288@gmail.com' || 
+         request.auth.token.email.lower() == 'ponsri.big.gan.nav@gmail.com');
+    }
+    
+    // પ્રમાણિત યુઝર (જેણે Google Sign-In કર્યું છે)
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // ૧. નોંધાયેલા વિદ્યાર્થીઓ (Students): 
+    match /students/{studentId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && (request.auth.uid == studentId || isAdmin());
+    }
+
+    // ૨. કસોટી સબમિશન (Submissions): 
+    match /submissions/{subId} {
+      allow create: if isAuthenticated();
+      allow read: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+
+    // ૩. લીડરબોર્ડ (Leaderboard): 
+    match /leaderboard/{docId} {
+      allow read: if true;
+      allow create, update: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+
+    // ૪. એપ અને મલ્ટી-ક્લાસ કોન્ફિગ (App Config):
+    match /app_config/{configId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ૫. ક્વિઝ પ્રશ્નો અને માહિતી (Quizzes):
+    match /quizzes/{quizId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}
