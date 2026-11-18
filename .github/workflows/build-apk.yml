@@ -56,7 +56,9 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'Ponsri@2026Secure' }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'ponsri-release' }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'Ponsri@2026Secure' }}
-        run: flutter build apk --release --android-skip-build-dependency-validation
+        run: |
+          sed -i '/org.gradle.java.home/d' android/gradle.properties || true
+          flutter build apk --release --android-skip-build-dependency-validation
 
       - name: Copy & Rename APK for Release
         run: |
