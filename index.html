@@ -496,7 +496,7 @@
                     <div>
                         <div class="flex items-center gap-2">
                             <span class="bg-emerald-400 text-slate-950 font-black text-[9px] px-2 py-0.5 rounded-full uppercase">Android App</span>
-                            <span class="text-xs text-indigo-200">v1.4.0</span>
+                            <span id="apk-version-badge" class="text-xs text-indigo-200">v1.6.0</span>
                         </div>
                         <h4 class="text-sm sm:text-base font-extrabold text-white">NMMS Ponsri Secure Mobile App</h4>
                         <p class="text-[11px] text-indigo-200/90">સુરક્ષિત પરીક્ષા મોડ: સ્ક્રીન જાગૃત રહે છે અને મિનિમાઇઝ કરવા પર ચેતવણી મળે છે.</p>
@@ -4258,24 +4258,36 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         refreshQuizUI();
         syncAllQuizzesAndLiveState().then(() => renderAdminQuizzesList());
         renderLeaderboard();
-        // Auto-fetch Latest GitHub Release APK URL & Version
+        // Auto-sync Latest GitHub Release APK URL & Version
+        function updateApkUiVersion(tagName, downloadUrl = null) {
+            const badge = document.getElementById('apk-version-badge');
+            const btn = document.getElementById('apk-download-btn');
+            const txt = document.getElementById('apk-download-text');
+            if (badge) badge.innerText = tagName;
+            if (txt) txt.innerText = `સત્તાવાર Android APK ડાઉનલોડ (${tagName})`;
+            if (btn && downloadUrl) btn.href = downloadUrl;
+        }
+
         async function fetchLatestGitHubReleaseApk() {
+            const cachedTag = localStorage.getItem('cached_latest_apk_version') || 'v1.6.0';
+            updateApkUiVersion(cachedTag, `https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/download/${cachedTag}/NMMS_Ponsri_Secure_Exam.apk`);
+
             try {
                 const res = await fetch('https://api.github.com/repos/Latestinssan2/ponsri-nmms-quiz/releases/latest');
                 if (res.ok) {
                     const data = await res.json();
-                    const tagName = data.tag_name || 'v1.0.0';
-                    const apkAsset = (data.assets || []).find(a => a.name.endsWith('.apk'));
-                    const downloadUrl = apkAsset ? apkAsset.browser_download_url : `https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/download/${tagName}/NMMS_Ponsri_Secure_Exam.apk`;
-                    
-                    const btn = document.getElementById('apk-download-btn');
-                    const txt = document.getElementById('apk-download-text');
-                    if (btn) btn.href = downloadUrl;
-                    if (txt) txt.innerText = `સત્તાવાર Android APK ડાઉનલોડ (${tagName})`;
-                    console.log("Updated APK link to latest release:", tagName, downloadUrl);
+                    if (data && data.tag_name) {
+                        const tagName = data.tag_name;
+                        const apkAsset = (data.assets || []).find(a => a.name && a.name.endsWith('.apk'));
+                        const downloadUrl = apkAsset ? apkAsset.browser_download_url : `https://github.com/Latestinssan2/ponsri-nmms-quiz/releases/download/${tagName}/NMMS_Ponsri_Secure_Exam.apk`;
+                        
+                        updateApkUiVersion(tagName, downloadUrl);
+                        localStorage.setItem('cached_latest_apk_version', tagName);
+                        console.log("Synced APK version from GitHub Release:", tagName, downloadUrl);
+                    }
                 }
             } catch(e) {
-                console.warn("Could not fetch latest release info:", e);
+                console.warn("Could not fetch latest release info from GitHub API:", e);
             }
         }
         fetchLatestGitHubReleaseApk();
