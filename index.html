@@ -1682,7 +1682,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             return AVAILABLE_CLASSES[id] || AVAILABLE_CLASSES['std_5'];
         }
 
-        function switchClass(classId) {
+        window.switchClass = function(classId) {
             const targetClass = AVAILABLE_CLASSES[classId] || AVAILABLE_CLASSES['std_5'];
             localStorage.setItem(CLASS_STORAGE_KEY, targetClass.id);
             
@@ -1705,7 +1705,8 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (typeof renderPastQuizzesList === 'function') renderPastQuizzesList();
             if (typeof loadFirebaseLeaderboard === 'function') loadFirebaseLeaderboard(activeQuizConfig.id);
             showToast(`${targetClass.name} - ${targetClass.examType} કસોટી સક્રિય થઈ! 🎯`);
-        }
+        };
+        const switchClass = window.switchClass;
 
         // Multi-Quiz Repository
         const ALL_QUIZZES_KEY = 'nmms_all_quizzes_repo';
@@ -1788,9 +1789,9 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             const currentClass = getSelectedClass();
             const classId = currentClass.id;
             const classLiveKey = `nmms_live_quiz_id_${classId}`;
-            const liveId = localStorage.getItem(classLiveKey) || localStorage.getItem(LIVE_QUIZ_ID_KEY) || currentClass.defaultLiveId;
+            const liveId = localStorage.getItem(classLiveKey) || (classId === 'std_8' ? 'nmms_paper_52' : currentClass.defaultLiveId);
             const list = getAllQuizzes();
-            const found = list.find(q => q.id === liveId);
+            const found = list.find(q => q.id === liveId || (classId === 'std_8' && (q.id === 'paper52' || q.id === 'nmms_paper_52')));
             return found || list.find(q => q.classId === classId) || list[0];
         }
 
@@ -3105,23 +3106,33 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         async function syncLiveQuizFromFirebase() {
             if (!db) return null;
             try {
-                const snap = await getDoc(doc(db, 'app_config', 'live_quiz'));
-                if (!snap.exists()) return null;
-                liveQuizConfig = snap.data() || {};
-
-                const liveId = liveQuizConfig.activeQuizId;
-                if (liveQuizConfig.isLive === false || !liveId) return liveQuizConfig;
-
-                const all = getAllQuizzes();
-                const target = all.find((q) => q.id === liveId);
-                if (target) {
-                    localStorage.setItem(LIVE_QUIZ_ID_KEY, liveId);
-                    activeQuizConfig = target;
-                    refreshQuizUI();
-                    renderAdminQuizzesList();
-                } else {
-                    console.warn(`Live quiz ${liveId} not found in the local repository yet.`);
+                // 1. Sync multi_class configuration per class
+                try {
+                    const multiSnap = await getDoc(doc(db, 'app_config', 'multi_class'));
+                    if (multiSnap.exists()) {
+                        const mData = multiSnap.data();
+                        if (mData && mData.classes) {
+                            if (mData.classes.std_5?.activeQuizId) {
+                                localStorage.setItem('nmms_live_quiz_id_std_5', mData.classes.std_5.activeQuizId);
+                            }
+                            if (mData.classes.std_8?.activeQuizId) {
+                                localStorage.setItem('nmms_live_quiz_id_std_8', mData.classes.std_8.activeQuizId);
+                            }
+                        }
+                    }
+                } catch(err) {
+                    console.warn('multi_class config sync error:', err);
                 }
+
+                // 2. Sync legacy live_quiz
+                const snap = await getDoc(doc(db, 'app_config', 'live_quiz'));
+                if (snap.exists()) {
+                    liveQuizConfig = snap.data() || {};
+                }
+
+                activeQuizConfig = getLiveQuiz();
+                refreshQuizUI();
+                renderAdminQuizzesList();
                 return liveQuizConfig;
             } catch (e) {
                 console.warn('Firebase live quiz sync error:', e);
