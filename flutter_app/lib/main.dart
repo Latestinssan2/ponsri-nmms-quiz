@@ -234,21 +234,22 @@ class LiveQuizState {
     durationMinutes.value = prefs.getInt('active_quiz_duration_minutes_$classId') ?? defDuration;
     passingMarks.value = defPass;
 
-    // Sync cloud live quiz status from Firestore
-    FirestoreService.fetchLiveQuizConfigForClass(classId).then((cfg) {
-      if (cfg != null) {
-        if (cfg.containsKey('isLive')) isLive.value = cfg['isLive'] as bool;
-        if (cfg.containsKey('activeQuizId')) activeQuizId.value = cfg['activeQuizId'] as String;
-        if (cfg.containsKey('activeQuizTitle')) activeQuizTitle.value = cfg['activeQuizTitle'] as String;
-        if (cfg.containsKey('totalQuestions')) {
-          totalQuestions.value = cfg['totalQuestions'] as int? ?? defTotal;
-        }
-        if (cfg.containsKey('durationMinutes')) {
-          durationMinutes.value = cfg['durationMinutes'] as int? ?? defDuration;
-        }
-        passingMarks.value = ((totalQuestions.value) * 0.4).round();
+    // Sync cloud live quiz status from Firestore before any exam screen
+    // reads the active quiz id (otherwise it can fall back to paper52).
+    final cfg = await FirestoreService.fetchLiveQuizConfigForClass(classId) ??
+        await FirestoreService.fetchLiveQuizConfig();
+    if (cfg != null) {
+      if (cfg.containsKey('isLive')) isLive.value = cfg['isLive'] as bool;
+      if (cfg.containsKey('activeQuizId')) activeQuizId.value = cfg['activeQuizId'] as String;
+      if (cfg.containsKey('activeQuizTitle')) activeQuizTitle.value = cfg['activeQuizTitle'] as String;
+      if (cfg.containsKey('totalQuestions')) {
+        totalQuestions.value = cfg['totalQuestions'] as int? ?? defTotal;
       }
-    });
+      if (cfg.containsKey('durationMinutes')) {
+        durationMinutes.value = cfg['durationMinutes'] as int? ?? defDuration;
+      }
+      passingMarks.value = ((totalQuestions.value) * 0.4).round();
+    }
   }
 
   static Future<void> setLiveQuiz(String id, String title, {int? total, int? duration, String? classId}) async {
@@ -285,6 +286,17 @@ class LiveQuizState {
     }
 
     FirestoreService.saveLiveQuizConfigForClass(targetClass, true, id, title, total: t, duration: d);
+    FirestoreService.saveLiveQuizConfig(
+      true,
+      id,
+      title,
+      totalQuestions: t,
+      durationMinutes: d,
+      passingMarks: (t * 0.4).round(),
+      classId: targetClass,
+      std: isStd5 ? 5 : 8,
+      examType: isStd5 ? 'CET' : 'NMMS',
+    );
   }
 
   static Future<void> stopLiveQuiz({String? classId}) async {
@@ -305,6 +317,12 @@ class FirestoreService {
   static const String webApiKey = 'AIzaSyC-e516egy6mQlxyV9jPjl2w82kiNoILcU';
   static const String baseUrl =
       'https://firestore.googleapis.com/v1/projects/$projectId/databases/(default)/documents';
+
+  static int? _asInt(dynamic value) {
+    if (value == null) return null;
+    if (value is int) return value;
+    return int.tryParse(value.toString());
+  }
 
   static Map<String, dynamic> _encodeValue(dynamic value) {
     if (value == null) {
@@ -749,6 +767,18 @@ class FirestoreService {
             'isLive': fields['isLive'] != null ? _decodeValue(fields['isLive']) as bool? ?? true : true,
             'activeQuizId': fields['activeQuizId'] != null ? _decodeValue(fields['activeQuizId'])?.toString() ?? 'paper52' : 'paper52',
             'activeQuizTitle': fields['activeQuizTitle'] != null ? _decodeValue(fields['activeQuizTitle'])?.toString() ?? 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52' : 'NMMS આદર્શ પ્રશ્નપત્ર ક્રમાંક - 52',
+            if (fields['totalQuestions'] != null)
+              'totalQuestions': _asInt(_decodeValue(fields['totalQuestions'])),
+            if (fields['durationMinutes'] != null)
+              'durationMinutes': _asInt(_decodeValue(fields['durationMinutes'])),
+            if (fields['passingMarks'] != null)
+              'passingMarks': _asInt(_decodeValue(fields['passingMarks'])),
+            if (fields['classId'] != null)
+              'classId': _decodeValue(fields['classId'])?.toString() ?? '',
+            if (fields['std'] != null)
+              'std': _asInt(_decodeValue(fields['std'])),
+            if (fields['examType'] != null)
+              'examType': _decodeValue(fields['examType'])?.toString() ?? 'NMMS',
           };
         }
       }
@@ -758,7 +788,17 @@ class FirestoreService {
     return null;
   }
 
-  static Future<bool> saveLiveQuizConfig(bool isLive, String activeQuizId, String activeQuizTitle) async {
+  static Future<bool> saveLiveQuizConfig(
+    bool isLive,
+    String activeQuizId,
+    String activeQuizTitle, {
+    int? totalQuestions,
+    int? durationMinutes,
+    int? passingMarks,
+    String? classId,
+    int? std,
+    String? examType,
+  }) async {
     try {
       final token = await getFirebaseToken();
       final headers = {
@@ -766,15 +806,21 @@ class FirestoreService {
         if (token != null) 'Authorization': 'Bearer $token',
       };
 
-      final payload = {
-        'fields': {
-          'isLive': _encodeValue(isLive),
-          'activeQuizId': _encodeValue(activeQuizId),
-          'activeQuizTitle': _encodeValue(activeQuizTitle),
-          'updatedAt': _encodeValue(DateTime.now().toIso8601String()),
-          'updatedBy': _encodeValue(AppAuth.userEmail ?? 'admin'),
-        }
+      final liveFields = <String, dynamic>{
+        'isLive': _encodeValue(isLive),
+        'activeQuizId': _encodeValue(activeQuizId),
+        'activeQuizTitle': _encodeValue(activeQuizTitle),
+        'updatedAt': _encodeValue(DateTime.now().toIso8601String()),
+        'updatedBy': _encodeValue(AppAuth.userEmail ?? 'admin'),
+        if (totalQuestions != null) 'totalQuestions': _encodeValue(totalQuestions),
+        if (durationMinutes != null) 'durationMinutes': _encodeValue(durationMinutes),
+        if (passingMarks != null) 'passingMarks': _encodeValue(passingMarks),
+        if (classId != null) 'classId': _encodeValue(classId),
+        if (std != null) 'std': _encodeValue(std),
+        if (examType != null) 'examType': _encodeValue(examType),
       };
+
+      final payload = {'fields': liveFields};
 
       final url = Uri.parse('$baseUrl/app_config/live_quiz?key=$webApiKey');
       final res = await http.patch(url, headers: headers, body: jsonEncode(payload));
@@ -798,15 +844,23 @@ class FirestoreService {
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         final fields = data['fields'] as Map<String, dynamic>?;
-        if (fields != null && fields['dataJson'] != null) {
-          final raw = _decodeValue(fields['dataJson'])?.toString();
-          if (raw != null) {
-            final parsed = jsonDecode(raw);
-            if (parsed is Map && parsed.containsKey('questions')) {
-              return parsed['questions'] as List<dynamic>;
-            } else if (parsed is List) {
-              return parsed;
+        if (fields != null) {
+          if (fields['dataJson'] != null) {
+            final raw = _decodeValue(fields['dataJson'])?.toString();
+            if (raw != null) {
+              final parsed = jsonDecode(raw);
+              if (parsed is Map && parsed.containsKey('questions')) {
+                return parsed['questions'] as List<dynamic>;
+              } else if (parsed is List) {
+                return parsed;
+              }
             }
+          }
+          // Quizzes imported from the website store their questions as a
+          // regular Firestore array field instead of dataJson.
+          if (fields['questions'] != null) {
+            final decoded = _decodeValue(fields['questions'] as Map<String, dynamic>);
+            if (decoded is List && decoded.isNotEmpty) return decoded;
           }
         }
       }
@@ -5019,6 +5073,10 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
   void _loadQuestions() async {
     try {
       int durationMins = widget.customDurationMinutes ?? 180;
+      if (widget.customDurationMinutes == null && widget.isLiveExam) {
+        final configuredDuration = LiveQuizState.durationMinutes.value;
+        if (configuredDuration > 0) durationMins = configuredDuration;
+      }
       List<dynamic> loadedQuestions = [];
 
       if (widget.customQuizData != null && widget.customQuizData!.isNotEmpty) {
