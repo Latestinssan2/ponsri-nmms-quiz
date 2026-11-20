@@ -393,6 +393,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="student-class-row" class="hidden">
+                    <label for="student-class" class="block text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 mb-1.5 flex items-center justify-between">
+                        <span>તમે અભ્યાસ કરતા ધોરણ <span class="text-rose-600 font-bold">* (ફરજિયાત)</span></span>
+                        <span class="text-[11px] text-slate-400 font-normal">Select your class</span>
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </span>
+                        <select id="student-class" disabled
+                                class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-600 text-sm sm:text-base font-semibold transition shadow-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed">
+                        </select>
+                    </div>
+                    <p id="class-error-msg" class="hidden text-xs text-rose-600 font-bold mt-1.5 flex items-center">
+                        <i class="fa-solid fa-circle-xmark mr-1"></i> આ કસોટી ફક્ત <span id="class-error-required"></span> માટે છે. કૃપા કરીને યોગ્ય ધોરણ પસંદ કરો.
+                    </p>
+                </div>
             </div>
 
             <!-- Exam Structure & Instructions Card -->
@@ -1640,7 +1658,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             return [];
         }
 
-        function registerOrUpdateStudent(userData, roll = null) {
+        function registerOrUpdateStudent(userData, roll = null, studentClassValue = '') {
             let list = getRegisteredStudents();
             const idx = list.findIndex(s => s.email.toLowerCase() === userData.email.toLowerCase());
             const nowStr = new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -1648,6 +1666,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (idx !== -1) {
                 list[idx].lastActive = nowStr;
                 if (roll) list[idx].roll = roll;
+                if (studentClassValue) list[idx].class = studentClassValue;
                 if (userData.displayName) list[idx].name = userData.displayName;
                 if (userData.photoURL) list[idx].photoURL = userData.photoURL;
             } else {
@@ -1657,6 +1676,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                     email: userData.email,
                     photoURL: userData.photoURL || 'logo.png',
                     roll: roll || '-',
+                    class: studentClassValue || '',
                     firstSeen: nowStr,
                     lastActive: nowStr,
                     testsAttempted: 0
@@ -1753,6 +1773,35 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             const admDur = document.getElementById('adm-input-duration');
             if (admDur) admDur.value = dur;
 
+            // Class selector - required when the live test is meant for a
+            // specific class (e.g. CET std_5). Always visible so students
+            // confirm the class before starting any live exam.
+            const classRow = document.getElementById('student-class-row');
+            const classSelect = document.getElementById('student-class');
+            if (classRow && classSelect) {
+                const requiredClass = liveQuizConfig.classId ||
+                    (liveQuizConfig.std ? `std_${liveQuizConfig.std}` : '');
+                const options = [];
+                if (requiredClass) {
+                    options.push({ value: requiredClass, label: classLabel(requiredClass) });
+                }
+                for (let i = 1; i <= 8; i++) {
+                    const value = `std_${i}`;
+                    if (!options.some(o => o.value === value)) {
+                        options.push({ value, label: classLabel(value) });
+                    }
+                }
+                classSelect.innerHTML = '<option value="">-- ધોરણ પસંદ કરો --</option>' +
+                    options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+                classRow.classList.remove('hidden');
+                classSelect.disabled = false;
+                const requiredLabel = document.getElementById('class-error-required');
+                if (requiredLabel) requiredLabel.innerText = requiredClass ? classLabel(requiredClass) : '';
+                if (requiredClass && classSelect.value !== requiredClass) {
+                    document.getElementById('class-error-msg')?.classList.add('hidden');
+                }
+            }
+
             // Check Live Window Gate
             const gate = checkIsQuizLiveWindow();
             const closedBanner = document.getElementById('quiz-closed-banner');
@@ -1800,7 +1849,14 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
         let timerInterval = null;
         let studentName = "";
         let studentRoll = "";
+        let studentClass = "";
         let studentSchool = "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI";
+        // Live quiz configuration synced from Firestore (app_config/live_quiz)
+        let liveQuizConfig = {};
+        function classLabel(classId) {
+            const match = String(classId || '').match(/(\d+)/);
+            return match ? `ધોરણ ${match[1]}` : String(classId || '');
+        }
         let soundEnabled = true;
         let currentGridFilter = 'all';
 
@@ -2051,12 +2107,38 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             errorMsg.classList.add('hidden');
             nameInput.classList.remove('border-rose-500', 'bg-rose-50');
 
+            const classSelect = document.getElementById('student-class');
+            const classError = document.getElementById('class-error-msg');
+            const requiredClass = liveQuizConfig.classId ||
+                (liveQuizConfig.std ? `std_${liveQuizConfig.std}` : '');
+            const chosenClass = classSelect ? classSelect.value : '';
+            classSelect?.classList.remove('border-rose-500', 'bg-rose-50');
+            classError?.classList.add('hidden');
+
+            if (!chosenClass) {
+                classError?.classList.remove('hidden');
+                classSelect?.classList.add('border-rose-500', 'bg-rose-50');
+                classSelect?.focus();
+                playTone(220, 'sawtooth', 0.2);
+                return;
+            }
+            if (requiredClass && chosenClass !== requiredClass) {
+                classError?.classList.remove('hidden');
+                const req = document.getElementById('class-error-required');
+                if (req) req.innerText = classLabel(requiredClass);
+                classSelect?.classList.add('border-rose-500', 'bg-rose-50');
+                classSelect?.focus();
+                playTone(220, 'sawtooth', 0.2);
+                return;
+            }
+
             studentName = nameInput.value.trim();
             studentRoll = rollInput.value.trim() || "-";
+            studentClass = chosenClass;
             studentSchool = "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI";
 
-            // Update student record with roll number
-            registerOrUpdateStudent(currentUser, studentRoll);
+            // Update student record with roll number and class
+            registerOrUpdateStudent(currentUser, studentRoll, studentClass);
 
             userAnswers = new Array(activeQuizConfig.questions.length).fill(null);
             markedForReview = new Array(activeQuizConfig.questions.length).fill(false);
@@ -2508,6 +2590,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                         studentEmail: currentUser ? currentUser.email : "",
                         studentPhoto: currentUser ? currentUser.photoURL : "logo.png",
                         studentRoll: studentRoll,
+                        studentClass: studentClass,
                         studentSchool: studentSchool,
                         score: correct,
                         totalMarks: totalQ,
@@ -2547,6 +2630,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                                 email: currentUser ? currentUser.email : null,
                                 photoURL: currentUser ? currentUser.photoURL : "logo.png",
                                 roll: studentRoll,
+                                class: studentClass,
                                 school: studentSchool,
                                 score: correct,
                                 total: totalQ,
@@ -2572,6 +2656,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
                             email: currentUser.email,
                             photoURL: currentUser.photoURL || "logo.png",
                             roll: studentRoll,
+                            class: studentClass,
                             school: studentSchool,
                             lastActive: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
                             lastScore: correct,
@@ -2806,6 +2891,100 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
         }
 
+        // ------------------------------------------------------------
+        // QUIZ + LIVE QUIZ SYNC (Firestore is the shared source of truth
+        // for the website, admin panel and the Android app)
+        // ------------------------------------------------------------
+        function normalizeQuizFromFirestore(docId, raw) {
+            let source = raw || {};
+            if (raw && raw.dataJson) {
+                try {
+                    const parsed = JSON.parse(raw.dataJson);
+                    if (parsed && typeof parsed === 'object') source = { ...parsed, ...raw };
+                } catch (e) {
+                    console.warn('Bad dataJson in quiz', docId, e);
+                }
+            }
+            const questions = source.questions || raw.questions || [];
+            return {
+                ...source,
+                id: docId,
+                title: source.title || raw.title || docId,
+                durationMinutes: source.durationMinutes || raw.durationMinutes || 60,
+                school: source.school || raw.school || 'PM SHRI PRATHMIK VIDHYAMANDIR PONSRI',
+                questions: questions,
+                totalQuestions: questions.length,
+                totalMarks: source.totalMarks || raw.totalMarks || questions.length,
+                passingMarks: source.passingMarks || raw.passingMarks || Math.round(questions.length * 0.4),
+                createdAt: source.createdAt || raw.createdAt || '',
+                examType: raw.examType || source.examType || 'NMMS',
+                classId: raw.classId || source.classId || '',
+                std: raw.std || source.std || ''
+            };
+        }
+
+        async function syncQuizzesFromFirebase() {
+            if (!db) return [];
+            try {
+                const snap = await getDocs(collection(db, 'quizzes'));
+                if (snap.empty) return [];
+                let list = getAllQuizzes();
+                let changed = false;
+                snap.forEach((d) => {
+                    const quiz = normalizeQuizFromFirestore(d.id, d.data());
+                    if (!quiz.questions.length) return;
+                    const idx = list.findIndex((q) => q.id === d.id);
+                    if (idx !== -1) {
+                        const merged = { ...list[idx], ...quiz };
+                        if (JSON.stringify(merged) !== JSON.stringify(list[idx])) {
+                            list[idx] = merged;
+                            changed = true;
+                        }
+                    } else {
+                        list.unshift(quiz);
+                        changed = true;
+                    }
+                });
+                if (changed) localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(list));
+                return list;
+            } catch (e) {
+                console.warn('Firebase quiz sync error:', e);
+                return [];
+            }
+        }
+
+        async function syncLiveQuizFromFirebase() {
+            if (!db) return null;
+            try {
+                const snap = await getDoc(doc(db, 'app_config', 'live_quiz'));
+                if (!snap.exists()) return null;
+                liveQuizConfig = snap.data() || {};
+
+                const liveId = liveQuizConfig.activeQuizId;
+                if (liveQuizConfig.isLive === false || !liveId) return liveQuizConfig;
+
+                const all = getAllQuizzes();
+                const target = all.find((q) => q.id === liveId);
+                if (target) {
+                    localStorage.setItem(LIVE_QUIZ_ID_KEY, liveId);
+                    activeQuizConfig = target;
+                    refreshQuizUI();
+                    renderAdminQuizzesList();
+                } else {
+                    console.warn(`Live quiz ${liveId} not found in the local repository yet.`);
+                }
+                return liveQuizConfig;
+            } catch (e) {
+                console.warn('Firebase live quiz sync error:', e);
+                return null;
+            }
+        }
+
+        async function syncAllQuizzesAndLiveState() {
+            await syncQuizzesFromFirebase();
+            await syncLiveQuizFromFirebase();
+        }
+
         // In-memory cache for admin submissions
         let adminSubmissionsList = [];
 
@@ -2828,6 +3007,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             syncLeaderboardFromFirebase();
             syncStudentsFromFirebase();
             loadAdminSubmissionsFromFirebase();
+            syncAllQuizzesAndLiveState().then(() => renderAdminQuizzesList());
             if (showNotice) showToast("ડેટાબેઝ રીફ્રેશ થઈ ગયું! 🔄");
         };
 
@@ -3401,10 +3581,57 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             if (el) el.classList.toggle('hidden');
         };
 
-        window.makeQuizLive = function(quizId) {
+        window.makeQuizLive = async function(quizId) {
+            const quiz = getAllQuizzes().find(q => q.id === quizId);
             localStorage.setItem(LIVE_QUIZ_ID_KEY, quizId);
+            if (quiz) activeQuizConfig = quiz;
             refreshQuizUI();
             renderAdminQuizzesList();
+
+            // Write the live selection + full quiz to Firestore so the Android
+            // app and other devices pick up the same live test (no fallback
+            // to the bundled 180-question Paper 52).
+            if (db && quiz) {
+                const now = new Date().toISOString();
+                const quizDoc = {
+                    ...quiz,
+                    id: quiz.id,
+                    title: quiz.title,
+                    durationMinutes: quiz.durationMinutes || 60,
+                    school: quiz.school,
+                    questions: quiz.questions,
+                    totalQuestions: quiz.questions.length,
+                    totalMarks: quiz.totalMarks || quiz.questions.length,
+                    passingMarks: quiz.passingMarks || Math.round(quiz.questions.length * 0.4),
+                    isLive: true,
+                    updatedAt: now,
+                    dataJson: JSON.stringify({ ...quiz, id: quiz.id, updatedAt: now })
+                };
+                const liveConfig = {
+                    isLive: true,
+                    activeQuizId: quiz.id,
+                    activeQuizTitle: quiz.title,
+                    totalQuestions: quiz.questions.length,
+                    durationMinutes: quiz.durationMinutes || 60,
+                    passingMarks: quiz.passingMarks || Math.round(quiz.questions.length * 0.4),
+                    school: quiz.school,
+                    examType: quiz.examType || 'NMMS',
+                    classId: quiz.classId || '',
+                    std: quiz.std || '',
+                    updatedAt: now,
+                    updatedBy: (currentUser && currentUser.email) || 'admin'
+                };
+                try {
+                    await setDoc(doc(db, 'quizzes', quiz.id), quizDoc, { merge: true });
+                    await setDoc(doc(db, 'app_config', 'live_quiz'), liveConfig, { merge: true });
+                    liveQuizConfig = { ...liveQuizConfig, ...liveConfig };
+                    console.log('Live quiz synced to Firestore:', quiz.id);
+                } catch (e) {
+                    console.warn('Firestore live quiz sync error:', e);
+                    showToast("કસોટી લાઈવ થઈ, પરંતુ cloud sync નિષ્ફળ ગયું. ⚠️");
+                    return;
+                }
+            }
             showToast("કસોટી સફળતાપૂર્વક લાઈવ થઈ ગઈ! 🎉");
         };
 
@@ -3643,15 +3870,19 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             else if (parsed.questions) newQuestions = parsed.questions;
 
             const newQuizObj = {
-                id: 'quiz_' + Date.now(),
+                id: parsed.id || 'quiz_' + Date.now(),
                 title: parsed.title || `NMMS મોક કસોટી ${getAllQuizzes().length + 1}`,
                 durationMinutes: parsed.durationMinutes || 60,
                 school: parsed.school || "PM SHRI PRATHMIK VIDHYAMANDIR PONSRI",
-                createdAt: new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                createdAt: parsed.createdAt || new Date().toLocaleDateString('gu-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                examType: parsed.examType || '',
+                classId: parsed.classId || '',
+                std: parsed.std || '',
+                passingMarks: parsed.passingMarks || Math.round(newQuestions.length * 0.4),
                 questions: newQuestions
             };
 
-            let all = getAllQuizzes();
+            let all = getAllQuizzes().filter(q => q.id !== newQuizObj.id);
             all.unshift(newQuizObj);
             localStorage.setItem(ALL_QUIZZES_KEY, JSON.stringify(all));
 
@@ -3663,9 +3894,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
             }
 
             if (setLiveImmediately) {
-                localStorage.setItem(LIVE_QUIZ_ID_KEY, newQuizObj.id);
-                refreshQuizUI();
-                showToast(`નવી કસોટી સફળતાપૂર્વક સાચવીને લાઈવ કરી દેવાઈ! 🎉`);
+                window.makeQuizLive(newQuizObj.id);
             } else {
                 showToast(`કસોટી ડ્રાફ્ટ તરીકે સેવ થઈ ગઈ.`);
             }
@@ -3846,6 +4075,7 @@ JSON ફોર્મેટ નીચે મુજબ હોવું જોઈ�
 
                 initTheme();
         refreshQuizUI();
+        syncAllQuizzesAndLiveState().then(() => renderAdminQuizzesList());
         renderLeaderboard();
         // Auto-fetch Latest GitHub Release APK URL & Version
         async function fetchLatestGitHubReleaseApk() {
